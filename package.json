@@ -1,0 +1,22 @@
+{
+  "name": "triton-swallows-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd fe && npm i && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Triton-Swallows/Triton-Swallows-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Triton-Swallows/Triton-Swallows-App/issues"
+  },
+  "homepage": "https://github.com/Triton-Swallows/Triton-Swallows-App#readme"
+}
