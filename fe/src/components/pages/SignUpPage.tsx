@@ -1,59 +1,59 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { FcGoogle } from "react-icons/fc";
 import { FirebaseError } from "firebase/app";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 
 export function SignUpPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signUpWithEmail, signUpWithGoogle } = AuthContextConsumer();
+  const { signUpWithGoogle } = AuthContextConsumer();
   const navigate = useNavigate();
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-  ): Promise<void> => {
-    e.preventDefault();
-    setError("");
+  // const handleSubmit = async (
+  //   e: React.FormEvent<HTMLFormElement>,
+  // ): Promise<void> => {
+  //   e.preventDefault();
+  //   setError("");
 
-    // バリデーション
-    if (!email || !password) {
-      setError("すべてのフィールドを入力してください");
-      return;
-    }
+  //   // バリデーション
+  //   if (!email || !password) {
+  //     setError("すべてのフィールドを入力してください");
+  //     return;
+  //   }
 
-    if (password.length < 8) {
-      setError("パスワードは8文字以上にしてください");
-      return;
-    }
+  //   if (password.length < 8) {
+  //     setError("パスワードは8文字以上にしてください");
+  //     return;
+  //   }
 
-    setLoading(true);
+  //   setLoading(true);
 
-    try {
-      await signUpWithEmail(email, password);
-      // 登録成功 → トップページへ
-      navigate("/");
-    } catch (err: unknown) {
-      if (err instanceof FirebaseError) {
-        console.error("Sign up error:", err);
-        // firebaseのエラーメッセージを日本語にする
-        if (err.code === "auth/email-already-in-use") {
-          setError("このメールアドレスは既に使用されています");
-        } else if (err.code === "auth/weak-password") {
-          setError("パスワードが弱すぎます");
-        } else if (err.code === "auth/invalid-email") {
-          setError("無効なメールアドレスです");
-        } else {
-          setError(err.message);
-        }
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   try {
+  //     await signUpWithEmail(email, password);
+  //     // 登録成功 → トップページへ
+  //     navigate("/");
+  //   } catch (err: unknown) {
+  //     if (err instanceof FirebaseError) {
+  //       console.error("Sign up error:", err);
+  //       // firebaseのエラーメッセージを日本語にする
+  //       if (err.code === "auth/email-already-in-use") {
+  //         setError("このメールアドレスは既に使用されています");
+  //       } else if (err.code === "auth/weak-password") {
+  //         setError("パスワードが弱すぎます");
+  //       } else if (err.code === "auth/invalid-email") {
+  //         setError("無効なメールアドレスです");
+  //       } else {
+  //         setError(err.message);
+  //       }
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleGoogleSignUp = async (): Promise<void> => {
     setError("");
@@ -84,12 +84,12 @@ export function SignUpPage() {
         <h2 className="text-gray-800 font-bold text-xl text-center mb-6">
           新規登録
         </h2>
-        {/* {error && (
+        {error && (
           <div className="bg-red-500 text-white text-sm px-4 py-3 rounded-lg mb-4 font-semibold">
             {error}
           </div>
         )}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {/* <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="email"

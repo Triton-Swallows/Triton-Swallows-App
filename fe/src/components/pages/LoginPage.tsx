@@ -6,39 +6,39 @@ import { FirebaseError } from "firebase/app";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 
 export function LoginPage() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  // const [email, setEmail] = useState<string>("");
+  // const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const { loginWithEmail, loginWithGoogle } = AuthContextConsumer();
+  const { loginWithGoogle } = AuthContextConsumer();
   const navigate = useNavigate();
 
   // TODO: React.FormEventに非推奨マークがでている
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-  ): Promise<void> => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  // const handleSubmit = async (
+  //   e: React.FormEvent<HTMLFormElement>,
+  // ): Promise<void> => {
+  //   e.preventDefault();
+  //   setError("");
+  //   setLoading(true);
 
-    try {
-      await loginWithEmail(email, password);
-      navigate("/");
-    } catch (err: unknown) {
-      console.error("Login error:", err);
-      if (err instanceof FirebaseError) {
-        if (err.code === "auth/invalid-credential") {
-          setError("メールアドレスまたはパスワードが正しくありません");
-        } else if (err.code === "auth/user-not-found") {
-          setError("アカウントが存在しません");
-        } else {
-          setError(err.message);
-        }
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   try {
+  //     await loginWithEmail(email, password);
+  //     navigate("/");
+  //   } catch (err: unknown) {
+  //     console.error("Login error:", err);
+  //     if (err instanceof FirebaseError) {
+  //       if (err.code === "auth/invalid-credential") {
+  //         setError("メールアドレスまたはパスワードが正しくありません");
+  //       } else if (err.code === "auth/user-not-found") {
+  //         setError("アカウントが存在しません");
+  //       } else {
+  //         setError(err.message);
+  //       }
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleGoogleLogin = async (): Promise<void> => {
     setError("");
