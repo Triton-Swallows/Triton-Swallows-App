@@ -29,7 +29,6 @@ module.exports = {
   production: {
     client: "postgresql",
     connection: DB_URL,
-    ssl: DB_SSL ? { rejectUnauthorized: false } : false,
     migrations: {
       directory: "./db/migrations",
     },
