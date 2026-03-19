@@ -20,7 +20,7 @@ export const Router = () => {
         ></Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/packing-list" element={<PackingList />} />
+        <Route path="/usa/packing-list" element={<PackingList />} />
       </Routes>
     </AuthContextProvider>
   );
