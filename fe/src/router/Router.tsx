@@ -3,7 +3,7 @@ import { AuthContextProvider } from "@/contexts/AuthContexts";
 import { LoginPage } from "@/components/pages/LoginPage";
 import { SignUpPage } from "@/components/pages/SignUpPage";
 import { Home } from "@/components/pages/Home";
-import { PrivateRoute } from "@/components/templetes/PrivateRoute";
+// import { PrivateRoute } from "@/components/templetes/PrivateRoute";
 
 export const Router = () => {
   return (
@@ -12,9 +12,9 @@ export const Router = () => {
         <Route
           path="/"
           element={
-            <PrivateRoute>
-              <Home />
-            </PrivateRoute>
+            // <PrivateRoute>
+            <Home />
+            // </PrivateRoute>
           }
         ></Route>
         <Route path="/login" element={<LoginPage />} />
