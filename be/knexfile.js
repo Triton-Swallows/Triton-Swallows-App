@@ -9,7 +9,7 @@ const DB_PASSWORD = process.env.DB_PASSWORD;
 
 module.exports = {
   client: "postgresql",
-  connection: DB_URL || {
+  connection: { DB_URL, ssl: { rejectUnauthorized: false } } || {
     host: DB_HOST || "127.0.0.1",
     port: DB_PORT || "5432",
     database: DB_NAME,
