@@ -42,7 +42,6 @@ export const PackingList = () => {
         </TabsList>
         <TabsContent value="items">
           <h2>必要書類</h2>
-          持ち物Make changes to your account here.
           {itemList.map((item) => (
             <div key={item.name}>
               <div>
@@ -54,9 +53,7 @@ export const PackingList = () => {
             </div>
           ))}
         </TabsContent>
-        <TabsContent value="review">
-          口コミChange your password here.
-        </TabsContent>
+        <TabsContent value="review">ここは口コミです。</TabsContent>
       </Tabs>
     </HeaderLayout>
   );
