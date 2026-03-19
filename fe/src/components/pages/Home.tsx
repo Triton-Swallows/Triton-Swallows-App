@@ -6,7 +6,7 @@ export const Home = () => {
   return (
     <HeaderLayout>
       <div className="flex justify-center items-center h-screen text-[10rem]">
-        <Link to="/">
+        <Link to="/country-list">
           <Button> 旅行を準備する </Button>
         </Link>
       </div>
