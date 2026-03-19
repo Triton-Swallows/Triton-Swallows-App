@@ -6,7 +6,6 @@ const DB_HOST = "127.0.0.1";
 const DB_PORT = "5432";
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_URL = process.env.DB_URL; // heroku上だけの環境変数
-const DB_SSL = process.env.DB_SSL; // heroku上だけの環境変数
 
 module.exports = {
   development: {
@@ -29,6 +28,7 @@ module.exports = {
   production: {
     client: "postgresql",
     connection: DB_URL,
+    ssl: { rejectUnauthorized: false },
     migrations: {
       directory: "./db/migrations",
     },
