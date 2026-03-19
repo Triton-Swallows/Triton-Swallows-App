@@ -9,10 +9,13 @@ type PackingItem = {
 
 export const PackingList = () => {
   const itemList: PackingItem[] = [
-    { name: "パスポート", path: "/pasport" },
-    { name: "ESTA(エスタ)", path: "/esta" },
-    { name: "往復または次の目的地への航空券", path: "/ticket" },
-    { name: "税関申告書", path: "/tax" },
+    { name: "パスポート", path: "/usa/packing-list/pasport" },
+    { name: "ESTA(エスタ)", path: "/usa/packing-list/esta" },
+    {
+      name: "往復または次の目的地への航空券",
+      path: "/usa/packing-list/ticket",
+    },
+    { name: "税関申告書", path: "/usa/packing-list/tax" },
   ];
   return (
     <HeaderLayout>
