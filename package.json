@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd be && npm i && cd ../fe && npm i && npm run build && rm -rf ../be/public && cp -r dist ../be/public",
+    "build": "cd be && npm i && npm run db:migrate && cd ../fe && npm i && npm run build && rm -rf ../be/public && cp -r dist ../be/public",
     "start": "cd be && npm start"
   },
   "repository": {
