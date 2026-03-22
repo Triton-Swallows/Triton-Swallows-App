@@ -5,6 +5,7 @@ import { SignUpPage } from "@/components/pages/SignUpPage";
 import { Home } from "@/components/pages/Home";
 import { EstaPage } from "@/components/pages/EstaPage";
 import { CountryPage } from "@/components/pages/CountryPage";
+import { PackingList } from "@/components/pages/PackingList";
 // import { PrivateRoute } from "@/components/templetes/PrivateRoute";
 
 export const Router = () => {
@@ -23,6 +24,7 @@ export const Router = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/usa/packing-list/esta" element={<EstaPage />} />
         <Route path="/country-list" element={<CountryPage />} />
+        <Route path="/usa/packing-list" element={<PackingList />} />
       </Routes>
     </AuthContextProvider>
   );
