@@ -11,9 +11,19 @@ import { auth, googleProvider } from "../config/firebase";
 import apiClient from "../config/apiClient";
 import type { User, UserCredential } from "firebase/auth";
 
+// 独自の型を定義
+interface AuthContextType {
+  loginUser: User | null;
+  loading: boolean;
+  loginWithGoogle: () => Promise<User>;
+  loginWithEmail: (email: string, password: string) => Promise<User>;
+  signUpWithGoogle: () => Promise<User>;
+  signUpWithEmail: (email: string, password: string) => Promise<User>;
+  logout: () => Promise<void>;
+}
+
 // Context生成(ログインに関する情報を管理)
-// TODO: 暫定anyなので、後ほど要変更
-const AuthContext = createContext<any>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 type Props = {
   children: React.ReactNode;
@@ -127,6 +137,9 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
   );
 };
 
-export const AuthContextConsumer = () => {
-  return useContext(AuthContext);
+export const AuthContextConsumer = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  // nullガード
+  if (!context) throw new Error("AuthContextProviderの外で使われています");
+  return context;
 };
