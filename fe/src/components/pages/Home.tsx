@@ -5,11 +5,11 @@ import { Button } from "../ui/button";
 export const Home = () => {
   return (
     <HeaderLayout>
-      <div className="flex justify-center items-center h-screen text-[10rem]">
-        <Link to="/country-list">
-          <Button> 旅行を準備する </Button>
-        </Link>
-      </div>
+      {/* <div className="flex justify-center items-center text-[10rem] bg-red-500"> */}
+      <Link to="/country-list">
+        <Button className="bg-gray-200"> 旅行を準備する </Button>
+      </Link>
+      {/* </div> */}
     </HeaderLayout>
   );
 };
