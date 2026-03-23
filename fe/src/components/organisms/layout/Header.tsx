@@ -1,15 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RiHome3Line, RiUser3Line } from "react-icons/ri";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 
 export const Header = () => {
-  const navigate = useNavigate();
   const { loginUser } = AuthContextConsumer();
-
-  const handleLogin = (): void => {
-    if (loginUser) return;
-    navigate("/login");
-  };
 
   return (
     <>
@@ -18,9 +12,14 @@ export const Header = () => {
           <Link to="/" className="text-xl font-bold hover:text-blue-100">
             <RiHome3Line />
           </Link>
-          <button onClick={handleLogin}>
+
+          {loginUser ? (
             <RiUser3Line />
-          </button>
+          ) : (
+            <Link to="/login">
+              <RiUser3Line />
+            </Link>
+          )}
         </div>
       </header>
     </>
