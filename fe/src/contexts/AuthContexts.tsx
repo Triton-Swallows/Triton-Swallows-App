@@ -65,6 +65,7 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
         await result.user.delete();
         setLoginUser(null);
       }
+      console.error(error);
       throw new Error("ユーザー情報の保存に失敗しました");
     }
 
@@ -108,6 +109,7 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
       // DB保存失敗 → Firebaseユーザーを削除してロールバック
       await result.user.delete();
       setLoginUser(null);
+      console.error(error);
       throw new Error("ユーザー登録に失敗しました");
     }
 

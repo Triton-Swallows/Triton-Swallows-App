@@ -1,4 +1,5 @@
 import { HeaderLayout } from "../templetes/HeaderLayout";
+import { BackIcon } from "../atoms/BackIcon";
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +10,7 @@ import {
 export const EstaPage = () => {
   return (
     <HeaderLayout>
-      {/* ここに戻るボタン */}
+      <BackIcon path={"/usa/packing-list"} />
       <h2>アメリカ（米国）：ESTA（エスタ）</h2>
       <div>概要</div>
       <section>
