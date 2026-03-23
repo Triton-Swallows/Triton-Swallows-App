@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BackIcon } from "../atoms/BackIcon";
 
 type PackingItem = {
   name: string;
@@ -13,7 +14,7 @@ export const PackingList = () => {
     {
       name: "パスポート",
       content: "残存期間は帰国日まで有効なもの。IC旅券(e-passport)であること。",
-      path: "/usa/packing-list/pasport",
+      path: "",
     },
     {
       name: "ESTA(エスタ)",
@@ -24,16 +25,17 @@ export const PackingList = () => {
     {
       name: "往復または次の目的地への航空券",
       content: "滞在終了時にアメリカを出国する航空券。",
-      path: "/usa/packing-list/ticket",
+      path: "",
     },
     {
       name: "税関申告書",
       content: "機内で配られる。またはデジタル(MCPアプリ等)で申請。",
-      path: "/usa/packing-list/tax",
+      path: "",
     },
   ];
   return (
     <HeaderLayout>
+      <BackIcon path={"/country-list"} />
       <h1>アメリカ(米国)</h1>
       <Tabs defaultValue="items" className="flex-col">
         <TabsList variant="line">
@@ -47,9 +49,11 @@ export const PackingList = () => {
               <div>
                 ・{item.name}:{item.content}
               </div>
-              <div>
-                <Link to={item.path}>詳細確認</Link>
-              </div>
+              {item.path !== "" && (
+                <div>
+                  <Link to={item.path}>詳細確認</Link>
+                </div>
+              )}
             </div>
           ))}
         </TabsContent>
