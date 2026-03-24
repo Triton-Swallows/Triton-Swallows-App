@@ -11,13 +11,15 @@
     "db:migrate-make": "knex migrate:make",
     "db:seed": "knex seed:run",
     "db:seed-make": "knex seed:make",
-    "db:reset": "knex migrate:rollback --all && knex migrate:latest && knex seed:run"
+    "db:reset": "knex migrate:rollback --all && knex migrate:latest && knex seed:run",
+    "algolia:seed": "node src/scripts/seedAlgolia.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "algoliasearch": "^5.49.2",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "firebase": "^12.10.0",
