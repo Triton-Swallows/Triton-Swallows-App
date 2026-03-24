@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { IoChevronBackOutline } from "react-icons/io5";
+import { RiArrowLeftWideLine } from "react-icons/ri";
 
 type Props = {
   path: string;
@@ -8,7 +8,7 @@ type Props = {
 export const BackIcon: React.FC<Props> = ({ path }) => {
   return (
     <Link to={path}>
-      <IoChevronBackOutline />
+      <RiArrowLeftWideLine />
     </Link>
   );
 };
