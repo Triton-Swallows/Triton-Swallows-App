@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BackIcon } from "../atoms/BackIcon";
+import { PrimaryLink } from "../atoms/Link";
 
 type PackingItem = {
   name: string;
@@ -51,7 +51,7 @@ export const PackingList = () => {
               </div>
               {item.path !== "" && (
                 <div>
-                  <Link to={item.path}>詳細確認</Link>
+                  <PrimaryLink path={item.path}>詳細確認</PrimaryLink>
                 </div>
               )}
             </div>
