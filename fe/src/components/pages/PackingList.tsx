@@ -2,11 +2,19 @@ import { HeaderLayout } from "../templetes/HeaderLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BackIcon } from "../atoms/BackIcon";
 import { PrimaryLink } from "../atoms/Link";
+import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
 
 type PackingItem = {
   name: string;
   content: string;
   path: string;
+};
+
+type ReviewItem = {
+  review_id: number;
+  review: string;
+  like: number;
+  created_at: string;
 };
 
 export const PackingList = () => {
@@ -33,6 +41,28 @@ export const PackingList = () => {
       path: "",
     },
   ];
+
+  const reviewSummaryList: ReviewItem[] = [
+    {
+      review_id: 1,
+      review: "意外に蒸し暑い",
+      like: 10,
+      created_at: "2026年3月12日",
+    },
+    {
+      review_id: 2,
+      review: "302番道路、19時以降は危険",
+      like: 20,
+      created_at: "2026年2月24日",
+    },
+    {
+      review_id: 3,
+      review: "解熱剤なら持って行けた",
+      like: 30,
+      created_at: "2025年8月11日",
+    },
+  ];
+
   return (
     <HeaderLayout>
       <BackIcon path={"/country-list"} label="国リスト" />
@@ -57,7 +87,18 @@ export const PackingList = () => {
             </div>
           ))}
         </TabsContent>
-        <TabsContent value="review">ここは口コミです。</TabsContent>
+        <TabsContent value="review">
+          <h2>要約</h2>
+          {reviewSummaryList.map((reviewSummary) => (
+            <ReviewSummaryCard
+              review_id={reviewSummary.review_id}
+              review={reviewSummary.review}
+              like={reviewSummary.like}
+              created_at={reviewSummary.created_at}
+            />
+          ))}
+          <p>※この要約は会社によって審査した上で掲載しています。</p>
+        </TabsContent>
       </Tabs>
     </HeaderLayout>
   );
