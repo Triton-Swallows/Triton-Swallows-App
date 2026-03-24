@@ -14,17 +14,18 @@ export const ReviewSummaryCard: React.FC<Props> = ({
   created_at,
 }) => {
   return (
-    <>
-      <div key={review_id} className="flex items-center justify-between border">
-        <p>{review}</p>
-        <div className="flex items-center gap-6">
-          <div className="flex items-center">
-            <RiHeartFill />
-            <span>{like}</span>
-          </div>
-          <time>{created_at}</time>
+    <div
+      key={review_id}
+      className="flex items-center justify-between border bg-[#A8C9DE] my-1"
+    >
+      <p>{review}</p>
+      <div className="flex items-center gap-6">
+        <div className="flex items-center">
+          <RiHeartFill />
+          <span>{like}</span>
         </div>
+        <time>{created_at}</time>
       </div>
-    </>
+    </div>
   );
 };
