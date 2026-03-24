@@ -5,7 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable("likes", function (table) {
     table.string("user_id").notNullable();
-    table.foreign("user_id").references("user.uid").onDelete("CASCADE");
+    table.foreign("user_id").references("users.uid").onDelete("CASCADE");
     table.integer("review_id").notNullable();
     table.foreign("review_id").references("reviews.id").onDelete("CASCADE");
     table.timestamp(true, true);
