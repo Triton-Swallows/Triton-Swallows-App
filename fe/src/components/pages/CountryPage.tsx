@@ -5,7 +5,7 @@ import { BackIcon } from "../atoms/BackIcon";
 export const CountryPage = () => {
   return (
     <HeaderLayout>
-      <BackIcon path={"/"} />
+      <BackIcon path={"/"} label="トップページ" />
       <h1>国リスト</h1>
       <Link to="/usa/packing-list">
         <div>アメリカ</div>
