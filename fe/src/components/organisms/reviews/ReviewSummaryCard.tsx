@@ -1,4 +1,5 @@
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
+import { AuthContextConsumer } from "@/contexts/AuthContexts";
 
 type Props = {
   review_id: number;
@@ -17,6 +18,8 @@ export const ReviewSummaryCard: React.FC<Props> = ({
   liked_by_me,
   onToggleLike,
 }) => {
+  const { loginUser } = AuthContextConsumer();
+
   return (
     <>
       <div key={review_id} className="flex items-center justify-between border">
@@ -25,6 +28,7 @@ export const ReviewSummaryCard: React.FC<Props> = ({
           <button
             className="flex items-center cursor-pointer"
             onClick={() => onToggleLike(review_id, liked_by_me)}
+            disabled={!loginUser}
           >
             {liked_by_me ? <RiHeartFill /> : <RiHeartLine />}
             <span>{count}</span>
