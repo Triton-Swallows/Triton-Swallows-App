@@ -1,7 +1,8 @@
 function createReviewController(service) {
   const getAll = async (req, res) => {
+    const userId = req.user.uid;
     try {
-      const result = await service.getAll();
+      const result = await service.getAll(userId);
 
       if (result.ok) {
         res.status(200).json({ data: result.data });
@@ -12,6 +13,11 @@ function createReviewController(service) {
       res.status(500).json({ error: error.message });
     }
   };
+
+  // const getByCountry = async (req, res) => {
+  //   const country =
+
+  // }
 
   return { getAll };
 }
