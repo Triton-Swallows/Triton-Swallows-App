@@ -1,9 +1,11 @@
+import { useState, useEffect } from "react";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BackIcon } from "../atoms/BackIcon";
 import { PrimaryLink } from "../atoms/Link";
 import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
 import { ReviewCard } from "../organisms/reviews/ReviewCard";
+import { AuthContextConsumer } from "../../contexts/AuthContexts";
 
 type PackingItem = {
   name: string;
@@ -27,7 +29,34 @@ type Review = {
   created_at: string;
 };
 
+const STORAGE_KEY = "summary_liked_reviews";
+
 export const PackingList = () => {
+  const { loginUser } = AuthContextConsumer();
+  const isLoggedIn = loginUser !== null;
+
+  // localStorageからlike状態を復元
+  const [likedIds, setLikedIds] = useState<number[]>(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? (JSON.parse(stored) as number[]) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(likedIds));
+  }, [likedIds]);
+
+  const handleToggleLike = (review_id: number) => {
+    setLikedIds((prev) =>
+      prev.includes(review_id)
+        ? prev.filter((id) => id !== review_id)
+        : [...prev, review_id],
+    );
+  };
+
   const itemList: PackingItem[] = [
     {
       name: "パスポート",
@@ -138,10 +167,17 @@ export const PackingList = () => {
           <h2>要約</h2>
           {reviewSummaryList.map((reviewSummary) => (
             <ReviewSummaryCard
+              key={reviewSummary.review_id}
               review_id={reviewSummary.review_id}
               review={reviewSummary.review}
-              like={reviewSummary.like}
+              like={
+                reviewSummary.like +
+                (likedIds.includes(reviewSummary.review_id) ? 1 : 0)
+              }
               created_at={reviewSummary.created_at}
+              isLiked={likedIds.includes(reviewSummary.review_id)}
+              isLoggedIn={isLoggedIn}
+              onToggleLike={handleToggleLike}
             />
           ))}
           <p>※この要約は会社によって審査した上で掲載しています。</p>

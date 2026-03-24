@@ -1,10 +1,13 @@
-import { RiHeartFill } from "react-icons/ri";
+import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 
 type Props = {
   review_id: number;
   review: string;
   like: number;
   created_at: string;
+  isLiked: boolean;
+  isLoggedIn: boolean;
+  onToggleLike: (review_id: number) => void;
 };
 
 export const ReviewSummaryCard: React.FC<Props> = ({
@@ -12,6 +15,9 @@ export const ReviewSummaryCard: React.FC<Props> = ({
   review,
   like,
   created_at,
+  isLiked,
+  isLoggedIn,
+  onToggleLike,
 }) => {
   return (
     <div
@@ -20,10 +26,16 @@ export const ReviewSummaryCard: React.FC<Props> = ({
     >
       <p>{review}</p>
       <div className="flex items-center gap-6">
-        <div className="flex items-center">
-          <RiHeartFill />
+        <button
+          className={`flex items-center gap-1 ${
+            isLoggedIn ? "cursor-pointer" : "cursor-not-allowed"
+          }`}
+          onClick={() => isLoggedIn && onToggleLike(review_id)}
+          disabled={!isLoggedIn}
+        >
+          {isLiked ? <RiHeartFill /> : <RiHeartLine />}
           <span>{like}</span>
-        </div>
+        </button>
         <time>{created_at}</time>
       </div>
     </div>
