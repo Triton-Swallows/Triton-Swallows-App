@@ -15,7 +15,7 @@ type PackingItem = {
 type ReviewItem = {
   review_id: number;
   review: string;
-  like: number;
+  count: number;
   created_at: string;
   liked_by_me: boolean;
 };
@@ -36,13 +36,14 @@ export const PackingList = () => {
   const handleToggleLike = async (review_id: number, liked_by_me: boolean) => {
     // 一旦UI上ではすぐにいいねが押せた/取り消せた表示にする
     // その後APIをたたいて、失敗したら元の表示に戻す
+    // ReviewSummaryCard.txsにてliked_by_meのtrue/falseでハート色を反転させている
     setReviewSummaryList((prev) =>
       prev.map((r) =>
         r.review_id === review_id
           ? {
               ...r,
               liked_by_me: !liked_by_me,
-              like: liked_by_me ? r.like - 1 : r.like + 1,
+              count: liked_by_me ? r.count - 1 : r.count + 1,
             }
           : r,
       ),
@@ -56,11 +57,15 @@ export const PackingList = () => {
         await apiClient.post("/likes", { review_id });
       }
     } catch {
-      // 失敗時はロールバック
+      // 失敗時は表示をロールバック
       setReviewSummaryList((prev) =>
         prev.map((r) =>
           r.review_id === review_id
-            ? { ...r, liked_by_me, like: liked_by_me ? r.like + 1 : r.like - 1 }
+            ? {
+                ...r,
+                liked_by_me,
+                count: liked_by_me ? r.count + 1 : r.count - 1,
+              }
             : r,
         ),
       );
@@ -122,7 +127,7 @@ export const PackingList = () => {
               key={reviewSummary.review_id}
               review_id={reviewSummary.review_id}
               review={reviewSummary.review}
-              like={reviewSummary.like}
+              count={reviewSummary.count}
               created_at={reviewSummary.created_at}
               liked_by_me={reviewSummary.liked_by_me}
               onToggleLike={handleToggleLike}
