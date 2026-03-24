@@ -1,10 +1,12 @@
-import { RiHeartFill } from "react-icons/ri";
+import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 
 type Props = {
   review_id: number;
   review: string;
   like: number;
   created_at: string;
+  liked_by_me: boolean;
+  onToggleLike: (review_id: number, liked_by_me: boolean) => void;
 };
 
 export const ReviewSummaryCard: React.FC<Props> = ({
@@ -12,16 +14,26 @@ export const ReviewSummaryCard: React.FC<Props> = ({
   review,
   like,
   created_at,
+  liked_by_me,
+  onToggleLike,
 }) => {
   return (
     <>
       <div key={review_id} className="flex items-center justify-between border">
         <p>{review}</p>
         <div className="flex items-center gap-6">
-          <div className="flex items-center">
-            <RiHeartFill />
+          <button
+            className="flex items-center cursor-pointer"
+            onClick={() => onToggleLike(review_id, liked_by_me)}
+            aria-label={liked_by_me ? "いいねを取り消す" : "いいねする"}
+          >
+            {liked_by_me ? (
+              <RiHeartFill className="text-red-500" />
+            ) : (
+              <RiHeartLine />
+            )}
             <span>{like}</span>
-          </div>
+          </button>
           <time>{created_at}</time>
         </div>
       </div>
