@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BackIcon } from "../atoms/BackIcon";
 import { PrimaryLink } from "../atoms/Link";
 import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
+import { ReviewCard } from "../organisms/reviews/ReviewCard";
 
 type PackingItem = {
   name: string;
@@ -11,6 +12,15 @@ type PackingItem = {
 };
 
 type ReviewItem = {
+  review_id: number;
+  review: string;
+  like: number;
+  created_at: string;
+};
+
+type Review = {
+  user_name: string;
+  user_icon: string;
   review_id: number;
   review: string;
   like: number;
@@ -63,6 +73,43 @@ export const PackingList = () => {
     },
   ];
 
+  const reviewList: Review[] = [
+    {
+      user_name: "はなこ旅行",
+      user_icon: "",
+      review_id: 11,
+      review: "アメリカめちゃ楽しかった！！！",
+      like: 659,
+      created_at: "2026年1月12日",
+    },
+    {
+      user_name: "じろう出張",
+      user_icon: "",
+      review_id: 12,
+      review:
+        "ビザ取得のサポート、1週間で取得！今月の初めにビザの申請をしましたが、驚くほど早く取得できました。旅行前に必要な手続きは計画的に行いましょう。",
+      like: 751,
+      created_at: "2026年1月21日",
+    },
+    {
+      user_name: "まみ旅行",
+      user_icon: "",
+      review_id: 13,
+      review:
+        "海外旅行保険、24時間以内に加入！最近、旅行保険に加入しましたが、手続きがスムーズで驚きました。安心して旅行に行くためには、事前準備が重要です。",
+      like: 842,
+      created_at: "2026年2月11日",
+    },
+    {
+      user_name: "たろう単身赴任",
+      user_icon: "",
+      review_id: 14,
+      review: "チップの相場感：最近はレストランだと18〜22%くらいが標準",
+      like: 538,
+      created_at: "2026年2月26日",
+    },
+  ];
+
   return (
     <HeaderLayout>
       <BackIcon path={"/country-list"} label="国リスト" />
@@ -98,6 +145,16 @@ export const PackingList = () => {
             />
           ))}
           <p>※この要約は会社によって審査した上で掲載しています。</p>
+          {reviewList.map((review) => (
+            <ReviewCard
+              user_name={review.user_name}
+              user_icon={review.user_icon}
+              review_id={review.review_id}
+              review={review.review}
+              like={review.like}
+              created_at={review.created_at}
+            />
+          ))}
         </TabsContent>
       </Tabs>
     </HeaderLayout>
