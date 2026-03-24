@@ -8,7 +8,7 @@ exports.up = function (knex) {
     table.string("user_id").notNullable();
     table.foreign("user_id").references("users.uid");
     table.text("review").notNullable();
-    table.timestamp(true, true);
+    table.timestamps(true, true);
   });
 };
 
