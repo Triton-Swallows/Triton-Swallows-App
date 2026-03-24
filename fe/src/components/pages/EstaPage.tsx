@@ -10,7 +10,7 @@ import {
 export const EstaPage = () => {
   return (
     <HeaderLayout>
-      <BackIcon path={"/usa/packing-list"} />
+      <BackIcon path={"/usa/packing-list"} label="TBD" />
       <h2>アメリカ（米国）：ESTA（エスタ）</h2>
       <div>概要</div>
       <section>
