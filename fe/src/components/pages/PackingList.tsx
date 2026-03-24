@@ -35,7 +35,7 @@ export const PackingList = () => {
   ];
   return (
     <HeaderLayout>
-      <BackIcon path={"/country-list"} />
+      <BackIcon path={"/country-list"} label="国リスト" />
       <h1>アメリカ(米国)</h1>
       <Tabs defaultValue="items" className="flex-col">
         <TabsList variant="line">
