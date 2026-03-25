@@ -1,5 +1,3 @@
-const { groupBy } = require("../../knex");
-
 function createReviewRepository(knex) {
   const getAll = async (userId) => {
     return await knex("reviews")
