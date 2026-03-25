@@ -11,6 +11,16 @@ function createReviewSummaryService(repository) {
       return { ok: false, status: 500, message: error.message };
     }
   };
+
+  const getSummaryGuest = async (country) => {
+    try {
+      const data = await repository.getSummaryGuest(country);
+      return { ok: true, data };
+    } catch (error) {
+      return { ok: false, status: 500, message: error.message };
+    }
+  };
+
   const postLike = async (userId, summary_id) => {
     try {
       const data = await repository.postLike(userId, summary_id);
@@ -29,7 +39,7 @@ function createReviewSummaryService(repository) {
     }
   };
 
-  return { getSummary, postLike, deleteLike };
+  return { getSummary, getSummaryGuest, postLike, deleteLike };
 }
 
 module.exports = { createReviewSummaryService };
