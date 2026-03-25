@@ -6,7 +6,11 @@ function createReviewSummaryRouter(reviewsSummaryController) {
 
   //  TODO: verify tokenを追加
   // 口コミを全件取得
-  router.get("/reviews/summary", verifyToken, reviewsSummaryController.getAll);
+  router.get(
+    "/reviews/summary/:countryName",
+    verifyToken,
+    reviewsSummaryController.getSummary,
+  );
 
   return router;
 }
