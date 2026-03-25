@@ -27,7 +27,7 @@ exports.seed = async function (knex) {
       created_at: "2026-02-11 12:12:12",
     },
     {
-      user_id: "6zonxI3wszXAYIlKXnYujX6r0I63",
+      user_id: "9HLcP3zl5ifAqniVlfz0Qp62xE63",
       review: "日本に関する口コミです。",
       country_name: "japan",
     },
