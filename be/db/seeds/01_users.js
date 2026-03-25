@@ -16,7 +16,7 @@ exports.seed = async function (knex) {
       email: "jera.hq.devtr.mem090@outlook.jp",
     },
     {
-      uid: "6zonxI3wszXAYIlKXnYujX6r0I63",
+      uid: "9HLcP3zl5ifAqniVlfz0Qp62xE63",
       email: "kei.ccbdev07@gmail.com",
     },
     {
