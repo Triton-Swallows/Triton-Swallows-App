@@ -14,6 +14,12 @@ function createReviewRouter(reviewsController) {
     reviewsController.getByCountry,
   );
 
+  // 国ごとの口コミを全権取得（非ログイン時）
+  router.get(
+    "/guest/reviews/:countryName",
+    reviewsController.getByCountryGuest,
+  );
+
   return router;
 }
 
