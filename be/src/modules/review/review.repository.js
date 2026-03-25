@@ -40,7 +40,23 @@ function createReviewRepository(knex) {
       .orderBy("reviews.created_at", "desc");
   };
 
-  return { getAll, getByCountry };
+  const getByCountryGuest = async (country) => {
+    return await knex("reviews")
+      .leftJoin("likes", "reviews.id", "likes.review_id")
+      .count("likes.review_id as like_count")
+      .groupBy("reviews.id")
+      .where("reviews.country_name", country)
+      .select(
+        "reviews.id",
+        "reviews.user_id",
+        "reviews.review",
+        "reviews.created_at",
+        "reviews.country_name",
+      )
+      .orderBy("reviews.created_at", "desc");
+  };
+
+  return { getAll, getByCountry, getByCountryGuest };
 }
 
 module.exports = { createReviewRepository };

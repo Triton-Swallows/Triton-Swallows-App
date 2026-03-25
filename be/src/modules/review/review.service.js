@@ -25,7 +25,16 @@ function createReviewService(repository) {
     }
   };
 
-  return { getAll, getByCountry };
+  const getByCountryGuest = async (country) => {
+    try {
+      const data = await repository.getByCountryGuest(country);
+      return { ok: true, data };
+    } catch (error) {
+      return { ok: false, status: 500, message: error.message };
+    }
+  };
+
+  return { getAll, getByCountry, getByCountryGuest };
 }
 
 module.exports = { createReviewService };

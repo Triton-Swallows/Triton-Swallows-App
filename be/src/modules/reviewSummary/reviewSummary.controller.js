@@ -15,6 +15,21 @@ function createReviewSummaryController(service) {
     }
   };
 
+  const getSummaryGuest = async (req, res) => {
+    const country = req.params.countryName;
+    try {
+      const result = await service.getSummaryGuest(country);
+
+      if (result.ok) {
+        res.status(200).json({ data: result.data });
+      } else {
+        res.status(result.status).json({ error: result.message });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
   const postLike = async (req, res) => {
     const userId = req.user.uid;
     const { summary_id } = req.body;
@@ -47,7 +62,7 @@ function createReviewSummaryController(service) {
     }
   };
 
-  return { getSummary, postLike, deleteLike };
+  return { getSummary, getSummaryGuest, postLike, deleteLike };
 }
 
 module.exports = { createReviewSummaryController };
