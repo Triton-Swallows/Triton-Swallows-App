@@ -51,7 +51,7 @@ type ReviewItem = {
 };
 
 export const PackingList = () => {
-  const { loading } = AuthContextConsumer();
+  const { loginUser, loading } = AuthContextConsumer();
   const [reviewSummaryList, setReviewSummaryList] = useState<
     ReviewSummaryItem[]
   >([]);
@@ -64,10 +64,14 @@ export const PackingList = () => {
     const fetchData = async () => {
       setIsFetching(true);
       setFetchError(null);
+      // ログイン状態に応じてパスのプレフィックスを決定
+      const pathPrefix = loginUser ? "" : "/guest";
       try {
         const [reviewsRes, summariesRes] = await Promise.all([
-          apiClient.get<{ data: ReviewApiItem[] }>("/reviews/usa"),
-          apiClient.get<{ data: ReviewSummaryApiItem[] }>("/summaries/usa"),
+          apiClient.get<{ data: ReviewApiItem[] }>(`${pathPrefix}/reviews/usa`),
+          apiClient.get<{ data: ReviewSummaryApiItem[] }>(
+            `${pathPrefix}/summaries/usa`,
+          ),
         ]);
         setReviewList(
           reviewsRes.data.data.map((r) => ({
@@ -88,7 +92,7 @@ export const PackingList = () => {
       }
     };
     fetchData();
-  }, [loading]);
+  }, [loading, loginUser]);
 
   const handleToggleLike = async (review_id: number, liked_by_me: boolean) => {
     // 一旦UI上ではすぐにいいねが押せた/取り消せた表示にする
