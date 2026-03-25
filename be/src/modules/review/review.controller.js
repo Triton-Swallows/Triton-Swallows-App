@@ -17,7 +17,6 @@ function createReviewController(service) {
   const getByCountry = async (req, res) => {
     const country = req.params.countryName;
     const userId = req.user.uid;
-    console.log("国の名前は", country);
     try {
       const result = await service.getByCountry(userId, country);
 

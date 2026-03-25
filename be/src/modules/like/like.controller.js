@@ -4,7 +4,6 @@ function createLikeController(service) {
     try {
       const user_id = req.user.uid;
       const review_id = req.body.review_id;
-      console.log("review_idは", review_id);
 
       const result = await service.post(user_id, review_id);
 
