@@ -8,24 +8,6 @@ exports.seed = async function (knex) {
   await knex("reviews").insert([
     {
       user_id: "tsJF90ELf6YFtJuc9ac247khhr02",
-      review: "意外に蒸し暑い",
-      country_name: "usa",
-      created_at: "2026-03-12 12:12:12",
-    },
-    {
-      user_id: "5A2LwTI4C3WMzWLOi80HoY6oyQB2",
-      review: "302番道路  19時以降は危険",
-      country_name: "usa",
-      created_at: "2026-02-24 12:12:12",
-    },
-    {
-      user_id: "tsJF90ELf6YFtJuc9ac247khhr02",
-      review: "解熱剤なら持って行けた",
-      country_name: "usa",
-      created_at: "2026-08-11 12:12:12",
-    },
-    {
-      user_id: "tsJF90ELf6YFtJuc9ac247khhr02",
       review: "アメリカめちゃ楽しかった",
       country_name: "usa",
       created_at: "2026-01-12 12:12:12",
@@ -43,6 +25,11 @@ exports.seed = async function (knex) {
         "海外旅行保険、24時間以内に加入！最近、旅行保険に加入しましたが、手続きがスムーズで驚きました。安心して旅行に行くためには、事前準備が重要です。",
       country_name: "usa",
       created_at: "2026-02-11 12:12:12",
+    },
+    {
+      user_id: "6zonxI3wszXAYIlKXnYujX6r0I63",
+      review: "日本に関する口コミです。",
+      country_name: "japan",
     },
   ]);
 };

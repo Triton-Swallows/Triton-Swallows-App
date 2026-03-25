@@ -12,13 +12,11 @@ exports.seed = async function (knex) {
 
   // 重複を避けるためのセット（同じユーザーが同じレビューに複数回いいねできない想定）
   const likesData = [
-    { user_id: users[0].uid, review_id: reviews[0].id },
-    { user_id: users[0].uid, review_id: reviews[1].id },
-    { user_id: users[1].uid, review_id: reviews[0].id },
-    { user_id: users[2].uid, review_id: reviews[3].id },
-    { user_id: users[3].uid, review_id: reviews[4].id },
-    { user_id: users[4].uid, review_id: reviews[5].id },
-    { user_id: users[4].uid, review_id: reviews[0].id },
+    { user_id: users[0].uid, review_id: reviews[0].id }, //なつみが、レビュー[0]にいいね
+    { user_id: users[0].uid, review_id: reviews[1].id }, //なつみが、レビュー[1]にいいね
+    { user_id: users[1].uid, review_id: reviews[0].id }, //なおきが、レビュー[0]にいいね
+    { user_id: users[2].uid, review_id: reviews[0].id }, //けいが、レビュー[0]にいいね
+    { user_id: users[3].uid, review_id: reviews[3].id }, //testユーザーが、日本のレビューにいいね
   ];
 
   // データを挿入
