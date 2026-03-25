@@ -14,7 +14,8 @@ export const EstaPage = () => {
       <h2>アメリカ（米国）：ESTA（エスタ）</h2>
       <div>概要</div>
       <section>
-        ESTAとは：
+        ESTAとは： <br />
+        更新日時 2026/03/24
         <p>
           ESTA（エスタ）は、アメリカへ短期旅行するための電子渡航認証システムです。
           <br />
@@ -65,6 +66,8 @@ export const EstaPage = () => {
       </section>
       <section>
         参考サイト:
+        <br />
+        更新日時 2026/03/20
         <p>
           <a
             href="https://jp.usembassy.gov/ja/visas-ja/esta-information-ja/"
