@@ -37,7 +37,7 @@ export const ReviewCard: React.FC<Props> = ({
           {/* TODO: 本来以下は {user_icon !== "" ? <img src={user_icon} /> : <RiUser3Line />}*/}
           {user_icon !== "" ? <RiUser3Line /> : <RiUser3Line />}
           {/* TODO: 本来以下は <p>{user_name}</p> */}
-          <p>user_name_here</p>
+          <p>{user_name !== "" ? "user_name_here" : "user_name_here"}</p>
         </div>
         <div className="flex items-center gap-6">
           <button
