@@ -6,6 +6,8 @@ const { initUser } = require("./modules/user/index");
 const { createUserRouter } = require("./routes/user");
 const { initReview } = require("./modules/review");
 const { createReviewRouter } = require("./routes/review");
+const { initSummaryReview } = require("./modules/reviewSummary");
+const { createReviewSummaryRouter } = require("./routes/reviewSummary");
 
 function buildApp() {
   const app = express();
@@ -20,6 +22,9 @@ function buildApp() {
 
   const reviewController = initReview(knex);
   app.use("/api", createReviewRouter(reviewController));
+
+  const reviewSummaryController = initSummaryReview(knex);
+  app.use("/api", createReviewSummaryRouter(reviewSummaryController));
 
   // SPAフォールバック: すべてのAPI以外のルートをindex.htmlに
   app.get(/^(?!\/api).*/, (req, res) => {
