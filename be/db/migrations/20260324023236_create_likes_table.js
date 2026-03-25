@@ -8,6 +8,7 @@ exports.up = function (knex) {
     table.foreign("user_id").references("users.uid").onDelete("CASCADE");
     table.integer("review_id").notNullable();
     table.foreign("review_id").references("reviews.id").onDelete("CASCADE");
+    table.unique(["user_id", "review_id"]);
     table.timestamps(true, true);
   });
 };

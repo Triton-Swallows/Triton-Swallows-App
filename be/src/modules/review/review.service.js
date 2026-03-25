@@ -1,14 +1,31 @@
 function createReviewService(repository) {
   const getAll = async (userId) => {
     try {
-      const data = await repository.getAll(userId);
+      const reviews = await repository.getAll(userId);
+      const data = reviews.map((review) => ({
+        ...review,
+        liked_by_me: Boolean(review.liked_by_me),
+      }));
       return { ok: true, data };
     } catch (error) {
       return { ok: false, status: 500, message: error.message };
     }
   };
 
-  return { getAll };
+  const getByCountry = async (userId, country) => {
+    try {
+      const reviews = await repository.getByCountry(userId, country);
+      const data = reviews.map((review) => ({
+        ...review,
+        liked_by_me: Boolean(Number(review.liked_by_me)),
+      }));
+      return { ok: true, data };
+    } catch (error) {
+      return { ok: false, status: 500, message: error.message };
+    }
+  };
+
+  return { getAll, getByCountry };
 }
 
 module.exports = { createReviewService };

@@ -14,12 +14,24 @@ function createReviewController(service) {
     }
   };
 
-  // const getByCountry = async (req, res) => {
-  //   const country =
+  const getByCountry = async (req, res) => {
+    const country = req.params.countryName;
+    const userId = req.user.uid;
+    console.log("国の名前は", country);
+    try {
+      const result = await service.getByCountry(userId, country);
 
-  // }
+      if (result.ok) {
+        res.status(200).json({ data: result.data });
+      } else {
+        res.status(result.status).json({ error: result.message });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
 
-  return { getAll };
+  return { getAll, getByCountry };
 }
 
 module.exports = { createReviewController };
