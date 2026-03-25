@@ -6,7 +6,7 @@ type Props = {
   user_icon: string;
   review_id: number;
   review: string;
-  count: number;
+  like_count: number;
   created_at: string;
   liked_by_me: boolean;
   onToggleLike: (review_id: number, liked_by_me: boolean) => void;
@@ -17,7 +17,7 @@ export const ReviewCard: React.FC<Props> = ({
   user_icon,
   review_id,
   review,
-  count,
+  like_count,
   created_at,
   liked_by_me,
   onToggleLike,
@@ -34,8 +34,10 @@ export const ReviewCard: React.FC<Props> = ({
     <div className="border bg-[#A8C9DE] my-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center py-1">
-          {user_icon !== "" ? <img src={user_icon} /> : <RiUser3Line />}
-          <p>{user_name}</p>
+          {/* TODO: 本来以下は {user_icon !== "" ? <img src={user_icon} /> : <RiUser3Line />}*/}
+          {user_icon !== "" ? <RiUser3Line /> : <RiUser3Line />}
+          {/* TODO: 本来以下は <p>{user_name}</p> */}
+          <p>user_name_here</p>
         </div>
         <div className="flex items-center gap-6">
           <button
@@ -44,7 +46,7 @@ export const ReviewCard: React.FC<Props> = ({
             disabled={!loginUser}
           >
             {liked_by_me ? <RiHeartFill /> : <RiHeartLine />}
-            <span>{count}</span>
+            <span>{like_count}</span>
           </button>
           <time>{yyyymmdd}</time>
         </div>

@@ -14,10 +14,28 @@ type PackingItem = {
   path: string;
 };
 
-type ReviewSummaryItem = {
-  summary_id: number;
+type ReviewSummaryApiItem = {
+  id: number;
   summary: string;
-  count: number;
+  like_count: string;
+  created_at: string;
+  liked_by_me: boolean;
+};
+
+type ReviewSummaryItem = {
+  id: number;
+  summary: string;
+  like_count: number;
+  created_at: string;
+  liked_by_me: boolean;
+};
+
+type ReviewApiItem = {
+  user_name: string;
+  user_icon: string;
+  id: number;
+  review: string;
+  like_count: string;
   created_at: string;
   liked_by_me: boolean;
 };
@@ -25,9 +43,9 @@ type ReviewSummaryItem = {
 type ReviewItem = {
   user_name: string;
   user_icon: string;
-  review_id: number;
+  id: number;
   review: string;
-  count: number;
+  like_count: number;
   created_at: string;
   liked_by_me: boolean;
 };
@@ -48,11 +66,21 @@ export const PackingList = () => {
       setFetchError(null);
       try {
         const [reviewsRes, summariesRes] = await Promise.all([
-          apiClient.get<{ data: ReviewItem[] }>("/reviews/usa"),
-          apiClient.get<{ data: ReviewSummaryItem[] }>("/summaries/usa"),
+          apiClient.get<{ data: ReviewApiItem[] }>("/reviews/usa"),
+          apiClient.get<{ data: ReviewSummaryApiItem[] }>("/summaries/usa"),
         ]);
-        setReviewList(reviewsRes.data.data);
-        setReviewSummaryList(summariesRes.data.data);
+        setReviewList(
+          reviewsRes.data.data.map((r) => ({
+            ...r,
+            like_count: Number(r.like_count),
+          })),
+        );
+        setReviewSummaryList(
+          summariesRes.data.data.map((r) => ({
+            ...r,
+            like_count: Number(r.like_count),
+          })),
+        );
       } catch {
         setFetchError("情報の取得に失敗しました");
       } finally {
@@ -68,11 +96,11 @@ export const PackingList = () => {
     // ReviewCard.tsxにてliked_by_meのtrue/falseでハート色を反転させている
     setReviewList((prev) =>
       prev.map((r) =>
-        r.review_id === review_id
+        r.id === review_id
           ? {
               ...r,
               liked_by_me: !liked_by_me,
-              count: liked_by_me ? r.count - 1 : r.count + 1,
+              like_count: liked_by_me ? r.like_count - 1 : r.like_count + 1,
             }
           : r,
       ),
@@ -89,11 +117,11 @@ export const PackingList = () => {
       // 失敗時は表示をロールバック
       setReviewList((prev) =>
         prev.map((r) =>
-          r.review_id === review_id
+          r.id === review_id
             ? {
                 ...r,
                 liked_by_me,
-                count: liked_by_me ? r.count + 1 : r.count - 1,
+                like_count: liked_by_me ? r.like_count + 1 : r.like_count - 1,
               }
             : r,
         ),
@@ -107,11 +135,11 @@ export const PackingList = () => {
   ) => {
     setReviewSummaryList((prev) =>
       prev.map((r) =>
-        r.summary_id === summary_id
+        r.id === summary_id
           ? {
               ...r,
               liked_by_me: !liked_by_me,
-              count: liked_by_me ? r.count - 1 : r.count + 1,
+              like_count: liked_by_me ? r.like_count - 1 : r.like_count + 1,
             }
           : r,
       ),
@@ -126,11 +154,11 @@ export const PackingList = () => {
     } catch {
       setReviewSummaryList((prev) =>
         prev.map((r) =>
-          r.summary_id === summary_id
+          r.id === summary_id
             ? {
                 ...r,
                 liked_by_me,
-                count: liked_by_me ? r.count + 1 : r.count - 1,
+                like_count: liked_by_me ? r.like_count + 1 : r.like_count - 1,
               }
             : r,
         ),
@@ -194,10 +222,10 @@ export const PackingList = () => {
               <h2>要約</h2>
               {reviewSummaryList.map((reviewSummary) => (
                 <ReviewSummaryCard
-                  key={reviewSummary.summary_id}
-                  summary_id={reviewSummary.summary_id}
+                  key={reviewSummary.id}
+                  summary_id={reviewSummary.id}
                   summary={reviewSummary.summary}
-                  count={reviewSummary.count}
+                  like_count={reviewSummary.like_count}
                   created_at={reviewSummary.created_at}
                   liked_by_me={reviewSummary.liked_by_me}
                   onToggleLike={handleToggleSummaryLike}
@@ -206,12 +234,12 @@ export const PackingList = () => {
               <p>※この要約は会社によって審査した上で掲載しています。</p>
               {reviewList.map((review) => (
                 <ReviewCard
-                  key={review.review_id}
+                  key={review.id}
                   user_name={review.user_name}
                   user_icon={review.user_icon}
-                  review_id={review.review_id}
+                  review_id={review.id}
                   review={review.review}
-                  count={review.count}
+                  like_count={review.like_count}
                   created_at={review.created_at}
                   liked_by_me={review.liked_by_me}
                   onToggleLike={handleToggleLike}

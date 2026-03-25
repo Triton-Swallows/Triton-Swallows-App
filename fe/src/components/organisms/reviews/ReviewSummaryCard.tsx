@@ -4,7 +4,7 @@ import { AuthContextConsumer } from "@/contexts/AuthContexts";
 type Props = {
   summary_id: number;
   summary: string;
-  count: number;
+  like_count: number;
   created_at: string;
   liked_by_me: boolean;
   onToggleLike: (summary_id: number, liked_by_me: boolean) => void;
@@ -13,7 +13,7 @@ type Props = {
 export const ReviewSummaryCard: React.FC<Props> = ({
   summary_id,
   summary,
-  count,
+  like_count,
   created_at,
   liked_by_me,
   onToggleLike,
@@ -37,7 +37,7 @@ export const ReviewSummaryCard: React.FC<Props> = ({
           disabled={!loginUser}
         >
           {liked_by_me ? <RiHeartFill /> : <RiHeartLine />}
-          <span>{count}</span>
+          <span>{like_count}</span>
         </button>
         <time>{yyyymmdd}</time>
       </div>
