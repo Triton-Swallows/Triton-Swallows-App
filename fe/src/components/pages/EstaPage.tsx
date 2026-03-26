@@ -7,6 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { TitleFrame } from "../atoms/TitleFrame";
 import apiClient from "@/config/apiClient";
 
 export const EstaPage = () => {
@@ -58,10 +59,12 @@ export const EstaPage = () => {
     <HeaderLayout>
       <BackIcon path={"/usa/packing-list"} label="TBD" />
       <h2>アメリカ（米国）：ESTA（エスタ）</h2>
-      <div>概要</div>
       <section>
-        ESTAとは： <br />
-        更新日時 2026/03/24
+        <TitleFrame
+          title="ESTAとは:"
+          date="2026年3月24日"
+          superivisor="監修：Robert&Enrique"
+        />
         <p>
           ESTA（エスタ）は、アメリカへ短期旅行するための電子渡航認証システムです。
           <br />
@@ -74,7 +77,7 @@ export const EstaPage = () => {
         </p>
       </section>
       <section>
-        申請方法：
+        <TitleFrame title="申請方法:" date="" superivisor="" />
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger>1. 公式サイトにアクセス</AccordionTrigger>
@@ -111,7 +114,7 @@ export const EstaPage = () => {
         </Accordion>
       </section>
       <section>
-        参考サイト:
+        <TitleFrame title="参考サイト" date="" superivisor="" />
         <br />
         更新日時 2026/03/20
         <div className="grid grid-cols-2 gap-3 mt-3">
