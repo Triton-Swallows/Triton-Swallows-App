@@ -11,6 +11,7 @@ import { TitleFrame } from "../atoms/TitleFrame";
 import { SummaryFrameDetail } from "../atoms/SummaryFrameDetail";
 import apiClient from "@/config/apiClient";
 import { Button } from "../ui/button";
+import { HeaderNav } from "../molecules/HeaderNav";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 
 export const EstaPage = () => {
@@ -61,8 +62,11 @@ export const EstaPage = () => {
 
   return (
     <HeaderLayout>
-      <BackIcon path={"/usa/packing-list"} label="TBD" />
-      <h2>アメリカ（米国）：ESTA（エスタ）</h2>
+      <HeaderNav
+        path={"/usa/packing-list"}
+        label="持ち物/口コミ"
+        title="アメリカ（米国）"
+      />
       <section>
         <TitleFrame
           title="ESTAとは:"
