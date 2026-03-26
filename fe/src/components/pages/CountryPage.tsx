@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
-import { BackIcon } from "../atoms/BackIcon";
+import { HeaderNav } from "../molecules/HeaderNav";
 
 export const CountryPage = () => {
   return (
     <HeaderLayout>
-      <BackIcon path={"/"} label="トップページ" />
-      <h1>国リスト</h1>
+      <HeaderNav path={"/"} label="トップページ" title="国リスト" />
       <Link to="/usa/packing-list">
         <div>アメリカ</div>
       </Link>

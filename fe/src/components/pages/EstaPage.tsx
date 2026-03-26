@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { HeaderLayout } from "../templetes/HeaderLayout";
-import { BackIcon } from "../atoms/BackIcon";
 import {
   Accordion,
   AccordionContent,
@@ -9,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { TitleFrame } from "../atoms/TitleFrame";
 import apiClient from "@/config/apiClient";
+import { HeaderNav } from "../molecules/HeaderNav";
 
 export const EstaPage = () => {
   const urlList = [
@@ -57,8 +57,11 @@ export const EstaPage = () => {
 
   return (
     <HeaderLayout>
-      <BackIcon path={"/usa/packing-list"} label="TBD" />
-      <h2>アメリカ（米国）：ESTA（エスタ）</h2>
+      <HeaderNav
+        path={"/usa/packing-list"}
+        label="持ち物/口コミ"
+        title="アメリカ（米国）"
+      />
       <section>
         <TitleFrame
           title="ESTAとは:"
