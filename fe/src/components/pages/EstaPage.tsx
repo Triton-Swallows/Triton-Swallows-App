@@ -11,8 +11,10 @@ import { TitleFrame } from "../atoms/TitleFrame";
 import { SummaryFrameDetail } from "../atoms/SummaryFrameDetail";
 import apiClient from "@/config/apiClient";
 import { Button } from "../ui/button";
+import { AuthContextConsumer } from "@/contexts/AuthContexts";
 
 export const EstaPage = () => {
+  const { loginUser, loading } = AuthContextConsumer();
   const urlList = [
     {
       title: "ESTA公式サイト（在日米国大使館）",
@@ -203,11 +205,18 @@ export const EstaPage = () => {
 
       <div className="flex justify-center">
         <a
-          href="https://forms.gle/MvXjx6ckqDqsyGPT9"
+          href={
+            !loginUser || loading
+              ? undefined
+              : "https://forms.gle/MvXjx6ckqDqsyGPT9"
+          }
           target="_blank"
           className="flex justify-center w-[185px] h-[36px] mb-3"
         >
-          <Button className="bg-[#00588C] rounded-xl text-[#FAF6F0] text-[14px] py-[8px] px-[16px] ">
+          <Button
+            className="bg-[#00588C] rounded-xl text-[#FAF6F0] text-[14px] py-[8px] px-[16px] "
+            disabled={!loginUser || loading}
+          >
             情報変更を依頼する
           </Button>
         </a>
