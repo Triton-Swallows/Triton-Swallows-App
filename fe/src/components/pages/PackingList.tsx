@@ -5,6 +5,7 @@ import { BackIcon } from "../atoms/BackIcon";
 import { PrimaryLink } from "../atoms/Link";
 import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
 import { ReviewCard } from "../organisms/reviews/ReviewCard";
+import { TitleFrame } from "../atoms/TitleFrame";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 
@@ -204,7 +205,7 @@ export const PackingList = () => {
           <TabsTrigger value="review">口コミ</TabsTrigger>
         </TabsList>
         <TabsContent value="items">
-          <h2>必要書類</h2>
+          <TitleFrame title="必要書類" date="" superivisor="" />
           {itemList.map((item) => (
             <div key={item.name}>
               <div>
