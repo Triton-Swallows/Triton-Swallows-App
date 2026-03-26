@@ -80,8 +80,8 @@ export function SignUpPage() {
 
   return (
     <HeaderLayout>
-      <div className="max-w-sm mx-auto mt-16 mb-10 p-8 rounded-xl bg-white shadow-md">
-        <h2 className="text-gray-800 font-bold text-xl text-center mb-6">
+      <div className="w-full max-w-md mx-auto mt-2">
+        <h2 className="mb-10 text-center text-xl text-[#002B45] font-bold">
           新規登録
         </h2>
         {error && (
@@ -139,16 +139,23 @@ export function SignUpPage() {
           <span className="text-xs text-gray-400">または</span>
           <hr className="flex-1 border-gray-200" />
         </div> */}
-
-        <button
-          onClick={handleGoogleSignUp}
-          disabled={loading}
-          type="button"
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          <FcGoogle size={20} />
-          Googleで登録＆ログイン
-        </button>
+        <div className="flex justify-center">
+          <button
+            onClick={handleGoogleSignUp}
+            disabled={loading}
+            type="button"
+            className="flex items-center justify-center rounded-xl text-[14px] border border-[#00588C] px-5 py-1 font-medium text-[#00588C] transition-all hover:bg-slate-50 active:scale-[0.98] disabled:opacity-50"
+          >
+            <FcGoogle
+              style={{
+                marginRight: "8px",
+                verticalAlign: "middle",
+                fontSize: "30px",
+              }}
+            />
+            Googleで登録＆ログイン
+          </button>
+        </div>
 
         {/* <div className="text-center mt-5">
           <p className="text-sm text-gray-500">
