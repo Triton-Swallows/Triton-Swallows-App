@@ -49,7 +49,7 @@ export const ReviewCard: React.FC<Props> = ({
         <div className="flex justify-end gap-2">
           <span>{like_count}</span>
           <button
-            className={`flex items-center ${!!loginUser ? "cursor-pointer" : "cursor-not-allowed"}`}
+            className={`flex items-center ${loginUser ? "cursor-pointer" : "cursor-not-allowed"}`}
             onClick={() => onToggleLike(review_id, liked_by_me)}
             disabled={!loginUser}
           >
