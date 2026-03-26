@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BackIcon } from "../atoms/BackIcon";
 import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
 import { ReviewCard } from "../organisms/reviews/ReviewCard";
 import { TitleFrame } from "../atoms/TitleFrame";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Link } from "react-router-dom";
+import { HeaderNav } from "../molecules/HeaderNav";
 
 type PackingItem = {
   name: string;
@@ -197,8 +197,12 @@ export const PackingList = () => {
 
   return (
     <HeaderLayout>
-      <BackIcon path={"/country-list"} label="国リスト" />
-      <h1>アメリカ(米国)</h1>
+      <HeaderNav
+        path={"/country-list"}
+        label="国リスト"
+        title="アメリカ（米国）"
+      />
+
       <Tabs
         defaultValue="items"
         className="flex-col items-center justify-center"
