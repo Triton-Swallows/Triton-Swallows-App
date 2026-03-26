@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BackIcon } from "../atoms/BackIcon";
-import { PrimaryLink } from "../atoms/Link";
 import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
 import { ReviewCard } from "../organisms/reviews/ReviewCard";
 import { TitleFrame } from "../atoms/TitleFrame";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
+import { Link } from "react-router-dom";
 
 type PackingItem = {
   name: string;
@@ -205,15 +205,26 @@ export const PackingList = () => {
           <TabsTrigger value="review">口コミ</TabsTrigger>
         </TabsList>
         <TabsContent value="items">
+          <div className="text-[#002B45] text-[16px] bg-[#A8C9DE] my-[10px] ">
+            日本国籍の方が、観光または商用目的でアメリカへ渡航する場合、ビザ免除プログラム（WWP）に基づき、以下の条件を満たすことで最大90日間の無査証（ビザなし）滞在が可能です。
+          </div>
           <TitleFrame title="必要書類" date="" superivisor="" />
           {itemList.map((item) => (
-            <div key={item.name}>
-              <div>
-                ・{item.name}:{item.content}
-              </div>
-              {item.path !== "" && (
-                <div>
-                  <PrimaryLink path={item.path}>詳細確認</PrimaryLink>
+            <div
+              key={item.name}
+              className="bg-[#A8C9DE] mx-[8px] my-[16px] rounded-sm"
+            >
+              {item.path ? (
+                <Link to={item.path}>
+                  <div className="text-[#002B45] text-[14px] py-[16px] pr-[12px] pl-[5px]">
+                    <span className="font-bold">・{item.name}： </span>
+                    <span>{item.content}</span>
+                  </div>
+                </Link>
+              ) : (
+                <div className="text-[#002B45] text-[14px] py-[16px] pr-[12px] pl-[5px]">
+                  <span className="font-bold">・{item.name}： </span>
+                  <span>{item.content}</span>
                 </div>
               )}
             </div>
