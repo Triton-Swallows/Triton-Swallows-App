@@ -32,7 +32,7 @@ export const ReviewSummaryCard: React.FC<Props> = ({
       <p>{summary}</p>
       <div className="flex items-center gap-6">
         <button
-          className="flex items-center cursor-pointer"
+          className={`flex items-center ${!!loginUser ? "cursor-pointer" : "cursor-not-allowed"}`}
           onClick={() => onToggleLike(summary_id, liked_by_me)}
           disabled={!loginUser}
         >

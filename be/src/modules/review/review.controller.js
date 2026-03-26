@@ -30,7 +30,22 @@ function createReviewController(service) {
     }
   };
 
-  return { getAll, getByCountry };
+  const getByCountryGuest = async (req, res) => {
+    const country = req.params.countryName;
+    try {
+      const result = await service.getByCountryGuest(country);
+
+      if (result.ok) {
+        res.status(200).json({ data: result.data });
+      } else {
+        res.status(result.status).json({ error: result.message });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
+  return { getAll, getByCountry, getByCountryGuest };
 }
 
 module.exports = { createReviewController };
