@@ -10,6 +10,7 @@ const { createLikeRouter } = require("./routes/like");
 const { initLike } = require("./modules/like");
 const { initSummaryReview } = require("./modules/reviewSummary");
 const { createReviewSummaryRouter } = require("./routes/reviewSummary");
+const { createThumbnailRouter } = require("./routes/thumbnail");
 
 function buildApp() {
   const app = express();
@@ -30,6 +31,8 @@ function buildApp() {
 
   const reviewSummaryController = initSummaryReview(knex);
   app.use("/api", createReviewSummaryRouter(reviewSummaryController));
+
+  app.use("/api", createThumbnailRouter());
 
   // SPAフォールバック: すべてのAPI以外のルートをindex.htmlに
   app.get(/^(?!\/api).*/, (req, res) => {

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { BackIcon } from "../atoms/BackIcon";
 import {
@@ -6,8 +7,53 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import apiClient from "@/config/apiClient";
 
 export const EstaPage = () => {
+  const urlList = [
+    {
+      title: "ESTA公式サイト（在日米国大使館）",
+      url: "https://jp.usembassy.gov/ja/visas-ja/esta-information-ja/",
+    },
+    {
+      title: "アメリカ合衆国連邦政府(Wikipedia)",
+      url: "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%A1%E3%83%AA%E3%82%AB%E5%90%88%E8%A1%86%E5%9B%BD%E9%80%A3%E9%82%A6%E6%94%BF%E5%BA%9C",
+    },
+    {
+      title: "ivisa",
+      url: "https://www.ivisa.com/ja/united-states/ppc-lp/us-esta?cb=true&utm_source=google&utm_medium=cpc&utm_campaign=22518283851&utm_term=%E5%90%88%E8%A1%86%E5%9B%BD%20esta%20%E7%94%B3%E8%AB%8B&utm_content=181874013729&ivclid=Cj0KCQjwj47OBhCmARIsAF5wUEGvlO_sMG8ziSelffz6jPmt8QcQ7bpl-u8gxOHQapzr6K0go105470aArsoEALw_wcB&gad_source=1&gad_campaignid=22518283851&gbraid=0AAAAA9l3HaaWDGYqkAWKxaPRfIZn-COXb&gclid=Cj0KCQjwj47OBhCmARIsAF5wUEGvlO_sMG8ziSelffz6jPmt8QcQ7bpl-u8gxOHQapzr6K0go105470aArsoEALw_wcB",
+    },
+    {
+      title: "JAL ABC ESTA（エスタ）電子渡航認証システムとは何ですか？",
+      url: "https://www.jalabc.com/faq/esta_service/faq_detail01.html",
+    },
+  ];
+
+  const [thumbnails, setThumbnails] = useState<
+    { image: string | null; domain: string }[]
+  >([]);
+
+  useEffect(() => {
+    const fetchThumbnails = async () => {
+      const results = await Promise.all(
+        urlList.map(({ url }) =>
+          apiClient
+            .post("/thumbnail", { url })
+            .then((res) => ({
+              image: res.data.ogImage?.[0]?.url ?? null,
+              domain: new URL(url).hostname,
+            }))
+            .catch(() => ({
+              image: null,
+              domain: new URL(url).hostname,
+            })),
+        ),
+      );
+      setThumbnails(results);
+    };
+    fetchThumbnails();
+  }, []);
+
   return (
     <HeaderLayout>
       <BackIcon path={"/usa/packing-list"} label="TBD" />
@@ -68,15 +114,32 @@ export const EstaPage = () => {
         参考サイト:
         <br />
         更新日時 2026/03/20
-        <p>
-          <a
-            href="https://jp.usembassy.gov/ja/visas-ja/esta-information-ja/"
-            target="_blank"
-          >
-            ESTA Official
-            https://jp.usembassy.gov/ja/visas-ja/esta-information-ja/
-          </a>
-        </p>
+        <div className="grid grid-cols-2 gap-3 mt-3">
+          {urlList.map(({ title, url }, index) => (
+            <a
+              key={index}
+              href={url}
+              target="_blank"
+              className="block rounded-lg shadow-md overflow-hidden hover:opacity-75"
+            >
+              {thumbnails[index]?.image ? (
+                <img
+                  src={thumbnails[index].image}
+                  alt={title}
+                  className="w-full aspect-video object-cover"
+                />
+              ) : (
+                <div className="w-full aspect-video bg-gray-200" />
+              )}
+              <div className="p-2">
+                <p className="text-sm font-semibold truncate">{title}</p>
+                <p className="text-xs text-gray-500 truncate">
+                  {thumbnails[index]?.domain ?? new URL(url).hostname}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
       </section>
     </HeaderLayout>
   );
