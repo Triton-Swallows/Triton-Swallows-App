@@ -31,27 +31,35 @@ export const ReviewCard: React.FC<Props> = ({
   const yyyymmdd = `${y}年${m}月${d}日`;
 
   return (
-    <div className="border bg-[#A8C9DE] my-2">
-      <div className="flex items-center justify-between">
+    <div className="bg-[#A8C9DE] my-[16px] p-[4px] rounded">
+      <div className="grid grid-cols-3 items-center px-[4px]">
         <div className="flex items-center py-1">
           {/* TODO: 本来以下は {user_icon !== "" ? <img src={user_icon} /> : <RiUser3Line />}*/}
-          {user_icon !== "" ? <RiUser3Line /> : <RiUser3Line />}
+          {user_icon !== "" ? (
+            <RiUser3Line className="text-xl" />
+          ) : (
+            <RiUser3Line className="text-xl" />
+          )}
           {/* TODO: 本来以下は <p>{user_name}</p> */}
           <p>{user_name !== "" ? "user_name_here" : "user_name_here"}</p>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="text-center">
+          <time className="relative top-[4px] text-[10px]">{yyyymmdd}</time>
+        </div>
+        <div className="flex justify-end gap-2">
+          <span>{like_count}</span>
           <button
             className={`flex items-center ${!!loginUser ? "cursor-pointer" : "cursor-not-allowed"}`}
             onClick={() => onToggleLike(review_id, liked_by_me)}
             disabled={!loginUser}
           >
             {liked_by_me ? <RiHeartFill /> : <RiHeartLine />}
-            <span>{like_count}</span>
           </button>
-          <time>{yyyymmdd}</time>
         </div>
       </div>
-      <p>{review}</p>
+      <div className="bg-white py-[20px] px-[8px] rounded-sm">
+        <p>{review}</p>
+      </div>
     </div>
   );
 };
