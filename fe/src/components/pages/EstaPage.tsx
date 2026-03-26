@@ -8,6 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { TitleFrame } from "../atoms/TitleFrame";
+import { SummaryFrameDetail } from "../atoms/SummaryFrameDetail";
 import apiClient from "@/config/apiClient";
 
 export const EstaPage = () => {
@@ -65,16 +66,15 @@ export const EstaPage = () => {
           date="2026年3月24日"
           superivisor="監修：Robert&Enrique"
         />
-        <p>
-          ESTA（エスタ）は、アメリカへ短期旅行するための電子渡航認証システムです。
-          <br />
-          <br />
-          対象：ビザ免除プログラム対象国の旅行者
-          <br />
-          有効期間：2年間
-          <br />
-          滞在期間：90日以内
-        </p>
+        <SummaryFrameDetail
+          contents="ESTA（エスタ）は、アメリカへ短期旅行するための電子渡航認証システムです
+
+対象：ビザ免除プログラム対象国の旅行者
+有効期間：2年間
+滞在期間：90日以内
+"
+          notes="※ESTAが却下された場合、ビザ申請が必要になります。"
+        />
       </section>
       <section>
         <TitleFrame title="申請方法:" date="" superivisor="" />
@@ -200,9 +200,12 @@ export const EstaPage = () => {
         </Accordion>
       </section>
       <section>
-        <TitleFrame title="参考サイト" date="" superivisor="" />
+        <TitleFrame
+          title="参考サイト"
+          date="更新日時 2026/03/20"
+          superivisor=""
+        />
         <br />
-        更新日時 2026/03/20
         <div className="grid grid-cols-2 gap-3 mt-3">
           {urlList.map(({ title, url }, index) => (
             <a
