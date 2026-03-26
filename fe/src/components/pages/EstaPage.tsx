@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { HeaderLayout } from "../templetes/HeaderLayout";
+import { BackIcon } from "../atoms/BackIcon";
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +10,7 @@ import {
 import { TitleFrame } from "../atoms/TitleFrame";
 import { SummaryFrameDetail } from "../atoms/SummaryFrameDetail";
 import apiClient from "@/config/apiClient";
-import { HeaderNav } from "../molecules/HeaderNav";
+import { Button } from "../ui/button";
 
 export const EstaPage = () => {
   const urlList = [
@@ -58,11 +59,8 @@ export const EstaPage = () => {
 
   return (
     <HeaderLayout>
-      <HeaderNav
-        path={"/usa/packing-list"}
-        label="持ち物/口コミ"
-        title="アメリカ（米国）"
-      />
+      <BackIcon path={"/usa/packing-list"} label="TBD" />
+      <h2>アメリカ（米国）：ESTA（エスタ）</h2>
       <section>
         <TitleFrame
           title="ESTAとは:"
@@ -202,6 +200,19 @@ export const EstaPage = () => {
           </AccordionItem>
         </Accordion>
       </section>
+
+      <div className="flex justify-center">
+        <a
+          href="https://forms.gle/MvXjx6ckqDqsyGPT9"
+          target="_blank"
+          className="flex justify-center w-[185px] h-[36px] mb-3"
+        >
+          <Button className="bg-[#00588C] rounded-xl text-[#FAF6F0] text-[14px] py-[8px] px-[16px] ">
+            情報変更を依頼する
+          </Button>
+        </a>
+      </div>
+
       <section>
         <TitleFrame
           title="参考サイト"
