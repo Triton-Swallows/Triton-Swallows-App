@@ -206,7 +206,7 @@ export const EstaPage = () => {
           superivisor=""
         />
         <br />
-        <div className="grid grid-cols-2 gap-10 mt-3 mx-4">
+        <div className="grid grid-cols-2 gap-10 mt-3 mb-3 mx-4">
           {urlList.map(({ title, url }, index) => (
             <a
               key={index}
