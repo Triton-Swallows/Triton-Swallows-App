@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { HeaderLayout } from "../templetes/HeaderLayout";
-import { BackIcon } from "../atoms/BackIcon";
 import {
   Accordion,
   AccordionContent,
