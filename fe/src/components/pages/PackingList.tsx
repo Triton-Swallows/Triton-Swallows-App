@@ -199,10 +199,49 @@ export const PackingList = () => {
     <HeaderLayout>
       <BackIcon path={"/country-list"} label="国リスト" />
       <h1>アメリカ(米国)</h1>
-      <Tabs defaultValue="items" className="flex-col">
-        <TabsList variant="line">
-          <TabsTrigger value="items">持ち物</TabsTrigger>
-          <TabsTrigger value="review">口コミ</TabsTrigger>
+      <Tabs
+        defaultValue="items"
+        className="flex-col items-center justify-center"
+      >
+        <TabsList className="h-auto p-0 bg-transparent flex gap-[16px]">
+          <TabsTrigger
+            value="items"
+            className="
+            /* 基本レイアウト */
+            flex w-[176px] h-[54px] min-h-[36px] items-center justify-center 
+            px-[16px] py-[8px] gap-[8px] 
+            rounded-l-xl rounded-r-none text-[14px] font-medium
+            
+            /* デフォルト（未選択）状態 */
+            bg-[#FAF6F0] text-[#002B45] border border-[#002B45]
+            
+            /* アクティブ（選択）状態 */
+            data-[state=active]:bg-[#00588C] 
+            data-[state=active]:text-white 
+            data-[state=active]:border-[#002B45]
+            "
+          >
+            持ち物
+          </TabsTrigger>
+          <TabsTrigger
+            value="review"
+            className="
+            /* 1.基本レイアウト */
+            flex w-[176px] h-[54px] min-h-[36px] items-center justify-center 
+            px-[16px] py-[8px] gap-[8px] 
+            rounded-r-xl rounded-l-none text-[14px] font-medium
+            
+            /* デフォルト（未選択）状態 */
+            bg-[#FAF6F0] text-[#002B45] border border-[#002B45]
+            
+            /* アクティブ（選択）状態 */
+            data-[state=active]:bg-[#00588C] 
+            data-[state=active]:text-white 
+            data-[state=active]:border-[#002B45]
+            "
+          >
+            口コミ
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="items">
           <div className="text-[#002B45] text-[16px] bg-[#A8C9DE] my-[10px] ">
