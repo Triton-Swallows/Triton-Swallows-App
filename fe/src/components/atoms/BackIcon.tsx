@@ -8,9 +8,14 @@ type Props = {
 
 export const BackIcon: React.FC<Props> = ({ path, label }) => {
   return (
-    <Link to={path} className="flex items-center bg-[#FFD6B3] w-[109px]">
-      <RiArrowLeftWideLine />
-      {label}
+    <Link
+      to={path}
+      className="flex items-center bg-[#FFD6B3] w-[103px] h-[36px] px-[3px] py-[10px] justify-center rounded-r"
+    >
+      <RiArrowLeftWideLine className="text-4xl relative right-[5px]" />
+      <span className="flex items-center w-[85px] h-[24px] text-[12px] relative right-[17px]">
+        {label}
+      </span>
     </Link>
   );
 };
