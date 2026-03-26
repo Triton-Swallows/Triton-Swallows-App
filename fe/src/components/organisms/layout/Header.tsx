@@ -7,17 +7,17 @@ export const Header = () => {
 
   return (
     <>
-      <header className="bg-blue-500 text-white py-4 shadow-lg">
+      <header className="bg-[#00588C] text-white py-4 shadow-lg h-[96px]">
         <div className="flex justify-between items-center px-6">
           <Link to="/" className="text-xl font-bold hover:text-blue-100">
-            <RiHome3Line />
+            <RiHome3Line className="w-[56px] h-[50px]" />
           </Link>
 
           {loginUser ? (
-            <RiUser3Line />
+            <RiUser3Line className="w-[56px] h-[56px]" />
           ) : (
             <Link to="/login">
-              <RiUser3Line />
+              <RiUser3Line className="w-[56px] h-[56px]" />
             </Link>
           )}
         </div>
