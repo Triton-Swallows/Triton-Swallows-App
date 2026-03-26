@@ -1,4 +1,4 @@
-import { Header } from "../organisms/layout/Header";
+import { NavBar } from "../organisms/layout/NavBar";
 
 type Props = {
   children: React.ReactNode;
@@ -7,7 +7,7 @@ type Props = {
 export const HeaderLayout: React.FC<Props> = ({ children }) => {
   return (
     <>
-      <Header />
+      <NavBar />
       {children}
     </>
   );

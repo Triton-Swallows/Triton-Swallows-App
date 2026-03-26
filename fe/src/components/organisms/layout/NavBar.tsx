@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { RiHome3Line, RiUser3Line } from "react-icons/ri";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 
-export const Header = () => {
+export const NavBar = () => {
   const { loginUser } = AuthContextConsumer();
 
   return (
