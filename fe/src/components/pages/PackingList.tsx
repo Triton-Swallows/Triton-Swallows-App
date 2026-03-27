@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ReviewPostDialog } from "../organisms/reviews/ReviewPostDialog";
 import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
 import { ReviewCard } from "../organisms/reviews/ReviewCard";
 import { TitleFrame } from "../atoms/TitleFrame";
@@ -52,46 +54,53 @@ type ReviewItem = {
 };
 
 export const PackingList = () => {
+  const { country } = useParams<{ country: string }>();
   const { loginUser, loading } = AuthContextConsumer();
   const [reviewSummaryList, setReviewSummaryList] = useState<
     ReviewSummaryItem[]
   >([]);
   const [reviewList, setReviewList] = useState<ReviewItem[]>([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [postError, setPostError] = useState<string | null>(null);
+  const [reviewComment, setReviewComment] = useState<string>("");
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  const fetchData = async () => {
+    if (loading) return;
+    setIsFetching(true);
+    setFetchError(null);
+    // ログイン状態に応じてパスのプレフィックスを決定
+    const pathPrefix = loginUser ? "" : "/guest";
+    try {
+      const [reviewsRes, summariesRes] = await Promise.all([
+        apiClient.get<{ data: ReviewApiItem[] }>(
+          `${pathPrefix}/reviews/${country}`,
+        ),
+        apiClient.get<{ data: ReviewSummaryApiItem[] }>(
+          `${pathPrefix}/summaries/${country}`,
+        ),
+      ]);
+      setReviewList(
+        reviewsRes.data.data.map((r) => ({
+          ...r,
+          like_count: Number(r.like_count),
+        })),
+      );
+      setReviewSummaryList(
+        summariesRes.data.data.map((r) => ({
+          ...r,
+          like_count: Number(r.like_count),
+        })),
+      );
+    } catch {
+      setFetchError("情報の取得に失敗しました");
+    } finally {
+      setIsFetching(false);
+    }
+  };
 
   useEffect(() => {
-    if (loading) return;
-    const fetchData = async () => {
-      setIsFetching(true);
-      setFetchError(null);
-      // ログイン状態に応じてパスのプレフィックスを決定
-      const pathPrefix = loginUser ? "" : "/guest";
-      try {
-        const [reviewsRes, summariesRes] = await Promise.all([
-          apiClient.get<{ data: ReviewApiItem[] }>(`${pathPrefix}/reviews/usa`),
-          apiClient.get<{ data: ReviewSummaryApiItem[] }>(
-            `${pathPrefix}/summaries/usa`,
-          ),
-        ]);
-        setReviewList(
-          reviewsRes.data.data.map((r) => ({
-            ...r,
-            like_count: Number(r.like_count),
-          })),
-        );
-        setReviewSummaryList(
-          summariesRes.data.data.map((r) => ({
-            ...r,
-            like_count: Number(r.like_count),
-          })),
-        );
-      } catch {
-        setFetchError("情報の取得に失敗しました");
-      } finally {
-        setIsFetching(false);
-      }
-    };
     fetchData();
   }, [loading, loginUser]);
 
@@ -168,6 +177,19 @@ export const PackingList = () => {
             : r,
         ),
       );
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await apiClient.post(`/reviews/${country}`, { review: reviewComment });
+      setReviewComment("");
+      setDialogOpen(false);
+      await fetchData();
+    } catch {
+      setPostError("口コミの投稿に失敗しました");
     }
   };
 
@@ -273,7 +295,7 @@ export const PackingList = () => {
             </div>
           ))}
         </TabsContent>
-        <TabsContent value="review">
+        <TabsContent value="review" className="pb-16">
           {isFetching && <p>読み込み中...</p>}
           {fetchError && <p>{fetchError}</p>}
           {!isFetching && !fetchError && (
@@ -304,6 +326,15 @@ export const PackingList = () => {
                   onToggleLike={handleToggleLike}
                 />
               ))}
+              {postError && <div>{postError}</div>}
+              <ReviewPostDialog
+                open={dialogOpen}
+                onOpenChange={setDialogOpen}
+                disabled={!loginUser || loading}
+                reviewComment={reviewComment}
+                onCommentChange={setReviewComment}
+                onSubmit={handleSubmit}
+              />
             </>
           )}
         </TabsContent>
