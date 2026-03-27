@@ -56,7 +56,17 @@ function createReviewRepository(knex) {
       .orderBy("reviews.created_at", "desc");
   };
 
-  return { getAll, getByCountry, getByCountryGuest };
+  const post = async (userId, review, country) => {
+    return await knex("reviews")
+      .insert({
+        user_id: userId,
+        review: review,
+        country_name: country,
+      })
+      .returning("*");
+  };
+
+  return { getAll, getByCountry, getByCountryGuest, post };
 }
 
 module.exports = { createReviewRepository };
