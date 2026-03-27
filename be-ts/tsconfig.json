@@ -15,7 +15,9 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "declaration": true
+    "declaration": true,
+    "allowJs": true,
+    "checkJs": false
     // "types": [],
     // For nodejs:
     // "lib": ["esnext"],

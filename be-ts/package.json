@@ -2,10 +2,15 @@
   "name": "be-ts",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "db:migrate": "knex migrate:latest --knexfile src/knexfile.ts",
+    "db:migrate-make": "knex migrate:make --knexfile src/knexfile.ts",
+    "db:seed": "knex seed:run --knexfile src/knexfile.ts",
+    "db:seed-make": "knex seed:make --knexfile src/knexfile.ts",
+    "db:reset": "knex migrate:rollback --all --knexfile src/knexfile.ts && npm run db:migrate && npm run db:seed"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +24,9 @@
     "typescript": "^6.0.2"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "knex": "^3.2.6",
+    "pg": "^8.20.0"
   }
 }
