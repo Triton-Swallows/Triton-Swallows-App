@@ -22,9 +22,9 @@ export const Router = () => {
         ></Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/usa/packing-list/esta" element={<EstaPage />} />
+        <Route path="/:country/packing-list/esta" element={<EstaPage />} />
         <Route path="/country-list" element={<CountryPage />} />
-        <Route path="/usa/packing-list" element={<PackingList />} />
+        <Route path="/:country/packing-list" element={<PackingList />} />
       </Routes>
     </AuthContextProvider>
   );
