@@ -42,10 +42,12 @@ const config: { [key: string]: Knex.Config } = {
       ssl: { rejectUnauthorized: false },
     },
     migrations: {
-      directory: "./db/migrations",
+      directory: path.join(__dirname, "db/migrations"),
+      loadExtensions: [".js"],
     },
     seeds: {
-      directory: "./db/seeds",
+      directory: path.join(__dirname, "db/seeds"),
+      loadExtensions: [".js"],
     },
   },
 };
