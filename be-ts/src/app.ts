@@ -10,6 +10,7 @@ import { initSummaryReview } from "./modules/reviewSummary";
 import { createReviewSummaryRouter } from "./routes/reviewSummary";
 import { initUser } from "./modules/user";
 import { createUserRouter } from "./routes/user";
+import { createThumbnailRouter } from "./routes/thumbnail";
 
 export function buildApp(): Application {
   const app: Application = express();
@@ -35,6 +36,8 @@ export function buildApp(): Application {
 
   const likeController = initLike(db);
   app.use("/api", createLikeRouter(likeController));
+
+  app.use("/api", createThumbnailRouter());
 
   return app;
 }
