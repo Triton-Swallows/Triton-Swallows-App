@@ -1,7 +1,9 @@
 // Update with your config settings.
 import { Knex } from "knex";
 import dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+import path from "path";
+
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const DB_USER: string = process.env.DB_USER || "";
 const DB_NAME: string = process.env.DB_NAME || "";
@@ -40,10 +42,13 @@ const config: { [key: string]: Knex.Config } = {
       ssl: { rejectUnauthorized: false },
     },
     migrations: {
-      directory: ".src/db/migrations",
+      // 実行中の knexfile.js から見た絶対パスを指定する
+      directory: "./db/migrations",
+      extension: ".js", // .d.ts を無視するために JS のみを指定
     },
     seeds: {
-      directory: ".src/db/seeds",
+      directory: "./db/seeds",
+      extension: ".js",
     },
   },
 };

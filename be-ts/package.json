@@ -5,11 +5,17 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/server.js",
     "dev": "nodemon",
     "db:migrate": "knex migrate:latest --knexfile src/knexfile.ts",
     "db:migrate-make": "knex migrate:make --knexfile src/knexfile.ts",
     "db:seed": "knex seed:run --knexfile src/knexfile.ts",
     "db:seed-make": "knex seed:make --knexfile src/knexfile.ts",
+    "db:migrate-prod": "knex migrate:latest --knexfile dist/knexfile.js",
+    "db:migrate-make-prod": "knex migrate:make --knexfile dist/knexfile.js",
+    "db:seed-prod": "knex seed:run --knexfile dist/knexfile.js",
+    "db:seed-make-prod": "knex seed:make --knexfile dist/knexfile.js",
     "db:reset": "knex migrate:rollback --all --knexfile src/knexfile.ts && npm run db:migrate && npm run db:seed"
   },
   "keywords": [],
@@ -17,16 +23,18 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "@types/express": "^5.0.6",
-    "@types/node": "^25.5.0",
-    "nodemon": "^3.1.14",
-    "ts-node": "^10.9.2",
-    "typescript": "^6.0.2"
+    "nodemon": "^3.1.14"
   },
   "dependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "knex": "^3.2.6",
-    "pg": "^8.20.0"
+    "pg": "^8.20.0",
+    "firebase": "^12.10.0",
+    "firebase-admin": "^13.7.0"
   }
 }
