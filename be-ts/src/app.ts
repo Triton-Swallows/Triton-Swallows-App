@@ -1,7 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import db from "./knex";
 import path from "path";
-import db from "./knex";
 import { initReview } from "./modules/review";
 import { createReviewRouter } from "./routes/review";
 
