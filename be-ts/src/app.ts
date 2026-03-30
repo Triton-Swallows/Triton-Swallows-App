@@ -3,6 +3,8 @@ import db from "./knex";
 import path from "path";
 import { initReview } from "./modules/review";
 import { createReviewRouter } from "./routes/review";
+import { initLike } from "./modules/like";
+import { createLikeRouter } from "./routes/like";
 
 import { initSummaryReview } from "./modules/reviewSummary";
 import { createReviewSummaryRouter } from "./routes/reviewSummary";
@@ -25,6 +27,9 @@ export function buildApp(): Application {
 
   const reviewController = initReview(db);
   app.use("/api", createReviewRouter(reviewController));
+
+  const likeController = initLike(db);
+  app.use("/api", createLikeRouter(likeController));
 
   return app;
 }
