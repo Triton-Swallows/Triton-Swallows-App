@@ -7,15 +7,15 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "commonjs",
+    "module": "node16",
     "target": "es2024",
-    "moduleResolution": "Node",
+    "moduleResolution": "node16",
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "declaration": true,
+    // "declaration": true,
     "allowJs": true,
     "checkJs": false
     // "types": [],
@@ -43,5 +43,7 @@
     // "verbatimModuleSyntax": true,
     // "isolatedModules": true,
     // "moduleDetection": "force",
-  }
+  },
+  "include": ["src/**/*.ts"], //コンパイル対象ファイル
+  "exclude": ["node_modules"] // コンパイル対象外のファイル
 }
