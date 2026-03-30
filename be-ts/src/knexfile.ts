@@ -43,12 +43,12 @@ const config: { [key: string]: Knex.Config } = {
     },
     migrations: {
       // 実行中の knexfile.js から見た絶対パスを指定する
-      directory: path.join(__dirname, "db/migrations"),
-      loadExtensions: [".js"], // .d.ts を無視するために JS のみを指定
+      directory: ".db/migrations",
+      extension: ".js", // .d.ts を無視するために JS のみを指定
     },
     seeds: {
-      directory: path.join(__dirname, "db/seeds"),
-      loadExtensions: [".js"],
+      directory: ".db/seeds",
+      extension: ".js",
     },
   },
 };
