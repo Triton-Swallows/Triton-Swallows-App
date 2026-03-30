@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd be && npm i && npm run db:reset && cd ../fe && npm i && npm run build && rm -rf ../be/public && cp -r dist ../be/public",
-    "start": "cd be && npm start"
+    "build": "cd be-ts && npm i && npm run db:reset && npm run build && cd ../fe && npm i && npm run build && rm -rf ../be-ts/public && cp -r dist ../be-ts/public",
+    "start": "cd be-ts && npm start"
   },
   "repository": {
     "type": "git",
