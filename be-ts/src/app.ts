@@ -3,6 +3,8 @@ import path from "path";
 import db from "./knex";
 import { initReview } from "./modules/review";
 import { createReviewRouter } from "./routes/review";
+import { initLike } from "./modules/like";
+import { createLikeRouter } from "./routes/like";
 
 export function buildApp(): Application {
   const app: Application = express();
@@ -19,6 +21,9 @@ export function buildApp(): Application {
 
   const reviewController = initReview(db);
   app.use("/api", createReviewRouter(reviewController));
+
+  const likeController = initLike(db);
+  app.use("/api", createLikeRouter(likeController));
 
   return app;
 }
