@@ -16,7 +16,8 @@
     "db:migrate-make-prod": "knex migrate:make --knexfile dist/knexfile.js",
     "db:seed-prod": "knex seed:run --knexfile dist/knexfile.js",
     "db:seed-make-prod": "knex seed:make --knexfile dist/knexfile.js",
-    "db:reset": "knex migrate:rollback --all --knexfile src/knexfile.ts && npm run db:migrate && npm run db:seed"
+    "db:reset": "knex migrate:rollback --all --knexfile src/knexfile.ts && npm run db:migrate && npm run db:seed",
+    "db:reset-prod": "knex migrate:rollback --all --knexfile dist/knexfile.js && npm run db:migrate-prod && npm run db:seed-prod"
   },
   "keywords": [],
   "author": "",
@@ -26,15 +27,16 @@
     "nodemon": "^3.1.14"
   },
   "dependencies": {
-    "ts-node": "^10.9.2",
-    "typescript": "^6.0.2",
     "@types/express": "^5.0.6",
     "@types/node": "^25.5.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "knex": "^3.2.6",
-    "pg": "^8.20.0",
     "firebase": "^12.10.0",
-    "firebase-admin": "^13.7.0"
+    "firebase-admin": "^13.7.0",
+    "knex": "^3.2.6",
+    "open-graph-scraper": "^6.11.0",
+    "pg": "^8.20.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
   }
 }

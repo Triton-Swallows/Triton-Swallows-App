@@ -8,6 +8,9 @@ import { createLikeRouter } from "./routes/like";
 
 import { initSummaryReview } from "./modules/reviewSummary";
 import { createReviewSummaryRouter } from "./routes/reviewSummary";
+import { initUser } from "./modules/user";
+import { createUserRouter } from "./routes/user";
+import { createThumbnailRouter } from "./routes/thumbnail";
 
 export function buildApp(): Application {
   const app: Application = express();
@@ -16,6 +19,9 @@ export function buildApp(): Application {
 
   /* staticファイルの位置を指定 */
   app.use("/", express.static(path.join(__dirname, "../public")));
+
+  const userController = initUser(db);
+  app.use("/api", createUserRouter(userController));
 
   const reviewSummaryController = initSummaryReview(db);
   app.use("/api", createReviewSummaryRouter(reviewSummaryController));
@@ -30,6 +36,8 @@ export function buildApp(): Application {
 
   const likeController = initLike(db);
   app.use("/api", createLikeRouter(likeController));
+
+  app.use("/api", createThumbnailRouter());
 
   return app;
 }
