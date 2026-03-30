@@ -1,8 +1,11 @@
 import express, { Application, Request, Response } from "express";
-import path from "path";
 import db from "./knex";
+import path from "path";
 import { initReview } from "./modules/review";
 import { createReviewRouter } from "./routes/review";
+
+import { initSummaryReview } from "./modules/reviewSummary";
+import { createReviewSummaryRouter } from "./routes/reviewSummary";
 
 export function buildApp(): Application {
   const app: Application = express();
@@ -11,6 +14,9 @@ export function buildApp(): Application {
 
   /* staticファイルの位置を指定 */
   app.use("/", express.static(path.join(__dirname, "../public")));
+
+  const reviewSummaryController = initSummaryReview(db);
+  app.use("/api", createReviewSummaryRouter(reviewSummaryController));
 
   // SPAフォールバック: すべてのAPI以外のルートをindex.htmlに
   app.get(/^(?!\/api).*/, (req: Request, res: Response) => {
