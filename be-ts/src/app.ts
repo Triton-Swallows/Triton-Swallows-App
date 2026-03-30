@@ -1,5 +1,8 @@
 import express, { Application, Request, Response } from "express";
 import path from "path";
+import db from "./knex";
+import { initReview } from "./modules/review";
+import { createReviewRouter } from "./routes/review";
 
 export function buildApp(): Application {
   const app: Application = express();
@@ -13,6 +16,9 @@ export function buildApp(): Application {
   app.get(/^(?!\/api).*/, (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
+
+  const reviewController = initReview(db);
+  app.use("/api", createReviewRouter(reviewController));
 
   return app;
 }
