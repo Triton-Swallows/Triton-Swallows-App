@@ -1,7 +1,9 @@
 // Update with your config settings.
 import { Knex } from "knex";
 import dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+import path from "path";
+
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const DB_USER: string = process.env.DB_USER || "";
 const DB_NAME: string = process.env.DB_NAME || "";

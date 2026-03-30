@@ -18,6 +18,6 @@ if (!connectionConfig) {
 }
 
 // Knexインスタンスの生成
-const db = knex(connectionConfig);
+const db: Knex = knex(connectionConfig);
 
 export default db;
