@@ -86,7 +86,7 @@ export const EstaPage = () => {
         <TitleFrame title="申請方法:" date="" superivisor="" />
         <Accordion
           type="multiple"
-          className="rounded-2xl has-[[data-state=open]]:rounded-b-none overflow-hidden bg-[#A8C9DE] my-4 mx-[0.5px]"
+          className="rounded-2xl has-[[data-state=open]]:rounded-b-none overflow-hidden my-3 mx-3 space-y-0.5"
         >
           <AccordionItem value="item-1">
             <AccordionTrigger className="rounded-none bg-[#A8C9DE] data-[state=open]:bg-[#2D8AB7] text-[14px] leading-[22px] px-4 py-4 hover:no-underline">
