@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { HeaderNav } from "../molecules/HeaderNav";
 import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
@@ -8,49 +8,24 @@ import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 
 type Country = {
+  country_id: number;
   name: string;
-  path: string;
-  cheered_by_me: boolean;
+  name_en: string;
+  cheer_count: number;
   available: boolean;
+  cheered_by_me: boolean;
 };
-
-const initialCountries: Country[] = [
-  {
-    name: "アメリカ（米国）",
-    path: "/usa/packing-list",
-    cheered_by_me: false,
-    available: true,
-  },
-  {
-    name: "韓国",
-    path: "/korea/packing-list",
-    cheered_by_me: false,
-    available: false,
-  },
-  {
-    name: "台湾",
-    path: "/taiwan/packing-list",
-    cheered_by_me: false,
-    available: false,
-  },
-  {
-    name: "タイ",
-    path: "/thailand/packing-list",
-    cheered_by_me: false,
-    available: false,
-  },
-  {
-    name: "ベトナム",
-    path: "/vietnam/packing-list",
-    cheered_by_me: false,
-    available: false,
-  },
-];
 
 export const CountryPage = () => {
   const authContext = AuthContextConsumer();
-  const [countries, setCountries] = useState<Country[]>(initialCountries);
+  const [countries, setCountries] = useState<Country[]>([]);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  const fetchData = async () => {};
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleToggleCheer = async (
     countryPath: string,
