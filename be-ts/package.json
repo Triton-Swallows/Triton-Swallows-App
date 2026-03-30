@@ -12,6 +12,10 @@
     "db:migrate-make": "knex migrate:make --knexfile src/knexfile.ts",
     "db:seed": "knex seed:run --knexfile src/knexfile.ts",
     "db:seed-make": "knex seed:make --knexfile src/knexfile.ts",
+    "db:migrate-prod": "knex migrate:latest --knexfile dist/knexfile.js",
+    "db:migrate-make-prod": "knex migrate:make --knexfile dist/knexfile.js",
+    "db:seed-prod": "knex seed:run --knexfile dist/knexfile.js",
+    "db:seed-make-prod": "knex seed:make --knexfile dist/knexfile.js",
     "db:reset": "knex migrate:rollback --all --knexfile src/knexfile.ts && npm run db:migrate && npm run db:seed"
   },
   "keywords": [],
