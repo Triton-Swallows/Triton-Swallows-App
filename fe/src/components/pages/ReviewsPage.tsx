@@ -45,7 +45,7 @@ type ReviewItem = {
   liked_by_me: boolean;
 };
 
-export const CountryReviewsPage = () => {
+export const ReviewsPage = () => {
   const { country } = useParams<{ country: string }>();
   const { loginUser, loading } = AuthContextConsumer();
   const [reviewSummaryList, setReviewSummaryList] = useState<
