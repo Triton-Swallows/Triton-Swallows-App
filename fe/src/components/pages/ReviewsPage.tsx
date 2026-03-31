@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { HeaderNav } from "../molecules/HeaderNav";
@@ -48,6 +48,7 @@ type ReviewItem = {
 
 export const ReviewsPage = () => {
   const { country } = useParams<{ country: string }>();
+  const location = useLocation();
   const { loginUser, loading } = AuthContextConsumer();
   const [reviewSummaryList, setReviewSummaryList] = useState<
     ReviewSummaryItem[]
@@ -257,6 +258,7 @@ export const ReviewsPage = () => {
       <RequireLoginDialog
         open={requireLogindialogOpen}
         onOpenChange={setRequireLoginDialogOpen}
+        redirectPath={location.pathname}
       />
     </HeaderLayout>
   );
