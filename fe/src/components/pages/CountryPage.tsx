@@ -23,24 +23,20 @@ export const CountryPage = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
-  const fetchData = async () => {
-    try {
-      const endpoint = isLoggedIn ? "/countries" : "/guest/coutries";
-      const response = await apiClient.get<Country[]>(endpoint);
-      setCountries(response.data);
-    } catch (error) {
-      console.error("国一覧の取得に失敗しました", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const endpoint = isLoggedIn ? "/countries" : "/guest/countries";
+        const response = await apiClient.get<Country[]>(endpoint);
+        setCountries(response.data);
+      } catch (error) {
+        console.error("国一覧の取得に失敗しました", error);
+      }
+    };
     fetchData();
   }, [isLoggedIn]);
 
-  const handleToggleCheer = async (
-    countryId: number,
-    cheered_by_me: boolean,
-  ) => {
+  const handleToggleCheer = async (countryId: number, cheeredByMe: boolean) => {
     // ログインしてねダイアログ
     if (!isLoggedIn) {
       setDialogOpen(true);
@@ -51,30 +47,30 @@ export const CountryPage = () => {
     setCountries((prev) =>
       prev.map((country) =>
         country.country_id === countryId
-          ? { ...country, cheered_by_me: !cheered_by_me }
+          ? { ...country, cheered_by_me: !cheeredByMe }
           : country,
       ),
     );
 
     try {
       // APIをコール
-      if (cheered_by_me) {
+      if (cheeredByMe) {
         // 既に応援済みなら取り消し
         await apiClient.delete(`/country_cheers/${countryId}`);
       } else {
         // 応援を追加
-        await apiClient.post("/country_cheers", { country_path: countryId });
+        await apiClient.post("/country_cheers", { country_id: countryId });
       }
     } catch (error) {
       // 失敗時はロールバック
       setCountries((prev) =>
         prev.map((country) =>
           country.country_id === countryId
-            ? { ...country, cheered_by_me }
+            ? { ...country, cheered_by_me: cheeredByMe }
             : country,
         ),
       );
-      console.error("Cheer request failed:", error);
+      console.error("応援の更新に失敗しました:", error);
     }
   };
 
@@ -97,7 +93,7 @@ export const CountryPage = () => {
             <p className="relative z-10 rounded-md px-1 py-1 text-center text-[16px] font-medium text-[#002B45]">
               {country.name}
             </p>
-            {/* available出ない国には応援ボタンを表示 */}
+            {/* availableでない国には応援ボタンを表示 */}
             {!country.available && (
               <>
                 <p className="relative z-10 px-1 text-center text-[12px] font-medium text-[#0F3A56]">
@@ -120,8 +116,6 @@ export const CountryPage = () => {
                 </Button>
               </>
             )}
-            {/* 国名の表示（下部） */}
-            <p>{country.name}</p>
           </div>
         ))}
       </div>
