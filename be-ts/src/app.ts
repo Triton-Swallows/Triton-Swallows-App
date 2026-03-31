@@ -22,7 +22,10 @@ export function buildApp(): Application {
   app.use(express.json());
 
   /* staticファイルの位置を指定 */
-  app.use("/", express.static(path.join(__dirname, "../public")));
+  app.use(
+    "/",
+    express.static(path.join(__dirname, "../public"), { index: false }),
+  );
 
   const userController = initUser(db);
   app.use("/api", createUserRouter(userController));
@@ -34,14 +37,18 @@ export function buildApp(): Application {
   app.get(/^(?!\/api).*/, (req: Request, res: Response) => {
     const filePath = path.join(__dirname, "../public/index.html");
     const html = fs.readFileSync(filePath, "utf-8");
+    const protocol =
+      (req.headers["x-forwarded-proto"] as string) || req.protocol;
+    const host = req.get("host");
+    const baseUrl = `${protocol}://${host}`;
     const ogTags = `
     <meta property="og:title" content="Triton Trip - 旅行情報アプリ" />
     <meta property="og:description" content="Triton Trip - 旅行情報アプリ" />
-    <meta property="og:image" content="https://triton-travel-c2977645d3f8.herokuapp.com/thumbnail.png" />
+    <meta property="og:image" content="${baseUrl}/thumbnail.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://triton-travel-c2977645d3f8.herokuapp.com/" />
+    <meta property="og:url" content="${baseUrl}${req.originalUrl}" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://triton-travel-c2977645d3f8.herokuapp.com/thumbnail.png" />`;
+    <meta name="twitter:image" content="${baseUrl}/thumbnail.png" />`;
     res.send(html.replace("</head>", `${ogTags}\n  </head>`));
   });
 
