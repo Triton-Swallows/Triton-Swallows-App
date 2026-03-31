@@ -16,11 +16,13 @@ export const NavBar = () => {
 
           {loginUser ? (
             // <RiUser3Line className="w-[56px] h-[56px]" />
-            <img
-              src={userIcon}
-              alt="User Icon"
-              className="w-[56px] h-[56px] rounded-full"
-            />
+            <Link to="/profile">
+              <img
+                src={userIcon}
+                alt="User Icon"
+                className="w-[56px] h-[56px] rounded-full"
+              />
+            </Link>
           ) : (
             <Link to="/login">
               <RiUser3Line className="w-[56px] h-[56px]" />
