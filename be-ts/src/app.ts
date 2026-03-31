@@ -5,12 +5,15 @@ import { initReview } from "./modules/review";
 import { createReviewRouter } from "./routes/review";
 import { initLike } from "./modules/like";
 import { createLikeRouter } from "./routes/like";
-
 import { initSummaryReview } from "./modules/reviewSummary";
 import { createReviewSummaryRouter } from "./routes/reviewSummary";
 import { initUser } from "./modules/user";
 import { createUserRouter } from "./routes/user";
 import { createThumbnailRouter } from "./routes/thumbnail";
+import { initCountry } from "./modules/country";
+import { createCountryRouter } from "./routes/country";
+import { initCountryCheers } from "./modules/country_cheers";
+import { createCountryCheersRouter } from "./routes/country_cheer";
 
 export function buildApp(): Application {
   const app: Application = express();
@@ -38,6 +41,12 @@ export function buildApp(): Application {
   app.use("/api", createLikeRouter(likeController));
 
   app.use("/api", createThumbnailRouter());
+
+  const countryController = initCountry(db);
+  app.use("/api", createCountryRouter(countryController));
+
+  const CountryCheersController = initCountryCheers(db);
+  app.use("/api", createCountryCheersRouter(CountryCheersController));
 
   return app;
 }
