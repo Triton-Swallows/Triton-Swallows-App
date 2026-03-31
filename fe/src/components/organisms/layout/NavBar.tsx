@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { RiHome3Line, RiUser3Line } from "react-icons/ri";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
+import userIcon from "../../../assets/UserIcon.png";
 
 export const NavBar = () => {
   const { loginUser } = AuthContextConsumer();
@@ -14,7 +15,12 @@ export const NavBar = () => {
           </Link>
 
           {loginUser ? (
-            <RiUser3Line className="w-[56px] h-[56px]" />
+            // <RiUser3Line className="w-[56px] h-[56px]" />
+            <img
+              src={userIcon}
+              alt="User Icon"
+              className="w-[56px] h-[56px] rounded-full"
+            />
           ) : (
             <Link to="/login">
               <RiUser3Line className="w-[56px] h-[56px]" />
