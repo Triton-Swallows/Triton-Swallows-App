@@ -17,8 +17,8 @@ export interface ReviewController {
   getAll: (req: AuthRequest, res: Response) => Promise<void>;
   getByCountry: (req: AuthRequest, res: Response) => Promise<void>;
   getByCountryGuest: (req: Request, res: Response) => Promise<void>; // GuestはAuthRequestでなくても良いかもしれません
-  getAllUsersPoints: (req: AuthRequest, res: Response) => Promise<void>;
-  getPoints: (req: AuthRequest, res: Response) => Promise<void>;
+  getAllUsersLikeCounts: (req: AuthRequest, res: Response) => Promise<void>;
+  getMyLikeCount: (req: AuthRequest, res: Response) => Promise<void>;
   post: (req: AuthRequest, res: Response) => Promise<void>;
 }
 
@@ -87,12 +87,12 @@ function createReviewController(service: ReviewService): ReviewController {
     }
   };
 
-  const getAllUsersPoints = async (
+  const getAllUsersLikeCounts = async (
     _req: AuthRequest,
     res: Response,
   ): Promise<void> => {
     try {
-      const result = await service.getAllUsersPoints();
+      const result = await service.getAllUsersLikeCounts();
 
       if (result.ok) {
         res.status(200).json({ data: result.data });
@@ -105,10 +105,13 @@ function createReviewController(service: ReviewService): ReviewController {
     }
   };
 
-  const getPoints = async (req: AuthRequest, res: Response): Promise<void> => {
+  const getMyLikeCount = async (
+    req: AuthRequest,
+    res: Response,
+  ): Promise<void> => {
     try {
       const userId = req.user!.uid;
-      const result = await service.getPoints(userId);
+      const result = await service.getMyLikeCount(userId);
 
       if (result.ok) {
         res.status(200).json({ data: result.data });
@@ -148,8 +151,8 @@ function createReviewController(service: ReviewService): ReviewController {
     getAll,
     getByCountry,
     getByCountryGuest,
-    getAllUsersPoints,
-    getPoints,
+    getAllUsersLikeCounts,
+    getMyLikeCount,
     post,
   };
 }

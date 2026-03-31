@@ -1,9 +1,9 @@
 import { Knex } from "knex";
 import {
   GuestReview,
-  MyPoints,
+  MyLikeCount,
   RawReview,
-  UserPoints,
+  UserLikeCount,
 } from "../../types/review";
 
 /**
@@ -14,8 +14,8 @@ export interface ReviewRepository {
   getAll: (userId: string) => Promise<RawReview[]>;
   getByCountry: (userId: string, country: string) => Promise<RawReview[]>;
   getByCountryGuest: (country: string) => Promise<GuestReview[]>;
-  getAllUsersPoints: () => Promise<UserPoints[]>;
-  getPoints: (userId: string) => Promise<MyPoints[]>;
+  getAllUsersLikeCounts: () => Promise<UserLikeCount[]>;
+  getMyLikeCount: (userId: string) => Promise<MyLikeCount[]>;
   post: (
     userId: string,
     review: string,
@@ -88,28 +88,30 @@ function createReviewRepository(db: Knex): ReviewRepository {
     return rows as GuestReview[];
   };
 
-  const getAllUsersPoints = async (): Promise<UserPoints[]> => {
+  const getAllUsersLikeCounts = async (): Promise<UserLikeCount[]> => {
     const rows = await db("reviews")
       .groupBy("reviews.user_id")
       .select(
         "reviews.user_id",
-        db.raw("SUM(reviews.liked_count)::integer as points"),
+        db.raw("SUM(reviews.liked_count)::integer as total_like_count"),
       ) // pgの仕様でSUMの返り値がstringになる可能性があるらしい...ので::integerキャストしている
       .orderBy("reviews.user_id", "asc");
 
-    return rows as UserPoints[];
+    return rows as UserLikeCount[];
   };
 
-  const getPoints = async (userId: string): Promise<MyPoints[]> => {
+  const getMyLikeCount = async (userId: string): Promise<MyLikeCount[]> => {
     const rows = await db("users")
       .leftJoin("reviews", "users.uid", "reviews.user_id")
       .where("users.uid", userId)
       .groupBy("users.uid")
       .select(
-        db.raw("COALESCE(SUM(reviews.liked_count), 0)::integer as points"),
+        db.raw(
+          "COALESCE(SUM(reviews.liked_count), 0)::integer as total_like_count",
+        ),
       );
 
-    return rows as MyPoints[];
+    return rows as MyLikeCount[];
   };
 
   const post = async (
@@ -130,8 +132,8 @@ function createReviewRepository(db: Knex): ReviewRepository {
     getAll,
     getByCountry,
     getByCountryGuest,
-    getAllUsersPoints,
-    getPoints,
+    getAllUsersLikeCounts,
+    getMyLikeCount,
     post,
   };
 }

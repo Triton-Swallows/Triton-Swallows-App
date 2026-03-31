@@ -41,13 +41,13 @@ export interface Review {
   liked_by_me: boolean;
 }
 
-export interface UserPoints {
+export interface UserLikeCount {
   user_id: string;
-  points: number;
+  total_like_count: number;
 }
 
-export interface MyPoints {
-  points: number;
+export interface MyLikeCount {
+  total_like_count: number;
 }
 
 // 成功レスポンスの型

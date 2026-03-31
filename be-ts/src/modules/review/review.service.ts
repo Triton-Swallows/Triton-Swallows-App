@@ -1,9 +1,9 @@
 import {
   Review,
   GuestReview,
-  MyPoints,
+  MyLikeCount,
   ServiceResponse,
-  UserPoints,
+  UserLikeCount,
 } from "../../types/review";
 import { ReviewRepository } from "./review.repository";
 
@@ -20,8 +20,8 @@ export interface ReviewService {
   getByCountryGuest: (
     country: string,
   ) => Promise<ServiceResponse<GuestReview[]>>;
-  getAllUsersPoints: () => Promise<ServiceResponse<UserPoints[]>>;
-  getPoints: (userId: string) => Promise<ServiceResponse<MyPoints[]>>;
+  getAllUsersLikeCounts: () => Promise<ServiceResponse<UserLikeCount[]>>;
+  getMyLikeCount: (userId: string) => Promise<ServiceResponse<MyLikeCount[]>>;
   post: (
     userId: string,
     review: string,
@@ -77,11 +77,11 @@ function createReviewService(repository: ReviewRepository): ReviewService {
     }
   };
 
-  const getAllUsersPoints = async (): Promise<
-    ServiceResponse<UserPoints[]>
+  const getAllUsersLikeCounts = async (): Promise<
+    ServiceResponse<UserLikeCount[]>
   > => {
     try {
-      const data = await repository.getAllUsersPoints();
+      const data = await repository.getAllUsersLikeCounts();
       return { ok: true, data };
     } catch (error) {
       const err = error as Error;
@@ -89,11 +89,11 @@ function createReviewService(repository: ReviewRepository): ReviewService {
     }
   };
 
-  const getPoints = async (
+  const getMyLikeCount = async (
     userId: string,
-  ): Promise<ServiceResponse<MyPoints[]>> => {
+  ): Promise<ServiceResponse<MyLikeCount[]>> => {
     try {
-      const data = await repository.getPoints(userId);
+      const data = await repository.getMyLikeCount(userId);
       return { ok: true, data };
     } catch (error) {
       const err = error as Error;
@@ -123,8 +123,8 @@ function createReviewService(repository: ReviewRepository): ReviewService {
     getAll,
     getByCountry,
     getByCountryGuest,
-    getAllUsersPoints,
-    getPoints,
+    getAllUsersLikeCounts,
+    getMyLikeCount,
     post,
   };
 }
