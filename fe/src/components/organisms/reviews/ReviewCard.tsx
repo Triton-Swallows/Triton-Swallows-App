@@ -22,8 +22,6 @@ export const ReviewCard: React.FC<Props> = ({
   liked_by_me,
   onToggleLike,
 }) => {
-  const { loginUser } = AuthContextConsumer();
-
   const date = new Date(created_at);
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
