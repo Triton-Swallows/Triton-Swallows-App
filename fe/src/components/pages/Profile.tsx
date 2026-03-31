@@ -39,7 +39,7 @@ export const Profile = () => {
   }, [loginUser]);
 
   // アカウント名（UUID）の8文字省略処理
-  const displayId = user?.user_name || loginUser.uid;
+  const displayId = user?.user_name || loginUser?.uid || "名称未定";
   const shortName =
     displayId.length > 8 ? `${displayId.substring(0, 8)}...` : displayId;
 
@@ -58,7 +58,7 @@ export const Profile = () => {
       {/* ユーザー情報 */}
       <div className="flex gap-[10px]">
         <label>アカウント名:</label>
-        <p>{user?.user_name || shortName || "名称未定"}</p>
+        <p>{user?.user_name || shortName}</p>
       </div>
       <div className="flex gap-[10px]">
         <label>メールアドレス:</label>
