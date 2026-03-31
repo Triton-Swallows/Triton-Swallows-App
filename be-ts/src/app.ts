@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import db from "./knex";
 import path from "path";
+import fs from "fs";
 import { initReview } from "./modules/review";
 import { createReviewRouter } from "./routes/review";
 import { initLike } from "./modules/like";
@@ -31,7 +32,17 @@ export function buildApp(): Application {
 
   // SPAフォールバック: すべてのAPI以外のルートをindex.htmlに
   app.get(/^(?!\/api).*/, (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
+    const filePath = path.join(__dirname, "../public/index.html");
+    const html = fs.readFileSync(filePath, "utf-8");
+    const ogTags = `
+    <meta property="og:title" content="Triton Trip - 旅行情報アプリ" />
+    <meta property="og:description" content="Triton Trip - 旅行情報アプリ" />
+    <meta property="og:image" content="https://triton-travel-c2977645d3f8.herokuapp.com/thumbnail.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://triton-travel-c2977645d3f8.herokuapp.com/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://triton-travel-c2977645d3f8.herokuapp.com/thumbnail.png" />`;
+    res.send(html.replace("</head>", `${ogTags}\n  </head>`));
   });
 
   const reviewController = initReview(db);
