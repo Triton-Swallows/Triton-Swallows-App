@@ -3,7 +3,7 @@ import { HeaderLayout } from "../templetes/HeaderLayout";
 import { HeaderNav } from "../molecules/HeaderNav";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
-import topPageImage from "../../assets/TopPageImage.jpg";
+import defalutlProfileIcon from "../../assets/UserIcon.png";
 
 type User = {
   user_id: string;
@@ -50,7 +50,7 @@ export const Profile = () => {
       <div>
         <label>プロフィール画像</label>
         <img
-          src={user?.icon_url || topPageImage}
+          src={user?.icon_url || defalutlProfileIcon}
           alt="プロフィールアイコン"
           className="w-[120px] h-[120px] rounded-full"
         />
