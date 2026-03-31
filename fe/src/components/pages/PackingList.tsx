@@ -11,6 +11,7 @@ import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Link } from "react-router-dom";
 import { HeaderNav } from "../molecules/HeaderNav";
 import { Button } from "../ui/button";
+import type { ChangeEvent } from "react";
 
 type PackingItem = {
   name: string;
@@ -68,6 +69,8 @@ export const PackingList = () => {
   const [reviewComment, setReviewComment] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<SortType>("newest");
+  const [tmpSearchReviewText, setTmpSearchReviewText] = useState<string>("");
+  const [searchReviewText, setSearchReviewText] = useState<string>("");
 
   const fetchData = async () => {
     if (loading) return;
@@ -197,13 +200,27 @@ export const PackingList = () => {
   };
 
   const sortedReviews = useMemo(() => {
+    // 検索
+    const filteredList = reviewList.filter(
+      (item) =>
+        item.review?.toLowerCase().includes(searchReviewText.toLowerCase()) ||
+        item.user_name?.toLowerCase().includes(searchReviewText.toLowerCase()),
+    );
     // 新着順
     if (sortBy === "newest") {
-      return reviewList;
+      return filteredList;
     }
     // いいね順
-    return [...reviewList].sort((a, b) => b.like_count - a.like_count);
-  }, [reviewList, sortBy]);
+    return [...filteredList].sort((a, b) => b.like_count - a.like_count);
+  }, [reviewList, sortBy, searchReviewText]);
+
+  const onchangeSearchReviewText = (e: ChangeEvent<HTMLInputElement>) => {
+    setTmpSearchReviewText(e.target.value);
+  };
+
+  const onClickSearchReview = () => {
+    setSearchReviewText(tmpSearchReviewText);
+  };
 
   const itemList: PackingItem[] = [
     {
@@ -360,6 +377,19 @@ export const PackingList = () => {
                   onClick={() => setSortBy("newest")}
                 >
                   新着順
+                </Button>
+                <div className="flex items-center">
+                  <input
+                    placeholder="検索欄"
+                    className="border"
+                    onChange={onchangeSearchReviewText}
+                  />
+                </div>
+                <Button
+                  className="bg-[#00588C] text-[#FAF6F0]"
+                  onClick={onClickSearchReview}
+                >
+                  検索
                 </Button>
               </div>
 
