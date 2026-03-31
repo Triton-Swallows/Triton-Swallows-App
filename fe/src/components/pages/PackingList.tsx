@@ -10,6 +10,7 @@ import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Link } from "react-router-dom";
 import { HeaderNav } from "../molecules/HeaderNav";
+import { Button } from "../ui/button";
 
 type PackingItem = {
   name: string;
@@ -273,7 +274,11 @@ export const PackingList = () => {
           <div className="text-[#002B45] text-[16px] bg-[#A8C9DE] my-[10px] ">
             日本国籍の方が、観光または商用目的でアメリカへ渡航する場合、ビザ免除プログラム（WWP）に基づき、以下の条件を満たすことで最大90日間の無査証（ビザなし）滞在が可能です。
           </div>
-          <TitleFrame title="必要書類" date="" superivisor="" />
+          <TitleFrame
+            title="必要書類"
+            date="更新日時　2026/3/24"
+            superivisor=""
+          />
           {itemList.map((item) => (
             <div
               key={item.name}
@@ -294,6 +299,24 @@ export const PackingList = () => {
               )}
             </div>
           ))}
+          <div className="flex justify-center">
+            <a
+              href={
+                !loginUser || loading
+                  ? undefined
+                  : "https://forms.gle/MvXjx6ckqDqsyGPT9"
+              }
+              target="_blank"
+              className="flex justify-center w-[185px] h-[36px] mb-3"
+            >
+              <Button
+                className="bg-[#00588C] rounded-xl text-[#FAF6F0] text-[14px] py-[8px] px-[16px] "
+                disabled={!loginUser || loading}
+              >
+                情報変更を依頼する
+              </Button>
+            </a>
+          </div>
         </TabsContent>
         <TabsContent value="review" className="pb-16">
           {isFetching && <p>読み込み中...</p>}
