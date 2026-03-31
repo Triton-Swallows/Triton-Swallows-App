@@ -1,5 +1,4 @@
 import { RiHeartFill, RiHeartLine, RiUser3Line } from "react-icons/ri";
-import { AuthContextConsumer } from "@/contexts/AuthContexts";
 
 type Props = {
   user_name: string;
