@@ -8,6 +8,7 @@ import { ReviewCard } from "../organisms/reviews/ReviewCard";
 import { ReviewPostDialog } from "../organisms/reviews/ReviewPostDialog";
 import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
 import { HeaderLayout } from "../templetes/HeaderLayout";
+import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
 
 type ReviewSummaryApiItem = {
   id: number;
@@ -57,6 +58,8 @@ export const ReviewsPage = () => {
   const [postError, setPostError] = useState<string | null>(null);
   const [reviewComment, setReviewComment] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [requireLogindialogOpen, setRequireLoginDialogOpen] =
+    useState<boolean>(false);
 
   const fetchData = async () => {
     if (loading) return;
@@ -100,6 +103,11 @@ export const ReviewsPage = () => {
   }, [loading, loginUser]);
 
   const handleToggleLike = async (reviewId: number, likedByMe: boolean) => {
+    if (!loginUser) {
+      setRequireLoginDialogOpen(true);
+      return;
+    }
+
     setReviewList((prev) =>
       prev.map((review) =>
         review.id === reviewId
@@ -246,6 +254,10 @@ export const ReviewsPage = () => {
           )}
         </div>
       </div>
+      <RequireLoginDialog
+        open={requireLogindialogOpen}
+        onOpenChange={setRequireLoginDialogOpen}
+      />
     </HeaderLayout>
   );
 };
