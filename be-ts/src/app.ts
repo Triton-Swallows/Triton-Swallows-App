@@ -42,8 +42,8 @@ export function buildApp(): Application {
     const host = req.get("host");
     const baseUrl = `${protocol}://${host}`;
     const ogTags = `
-    <meta property="og:title" content="Triton Trip - 旅行情報アプリ" />
-    <meta property="og:description" content="Triton Trip - 旅行情報アプリ" />
+    <meta property="og:title" content="Triton Trip - 情報/口コミ一元管理アプリ" />
+    <meta property="og:description" content="旅行者の口コミや情報提供をもとに、”企業が情報を精査”して情報を掲載しています。トリトントラベルでは、口コミや持ち物情報を一箇所に集約しており、ユーザーの手間を最小限にしています。持ち物確認、必要書類、口コミ確認、AI質問なんでもできます！" />
     <meta property="og:image" content="${baseUrl}/thumbnail.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${baseUrl}${req.originalUrl}" />
