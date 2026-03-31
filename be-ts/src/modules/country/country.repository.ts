@@ -14,7 +14,7 @@ function createCountryRepository(db: Knex): CountryRepository {
       .groupBy("countries.id")
       .select<
         Country[]
-      >("countries.id", "countries.name", "countries.name_en", "countries.available", db("country_cheers").whereRaw("country_cheers.country_id = countries.id").andWhere("country_cheers.user_id", userId).count("country_cheers.country_id").as("cheered_by_me"))
+      >("countries.id as country_id", "countries.name", "countries.name_en", "countries.available", db("country_cheers").whereRaw("country_cheers.country_id = countries.id").andWhere("country_cheers.user_id", userId).count("country_cheers.country_id").as("cheered_by_me"))
       .orderBy("countries.id", "asc");
   };
 
@@ -25,7 +25,7 @@ function createCountryRepository(db: Knex): CountryRepository {
       .groupBy("countries.id")
       .select<
         GuestCountry[]
-      >("countries.id", "countries.name", "countries.name_en", "countries.available")
+      >("countries.id as country_id", "countries.name", "countries.name_en", "countries.available")
       .orderBy("countries.id", "asc");
   };
 
