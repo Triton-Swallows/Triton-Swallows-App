@@ -16,6 +16,10 @@ type Country = {
   cheered_by_me?: boolean; //ゲストユーザーには存在しない。
 };
 
+type CountriesResponse = {
+  data: Country[];
+};
+
 export const CountryPage = () => {
   const authContext = AuthContextConsumer();
   const isLoggedIn = !!authContext.loginUser;
@@ -27,8 +31,8 @@ export const CountryPage = () => {
     const fetchData = async () => {
       try {
         const endpoint = isLoggedIn ? "/countries" : "/guest/countries";
-        const response = await apiClient.get<Country[]>(endpoint);
-        setCountries(response.data);
+        const response = await apiClient.get<CountriesResponse>(endpoint);
+        setCountries(response.data.data);
       } catch (error) {
         console.error("国一覧の取得に失敗しました", error);
       }
