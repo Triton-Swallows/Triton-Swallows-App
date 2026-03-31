@@ -10,36 +10,47 @@ import { AuthContextConsumer } from "@/contexts/AuthContexts";
 type Country = {
   country_id: number;
   name: string;
-  name_en: string;
+  name_en: string; //パス表示用に国の英語名を取得
   cheer_count: number;
-  available: boolean;
-  cheered_by_me: boolean;
+  available: boolean; //運営側が掲載準備できているかどうか
+  cheered_by_me?: boolean; //ゲストユーザーには存在しない。
 };
 
 export const CountryPage = () => {
   const authContext = AuthContextConsumer();
+  const isLoggedIn = !!authContext.loginUser;
+
   const [countries, setCountries] = useState<Country[]>([]);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
-  const fetchData = async () => {};
+  const fetchData = async () => {
+    try {
+      const endpoint = isLoggedIn ? "/countries" : "/guest/coutries";
+      const response = await apiClient.get<Country[]>(endpoint);
+      setCountries(response.data);
+    } catch (error) {
+      console.error("国一覧の取得に失敗しました", error);
+    }
+  };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isLoggedIn]);
 
   const handleToggleCheer = async (
-    countryPath: string,
+    countryId: number,
     cheered_by_me: boolean,
   ) => {
     // ログインしてねダイアログ
-    if (!authContext.loginUser) {
+    if (!isLoggedIn) {
       setDialogOpen(true);
       return;
     }
 
+    // 楽観的UI更新
     setCountries((prev) =>
       prev.map((country) =>
-        country.path === countryPath
+        country.country_id === countryId
           ? { ...country, cheered_by_me: !cheered_by_me }
           : country,
       ),
@@ -49,16 +60,16 @@ export const CountryPage = () => {
       // APIをコール
       if (cheered_by_me) {
         // 既に応援済みなら取り消し
-        await apiClient.delete(`/cheer/${countryPath}`);
+        await apiClient.delete(`/country_cheers/${countryId}`);
       } else {
         // 応援を追加
-        await apiClient.post("/cheer", { country_path: countryPath });
+        await apiClient.post("/country_cheers", { country_path: countryId });
       }
     } catch (error) {
       // 失敗時はロールバック
       setCountries((prev) =>
         prev.map((country) =>
-          country.path === countryPath
+          country.country_id === countryId
             ? { ...country, cheered_by_me }
             : country,
         ),
@@ -73,12 +84,12 @@ export const CountryPage = () => {
       <div className="grid grid-cols-2 gap-4 px-4 pb-6">
         {countries.map((country) => (
           <div
-            key={country.path}
+            key={country.country_id}
             className="relative flex min-h-[168px] flex-col justify-between rounded-xl bg-[#A8C9DE] p-3"
           >
             {country.available && (
               <Link
-                to={country.path}
+                to={`/${country.name_en}/packing-list`}
                 className="absolute inset-0 rounded-xl"
                 aria-label={`${country.name}の持ち物一覧へ`}
               />
@@ -86,6 +97,7 @@ export const CountryPage = () => {
             <p className="relative z-10 rounded-md px-1 py-1 text-center text-[16px] font-medium text-[#002B45]">
               {country.name}
             </p>
+            {/* available出ない国には応援ボタンを表示 */}
             {!country.available && (
               <>
                 <p className="relative z-10 px-1 text-center text-[12px] font-medium text-[#0F3A56]">
@@ -93,7 +105,10 @@ export const CountryPage = () => {
                 </p>
                 <Button
                   onClick={() =>
-                    handleToggleCheer(country.path, country.cheered_by_me)
+                    handleToggleCheer(
+                      country.country_id,
+                      !!country.cheered_by_me,
+                    )
                   }
                   className={`relative z-10 h-9 rounded-lg text-[14px] font-bold transition-colors ${
                     country.cheered_by_me
@@ -105,6 +120,8 @@ export const CountryPage = () => {
                 </Button>
               </>
             )}
+            {/* 国名の表示（下部） */}
+            <p>{country.name}</p>
           </div>
         ))}
       </div>
