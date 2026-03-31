@@ -1,5 +1,10 @@
 import { Knex } from "knex";
-import { GuestReview, RawReview } from "../../types/review";
+import {
+  GuestReview,
+  MyPoints,
+  RawReview,
+  UserPoints,
+} from "../../types/review";
 
 /**
  * Repositoryが持つべきメソッドの型を定義。
@@ -9,6 +14,8 @@ export interface ReviewRepository {
   getAll: (userId: string) => Promise<RawReview[]>;
   getByCountry: (userId: string, country: string) => Promise<RawReview[]>;
   getByCountryGuest: (country: string) => Promise<GuestReview[]>;
+  getAllUsersPoints: () => Promise<UserPoints[]>;
+  getPoints: (userId: string) => Promise<MyPoints[]>;
   post: (
     userId: string,
     review: string,
@@ -21,51 +28,88 @@ export interface ReviewRepository {
  */
 
 function createReviewRepository(db: Knex): ReviewRepository {
+  const selectLikeCount = db.raw("reviews.liked_count as like_count");
+  const selectLikedByMe = (userId: string) =>
+    db("likes")
+      .whereRaw("likes.review_id = reviews.id")
+      .andWhere("likes.user_id", userId)
+      .count("likes.review_id")
+      .as("liked_by_me");
+
   const getAll = async (userId: string): Promise<RawReview[]> => {
-    return await db("reviews")
-      .leftJoin("likes", "reviews.id", "likes.review_id")
-      .count("likes.review_id as like_count")
-      .groupBy("reviews.id")
-      .select<RawReview[]>(
+    const rows = await db("reviews")
+      .select(
         "reviews.id",
         "reviews.user_id",
         "reviews.review",
         "reviews.created_at",
         "reviews.country_name",
-        db("likes")
-          .whereRaw("likes.review_id = reviews.id")
-          .andWhere("likes.user_id", userId)
-          .count("likes.review_id")
-          .as("liked_by_me"),
-        // todo: ロジックの調査
-      );
+        selectLikeCount,
+        selectLikedByMe(userId),
+      )
+      .orderBy("reviews.created_at", "desc");
+
+    return rows as RawReview[];
   };
 
   const getByCountry = async (
     userId: string,
     country: string,
   ): Promise<RawReview[]> => {
-    return await db("reviews")
-      .leftJoin("likes", "reviews.id", "likes.review_id")
-      .count("likes.review_id as like_count")
-      .groupBy("reviews.id")
+    const rows = await db("reviews")
       .where("reviews.country_name", country)
-      .select<
-        RawReview[]
-      >("reviews.id", "reviews.user_id", "reviews.review", "reviews.created_at", "reviews.country_name", db("likes").whereRaw("likes.review_id = reviews.id").andWhere("likes.user_id", userId).count("likes.review_id").as("liked_by_me"))
+      .select(
+        "reviews.id",
+        "reviews.user_id",
+        "reviews.review",
+        "reviews.created_at",
+        "reviews.country_name",
+        selectLikeCount,
+        selectLikedByMe(userId),
+      )
       .orderBy("reviews.created_at", "desc");
+
+    return rows as RawReview[];
   };
 
   const getByCountryGuest = async (country: string): Promise<GuestReview[]> => {
-    return await db("reviews")
-      .leftJoin("likes", "reviews.id", "likes.review_id")
-      .count("likes.review_id as like_count")
-      .groupBy("reviews.id")
+    const rows = await db("reviews")
       .where("reviews.country_name", country)
-      .select<
-        GuestReview[]
-      >("reviews.id", "reviews.user_id", "reviews.review", "reviews.created_at", "reviews.country_name")
+      .select(
+        "reviews.id",
+        "reviews.user_id",
+        "reviews.review",
+        "reviews.created_at",
+        "reviews.country_name",
+        selectLikeCount,
+      )
       .orderBy("reviews.created_at", "desc");
+
+    return rows as GuestReview[];
+  };
+
+  const getAllUsersPoints = async (): Promise<UserPoints[]> => {
+    const rows = await db("reviews")
+      .groupBy("reviews.user_id")
+      .select(
+        "reviews.user_id",
+        db.raw("SUM(reviews.liked_count)::integer as points"),
+      ) // pgの仕様でSUMの返り値がstringになる可能性があるらしい...ので::integerキャストしている
+      .orderBy("reviews.user_id", "asc");
+
+    return rows as UserPoints[];
+  };
+
+  const getPoints = async (userId: string): Promise<MyPoints[]> => {
+    const rows = await db("users")
+      .leftJoin("reviews", "users.uid", "reviews.user_id")
+      .where("users.uid", userId)
+      .groupBy("users.uid")
+      .select(
+        db.raw("COALESCE(SUM(reviews.liked_count), 0)::integer as points"),
+      );
+
+    return rows as MyPoints[];
   };
 
   const post = async (
@@ -82,7 +126,14 @@ function createReviewRepository(db: Knex): ReviewRepository {
       .returning<RawReview[]>("*");
   };
 
-  return { getAll, getByCountry, getByCountryGuest, post };
+  return {
+    getAll,
+    getByCountry,
+    getByCountryGuest,
+    getAllUsersPoints,
+    getPoints,
+    post,
+  };
 }
 
 export { createReviewRepository };

@@ -17,6 +17,8 @@ export interface ReviewController {
   getAll: (req: AuthRequest, res: Response) => Promise<void>;
   getByCountry: (req: AuthRequest, res: Response) => Promise<void>;
   getByCountryGuest: (req: Request, res: Response) => Promise<void>; // GuestはAuthRequestでなくても良いかもしれません
+  getAllUsersPoints: (req: AuthRequest, res: Response) => Promise<void>;
+  getPoints: (req: AuthRequest, res: Response) => Promise<void>;
   post: (req: AuthRequest, res: Response) => Promise<void>;
 }
 
@@ -85,6 +87,40 @@ function createReviewController(service: ReviewService): ReviewController {
     }
   };
 
+  const getAllUsersPoints = async (
+    _req: AuthRequest,
+    res: Response,
+  ): Promise<void> => {
+    try {
+      const result = await service.getAllUsersPoints();
+
+      if (result.ok) {
+        res.status(200).json({ data: result.data });
+      } else {
+        res.status(result.status).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  const getPoints = async (req: AuthRequest, res: Response): Promise<void> => {
+    try {
+      const userId = req.user!.uid;
+      const result = await service.getPoints(userId);
+
+      if (result.ok) {
+        res.status(200).json({ data: result.data });
+      } else {
+        res.status(result.status).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
   const post = async (req: AuthRequest, res: Response) => {
     try {
       const userId = req.user!.uid;
@@ -108,7 +144,14 @@ function createReviewController(service: ReviewService): ReviewController {
     }
   };
 
-  return { getAll, getByCountry, getByCountryGuest, post };
+  return {
+    getAll,
+    getByCountry,
+    getByCountryGuest,
+    getAllUsersPoints,
+    getPoints,
+    post,
+  };
 }
 
 export { createReviewController };
