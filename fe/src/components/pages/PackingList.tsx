@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -53,6 +53,7 @@ type ReviewItem = {
   created_at: string;
   liked_by_me: boolean;
 };
+type SortType = "likes" | "newest";
 
 export const PackingList = () => {
   const { country } = useParams<{ country: string }>();
@@ -66,6 +67,7 @@ export const PackingList = () => {
   const [postError, setPostError] = useState<string | null>(null);
   const [reviewComment, setReviewComment] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [sortBy, setSortBy] = useState<SortType>("newest");
 
   const fetchData = async () => {
     if (loading) return;
@@ -193,6 +195,15 @@ export const PackingList = () => {
       setPostError("口コミの投稿に失敗しました");
     }
   };
+
+  const sortedReviews = useMemo(() => {
+    // 新着順
+    if (sortBy === "newest") {
+      return reviewList;
+    }
+    // いいね順
+    return [...reviewList].sort((a, b) => b.like_count - a.like_count);
+  }, [reviewList, sortBy]);
 
   const itemList: PackingItem[] = [
     {
@@ -336,7 +347,23 @@ export const PackingList = () => {
                 />
               ))}
               <p>※この要約は会社によって審査した上で掲載しています。</p>
-              {reviewList.map((review) => (
+
+              <div className="flex">
+                <Button
+                  className="bg-[#00588C] text-[#FAF6F0]"
+                  onClick={() => setSortBy("likes")}
+                >
+                  いいねが多い順
+                </Button>
+                <Button
+                  className="bg-[#00588C] text-[#FAF6F0]"
+                  onClick={() => setSortBy("newest")}
+                >
+                  新着順
+                </Button>
+              </div>
+
+              {sortedReviews.map((review) => (
                 <ReviewCard
                   key={review.id}
                   user_name={review.user_name}
