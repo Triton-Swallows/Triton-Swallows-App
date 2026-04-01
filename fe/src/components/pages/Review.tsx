@@ -308,19 +308,23 @@ export const Review = () => {
                 </Button>
               </div>
 
-              {sortedReviews.map((review) => (
-                <ReviewCard
-                  key={review.id}
-                  user_name={review.user_name}
-                  user_icon={review.user_icon}
-                  review_id={review.id}
-                  review={review.review}
-                  like_count={review.like_count}
-                  created_at={review.created_at}
-                  liked_by_me={review.liked_by_me}
-                  onToggleLike={handleToggleLike}
-                />
-              ))}
+              {sortedReviews.length === 0 ? (
+                <div>該当項目なし</div>
+              ) : (
+                sortedReviews.map((review) => (
+                  <ReviewCard
+                    key={review.id}
+                    user_name={review.user_name}
+                    user_icon={review.user_icon}
+                    review_id={review.id}
+                    review={review.review}
+                    like_count={review.like_count}
+                    created_at={review.created_at}
+                    liked_by_me={review.liked_by_me}
+                    onToggleLike={handleToggleLike}
+                  />
+                ))
+              )}
               {postError && <div>{postError}</div>}
               <ReviewPostDialog
                 open={dialogOpen}
