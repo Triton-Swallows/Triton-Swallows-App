@@ -1,5 +1,4 @@
 import { RiHeartFill, RiHeartLine, RiUser3Line } from "react-icons/ri";
-import { AuthContextConsumer } from "@/contexts/AuthContexts";
 
 type Props = {
   user_name: string;
@@ -22,8 +21,6 @@ export const ReviewCard: React.FC<Props> = ({
   liked_by_me,
   onToggleLike,
 }) => {
-  const { loginUser } = AuthContextConsumer();
-
   const date = new Date(created_at);
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -49,9 +46,8 @@ export const ReviewCard: React.FC<Props> = ({
         <div className="flex justify-end gap-2">
           <span>{like_count}</span>
           <button
-            className={`flex items-center ${loginUser ? "cursor-pointer" : "cursor-not-allowed"}`}
+            className="flex items-center cursor-pointer"
             onClick={() => onToggleLike(review_id, liked_by_me)}
-            disabled={!loginUser}
           >
             {liked_by_me ? <RiHeartFill /> : <RiHeartLine />}
           </button>
