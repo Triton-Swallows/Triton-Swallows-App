@@ -4,6 +4,7 @@ import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Button } from "@/components/ui/button";
 import { ContactDialog } from "./ContactDialog";
+import { RequireLoginDialog } from "./requireLoginDialog";
 
 export const ContactRequestButton = () => {
   const { loginUser, loading } = AuthContextConsumer();
@@ -16,8 +17,14 @@ export const ContactRequestButton = () => {
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const [requireLogindialogOpen, setRequireLoginDialogOpen] =
+    useState<boolean>(false);
 
   const handleContactDialogOpenChange = (open: boolean) => {
+    if (!loginUser) {
+      setRequireLoginDialogOpen(true);
+      return;
+    }
     setIsContactDialogOpen(open);
     if (open) {
       setContactStatus(null); // 前回の失敗/成功メッセージを消す
@@ -60,7 +67,7 @@ export const ContactRequestButton = () => {
     <div className="flex justify-center mb-3">
       <Button
         className="bg-[#00588C] rounded-xl text-[#FAF6F0] text-[14px] py-[8px] px-[16px] w-[185px] h-[36px]"
-        disabled={!loginUser || loading || isSubmittingContact}
+        disabled={loading || isSubmittingContact}
         onClick={() => handleContactDialogOpenChange(true)}
       >
         情報変更を依頼する
@@ -78,6 +85,11 @@ export const ContactRequestButton = () => {
         onDescriptionChange={setContactDescription}
         onOthersChange={setContactOthers}
         onSubmit={handleContactSubmit}
+      />
+      <RequireLoginDialog
+        open={requireLogindialogOpen}
+        onOpenChange={setRequireLoginDialogOpen}
+        redirectPath={location.pathname}
       />
     </div>
   );
