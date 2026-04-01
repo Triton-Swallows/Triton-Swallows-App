@@ -8,6 +8,7 @@ import { CountryPage } from "@/components/pages/CountryPage";
 import { PackingList } from "@/components/pages/PackingList";
 import { Profile } from "@/components/pages/Profile";
 import { PrivateRoute } from "@/components/templetes/PrivateRoute";
+import { Review } from "@/components/pages/Review";
 
 export const Router = () => {
   return (
@@ -34,6 +35,7 @@ export const Router = () => {
             </PrivateRoute>
           }
         />
+        <Route path="/:country/reviews" element={<Review />} />
       </Routes>
     </AuthContextProvider>
   );

@@ -10,6 +10,20 @@ function createReviewRouter(reviewController: ReviewController) {
   // 口コミを全件取得
   router.get("/reviews", verifyToken, reviewController.getAll);
 
+  // ユーザーごとのいいね数を全件取得
+  router.get(
+    "/reviews/like-counts",
+    verifyToken,
+    reviewController.getAllUsersLikeCounts,
+  );
+
+  // ログインユーザーのいいね数を取得
+  router.get(
+    "/reviews/like-counts/me",
+    verifyToken,
+    reviewController.getMyLikeCount,
+  );
+
   // 国ごとの口コミを全権取得
   router.get(
     "/reviews/:countryName",

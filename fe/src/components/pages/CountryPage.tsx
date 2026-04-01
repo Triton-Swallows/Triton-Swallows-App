@@ -26,20 +26,23 @@ export const CountryPage = () => {
 
   const [countries, setCountries] = useState<Country[]>([]);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsFetching(true);
       try {
         const endpoint = isLoggedIn ? "/countries" : "/guest/countries";
         const response = await apiClient.get<CountriesResponse>(endpoint);
         setCountries(response.data.data);
       } catch (error) {
         console.error("国一覧の取得に失敗しました", error);
+      } finally {
+        setIsFetching(false);
       }
     };
     fetchData();
   }, [isLoggedIn]);
-
   const handleToggleCheer = async (countryId: number, cheeredByMe: boolean) => {
     // ログインしてねダイアログ
     if (!isLoggedIn) {
@@ -81,48 +84,53 @@ export const CountryPage = () => {
   return (
     <HeaderLayout>
       <HeaderNav path={"/"} label="トップページ" title="国リスト" />
-      <div className="grid grid-cols-2 gap-4 px-4 pb-6">
-        {countries.map((country) => (
-          <div
-            key={country.country_id}
-            className="relative flex min-h-[168px] flex-col justify-between rounded-xl bg-[#A8C9DE] p-3"
-          >
-            {country.available && (
-              <Link
-                to={`/${country.name_en}/packing-list`}
-                className="absolute inset-0 rounded-xl"
-                aria-label={`${country.name}の持ち物一覧へ`}
-              />
-            )}
-            <p className="relative z-10 rounded-md px-1 py-1 text-center text-[16px] font-medium text-[#002B45]">
-              {country.name}
-            </p>
-            {/* availableでない国には応援ボタンを表示 */}
-            {!country.available && (
-              <>
-                <p className="relative z-10 px-1 text-center text-[12px] font-medium text-[#0F3A56]">
-                  追加してほしい人は応援してね！
-                </p>
-                <Button
-                  onClick={() =>
-                    handleToggleCheer(
-                      country.country_id,
-                      !!country.cheered_by_me,
-                    )
-                  }
-                  className={`relative z-10 h-9 rounded-lg text-[14px] font-bold transition-colors ${
-                    country.cheered_by_me
-                      ? "bg-[#00588C] text-[#FAF6F0] hover:bg-[#004B77]"
-                      : "border border-[#00588C] bg-white text-[#00588C] hover:bg-[#F5F5F5]"
-                  }`}
-                >
-                  応援
-                </Button>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
+      {isFetching ? (
+        <div>読み込み中...</div>
+      ) : (
+        <div className="grid grid-cols-2 gap-4 px-4 pb-6">
+          {countries.map((country) => (
+            <div
+              key={country.country_id}
+              className="relative flex min-h-[168px] flex-col justify-between rounded-xl bg-[#A8C9DE] p-3"
+            >
+              {country.available && (
+                <Link
+                  to={`/${country.name_en}/packing-list`}
+                  className="absolute inset-0 rounded-xl"
+                  aria-label={`${country.name}の持ち物一覧へ`}
+                />
+              )}
+              <p className="relative z-10 rounded-md px-1 py-1 text-center text-[16px] font-medium text-[#002B45]">
+                {country.name}
+              </p>
+              {/* availableでない国には応援ボタンを表示 */}
+              {!country.available && (
+                <>
+                  <p className="relative z-10 px-1 text-center text-[12px] font-medium text-[#0F3A56]">
+                    追加してほしい人は応援してね！
+                  </p>
+                  <Button
+                    onClick={() =>
+                      handleToggleCheer(
+                        country.country_id,
+                        !!country.cheered_by_me,
+                      )
+                    }
+                    className={`relative z-10 h-9 rounded-lg text-[14px] font-bold transition-colors ${
+                      country.cheered_by_me
+                        ? "bg-[#00588C] text-[#FAF6F0] hover:bg-[#004B77]"
+                        : "border border-[#00588C] bg-white text-[#00588C] hover:bg-[#F5F5F5]"
+                    }`}
+                  >
+                    応援
+                  </Button>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
       <RequireLoginDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </HeaderLayout>
   );

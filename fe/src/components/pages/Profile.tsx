@@ -6,6 +6,7 @@ import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import defalutlProfileIcon from "../../assets/UserIcon.png";
 import { Button } from "../ui/button";
+import { EditProfileDialog } from "../organisms/dialogs/EditProfileDialog";
 
 type User = {
   user_id: string;
@@ -23,17 +24,18 @@ export const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
+  const fetchProfile = async () => {
+    if (!loginUser) return;
+    try {
+      // ログイン中の自分の情報（User）を取得
+      const response = await apiClient.get<User>("/users/me");
+      setUser(response.data);
+    } catch (error) {
+      console.error("ユーザー情報の取得に失敗しました。", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchProfile = async () => {
-      if (!loginUser) return;
-      try {
-        // ログイン中の自分の情報（User）を取得
-        const response = await apiClient.get<User>("/users/me");
-        setUser(response.data);
-      } catch (error) {
-        console.error("ユーザー情報の取得に失敗しました。", error);
-      }
-    };
     fetchProfile();
   }, [loginUser]);
 
@@ -80,16 +82,16 @@ export const Profile = () => {
         <label>累計いいね数:</label>
         <p>{user?.like_count || "TBD"}</p>
       </div>
-      <div className="flex justify-center">
-        <Button
-          type="button"
-          className="bg-[#00588C] rounded-xl text-[#FAF6F0] text-[14px] py-[8px] px-[16px]"
-          disabled={!loginUser || loading}
-          onClick={handleLogout}
-        >
-          ログアウト
-        </Button>
-      </div>
+      <Button
+        type="button"
+        className="bg-[#00588C] text-[#FAF6F0] text-[14px] py-[8px] px-[16px]"
+        disabled={!loginUser || loading}
+        onClick={handleLogout}
+      >
+        ログアウト
+      </Button>
+
+      <EditProfileDialog user={user} onUpdate={fetchProfile} />
     </HeaderLayout>
   );
 };
