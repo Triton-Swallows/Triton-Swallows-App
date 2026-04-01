@@ -1,9 +1,10 @@
 import { UserRepository } from "./user.repository";
-import { User, UserServiceResponse } from "../../types/user";
+import { User, UserServiceResponse, MyInfo } from "../../types/user";
 
 export interface UserService {
   findByUid: (userId: string) => Promise<UserServiceResponse<User>>;
   upsert: (userId: string, email: string) => Promise<UserServiceResponse<User>>;
+  getMyInfo: (userId: string) => Promise<UserServiceResponse<MyInfo>>;
 }
 
 export const createUserService = (repository: UserRepository): UserService => {
@@ -15,7 +16,7 @@ export const createUserService = (repository: UserRepository): UserService => {
         message: "uidが不足しています",
       };
     }
-    const user = await repository.findByUid(uid);
+    const user = await repository.getUserByUid(uid);
     return { ok: true, data: user };
   };
 
@@ -34,5 +35,30 @@ export const createUserService = (repository: UserRepository): UserService => {
     return { ok: true, data: user };
   };
 
-  return { findByUid, upsert };
+  const getMyInfo = async (
+    uid: string,
+  ): Promise<UserServiceResponse<MyInfo>> => {
+    try {
+      const [user, review_count, like_count, total_point] = await Promise.all([
+        repository.getUserByUid(uid),
+        repository.getReviewCountByUserId(uid),
+        repository.getLikeCountByUserId(uid),
+        repository.getTotalPointByUserId(uid),
+      ]);
+
+      const result = {
+        ...user,
+        ...review_count,
+        ...like_count,
+        ...total_point,
+      };
+
+      return { ok: true, data: result };
+    } catch (error) {
+      const err = error as Error;
+      return { ok: false, status: 500, message: err.message };
+    }
+  };
+
+  return { findByUid, upsert, getMyInfo };
 };
