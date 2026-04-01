@@ -7,6 +7,7 @@ import { EstaPage } from "@/components/pages/EstaPage";
 import { CountryPage } from "@/components/pages/CountryPage";
 import { PackingList } from "@/components/pages/PackingList";
 import { Profile } from "@/components/pages/Profile";
+import { PrivateRoute } from "@/components/templetes/PrivateRoute";
 import { Review } from "@/components/pages/Review";
 import { PassportPage } from "@/components/pages/PassportPage";
 import { TicketPage } from "@/components/pages/TicketPage";
@@ -36,8 +37,15 @@ export const Router = () => {
         <Route path="/:country/packing-list/tax" element={<TaxPage />} />
         <Route path="/country-list" element={<CountryPage />} />
         <Route path="/:country/packing-list" element={<PackingList />} />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
         <Route path="/:country/reviews" element={<Review />} />
-        <Route path="/profile" element={<Profile />} />
       </Routes>
     </AuthContextProvider>
   );
