@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { HeaderNav } from "../molecules/HeaderNav";
 import { Button } from "../ui/button";
 import type { ChangeEvent } from "react";
+import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
 
 type ReviewSummaryApiItem = {
   id: number;
@@ -63,6 +64,8 @@ export const Review = () => {
   const [sortBy, setSortBy] = useState<SortType>("newest");
   const [tmpSearchReviewText, setTmpSearchReviewText] = useState<string>("");
   const [searchReviewText, setSearchReviewText] = useState<string>("");
+  const [requireLogindialogOpen, setRequireLoginDialogOpen] =
+    useState<boolean>(false);
 
   const fetchData = async () => {
     if (loading) return;
@@ -103,6 +106,11 @@ export const Review = () => {
   }, [loading, loginUser]);
 
   const handleToggleLike = async (review_id: number, liked_by_me: boolean) => {
+    if (!loginUser) {
+      setRequireLoginDialogOpen(true);
+      return;
+    }
+
     // 一旦UI上ではすぐにいいねが押せた/取り消せた表示にする
     // その後APIをたたいて、失敗したら元の表示に戻す
     // ReviewCard.tsxにてliked_by_meのtrue/falseでハート色を反転させている
@@ -330,6 +338,11 @@ export const Review = () => {
           )}
         </div>
       </div>
+      <RequireLoginDialog
+        open={requireLogindialogOpen}
+        onOpenChange={setRequireLoginDialogOpen}
+        redirectPath={location.pathname}
+      />
     </HeaderLayout>
   );
 };

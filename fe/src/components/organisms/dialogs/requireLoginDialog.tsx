@@ -8,14 +8,21 @@ import {
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  redirectPath?: string;
 };
 
-export const RequireLoginDialog = ({ open, onOpenChange }: Props) => {
+export const RequireLoginDialog = ({
+  open,
+  onOpenChange,
+  redirectPath = "/",
+}: Props) => {
   const authContext = AuthContextConsumer();
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleGoogleSignUp = async () => {
@@ -24,6 +31,7 @@ export const RequireLoginDialog = ({ open, onOpenChange }: Props) => {
     try {
       await authContext.signUpWithGoogle();
       onOpenChange(false);
+      navigate(redirectPath);
     } catch (error) {
       console.error("Google signup failed:", error);
     } finally {
