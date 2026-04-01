@@ -1,9 +1,8 @@
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { TitleFrame } from "../atoms/TitleFrame";
-import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Link } from "react-router-dom";
 import { HeaderNav } from "../molecules/HeaderNav";
-import { Button } from "../ui/button";
+import { ContactRequestButton } from "@/components/organisms/dialogs/ContactRequestButton";
 
 type PackingItem = {
   name: string;
@@ -12,8 +11,6 @@ type PackingItem = {
 };
 
 export const PackingList = () => {
-  const { loginUser, loading } = AuthContextConsumer();
-
   const itemList: PackingItem[] = [
     {
       name: "ESTA(エスタ)",
@@ -106,24 +103,7 @@ export const PackingList = () => {
               )}
             </div>
           ))}
-          <div className="flex justify-center">
-            <a
-              href={
-                !loginUser || loading
-                  ? undefined
-                  : "https://forms.gle/MvXjx6ckqDqsyGPT9"
-              }
-              target="_blank"
-              className="flex justify-center w-[185px] h-[36px] mb-3"
-            >
-              <Button
-                className="bg-[#00588C] rounded-xl text-[#FAF6F0] text-[14px] py-[8px] px-[16px] "
-                disabled={!loginUser || loading}
-              >
-                情報変更を依頼する
-              </Button>
-            </a>
-          </div>
+          <ContactRequestButton />
         </div>
       </div>
     </HeaderLayout>
