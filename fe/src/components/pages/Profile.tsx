@@ -85,6 +85,15 @@ export const Profile = () => {
         <label>累計ポイント数:</label>
         <p>{user?.total_point}</p>
       </div>
+      <div className="flex gap-[10px]">
+        <label>消費ポイント:</label>
+        <p>TBD</p>
+      </div>
+      <div className="flex gap-[10px]">
+        <label>残高:</label>
+        <p>TBD</p>
+      </div>
+
       <Button
         type="button"
         className="bg-[#00588C] text-[#FAF6F0] text-[14px] py-[8px] px-[16px]"
