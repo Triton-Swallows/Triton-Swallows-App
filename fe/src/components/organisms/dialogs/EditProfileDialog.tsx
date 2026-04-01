@@ -23,7 +23,7 @@ export const EditProfileDialog = ({
   user,
   onUpdate,
 }: EditProfileDialogProps) => {
-  const [name, setName] = useState(user?.user_name ?? "TBD");
+  const [name, setName] = useState(user?.user_name);
   // const [iconUrl, setIconUrl] = useState(user.icon_url);
   const [iconFile, setIconFile] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
