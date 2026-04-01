@@ -12,40 +12,46 @@ import { Review } from "@/components/pages/Review";
 import { PassportPage } from "@/components/pages/PassportPage";
 import { TicketPage } from "@/components/pages/TicketPage";
 import { TaxPage } from "@/components/pages/TaxPage";
+import { UserProfileContextProvider } from "@/contexts/UserProfileContext";
 
 export const Router = () => {
   return (
     <AuthContextProvider>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            // <PrivateRoute>
-            <Home />
-            // </PrivateRoute>
-          }
-        ></Route>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/:country/packing-list/esta" element={<EstaPage />} />
-        <Route
-          path="/:country/packing-list/passport"
-          element={<PassportPage />}
-        />
-        <Route path="/:country/packing-list/ticket" element={<TicketPage />} />
-        <Route path="/:country/packing-list/tax" element={<TaxPage />} />
-        <Route path="/country-list" element={<CountryPage />} />
-        <Route path="/:country/packing-list" element={<PackingList />} />
-        <Route
-          path="/profile"
-          element={
-            <PrivateRoute>
-              <Profile />
-            </PrivateRoute>
-          }
-        />
-        <Route path="/:country/reviews" element={<Review />} />
-      </Routes>
+      <UserProfileContextProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              // <PrivateRoute>
+              <Home />
+              // </PrivateRoute>
+            }
+          ></Route>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/:country/packing-list/esta" element={<EstaPage />} />
+          <Route
+            path="/:country/packing-list/passport"
+            element={<PassportPage />}
+          />
+          <Route
+            path="/:country/packing-list/ticket"
+            element={<TicketPage />}
+          />
+          <Route path="/:country/packing-list/tax" element={<TaxPage />} />
+          <Route path="/country-list" element={<CountryPage />} />
+          <Route path="/:country/packing-list" element={<PackingList />} />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/:country/reviews" element={<Review />} />
+        </Routes>
+      </UserProfileContextProvider>
     </AuthContextProvider>
   );
 };
