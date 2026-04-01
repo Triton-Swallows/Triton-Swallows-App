@@ -9,14 +9,17 @@ import { Button } from "../ui/button";
 import { EditProfileDialog } from "../organisms/dialogs/EditProfileDialog";
 
 type User = {
-  user_id: string;
+  ud: string;
   user_name: string;
   email: string;
   icon_url: string;
-  review_count: number; //累計投稿数
-  like_count: number; //累計いいね
-  approved_count: number; //累計google forms採用数
-  point: number; //累計ポイント数
+  count: number; //累計投稿数
+  total_like_count: number; //累計いいね
+  total_point: number; //累計ポイント数
+};
+
+type ApiResponse<T> = {
+  data: T;
 };
 
 export const Profile = () => {
@@ -28,8 +31,9 @@ export const Profile = () => {
     if (!loginUser) return;
     try {
       // ログイン中の自分の情報（User）を取得
-      const response = await apiClient.get<User>("/users/me");
-      setUser(response.data);
+      const response = await apiClient.get<ApiResponse<User>>("/users/me");
+      const userData = response.data.data;
+      setUser(userData);
     } catch (error) {
       console.error("ユーザー情報の取得に失敗しました。", error);
     }
@@ -48,11 +52,6 @@ export const Profile = () => {
     }
   };
 
-  // アカウント名（UUID）の8文字省略処理
-  const displayId = user?.user_name || loginUser?.uid || "名称未定";
-  const shortName =
-    displayId.length > 8 ? `${displayId.substring(0, 8)}...` : displayId;
-
   return (
     <HeaderLayout>
       <HeaderNav path={"/"} label="トップページ" title="プロフィール" />
@@ -68,19 +67,23 @@ export const Profile = () => {
       {/* ユーザー情報 */}
       <div className="flex gap-[10px]">
         <label>アカウント名:</label>
-        <p>{user?.user_name || shortName}</p>
+        <p>{user?.user_name}</p>
       </div>
       <div className="flex gap-[10px]">
         <label>メールアドレス:</label>
-        <p>{user?.email || "TBD"}</p>
+        <p>{user?.email}</p>
       </div>
       <div className="flex gap-[10px]">
         <label>口コミ投稿数:</label>
-        <p>{user?.review_count || "TBD"}</p>
+        <p>{user?.count}</p>
       </div>
       <div className="flex gap-[10px]">
         <label>累計いいね数:</label>
-        <p>{user?.like_count || "TBD"}</p>
+        <p>{user?.total_like_count}</p>
+      </div>
+      <div className="flex gap-[10px]">
+        <label>累計ポイント数:</label>
+        <p>{user?.total_point}</p>
       </div>
       <Button
         type="button"
