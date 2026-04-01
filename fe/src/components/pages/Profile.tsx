@@ -4,6 +4,7 @@ import { HeaderNav } from "../molecules/HeaderNav";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import defalutlProfileIcon from "../../assets/UserIcon.png";
+import { EditProfileDialog } from "../organisms/dialogs/EditProfileDialog";
 
 type User = {
   user_id: string;
@@ -24,17 +25,18 @@ export const Profile = () => {
 
   const loginUser = authContext.loginUser;
 
+  const fetchProfile = async () => {
+    if (!loginUser) return;
+    try {
+      // ログイン中の自分の情報（User）を取得
+      const response = await apiClient.get<User>("/users/me");
+      setUser(response.data);
+    } catch (error) {
+      console.error("ユーザー情報の取得に失敗しました。", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchProfile = async () => {
-      if (!loginUser) return;
-      try {
-        // ログイン中の自分の情報（User）を取得
-        const response = await apiClient.get<User>("/users/me");
-        setUser(response.data);
-      } catch (error) {
-        console.error("ユーザー情報の取得に失敗しました。", error);
-      }
-    };
     fetchProfile();
   }, [loginUser]);
 
@@ -72,6 +74,8 @@ export const Profile = () => {
         <label>累計いいね数:</label>
         <p>{user?.like_count || "TBD"}</p>
       </div>
+
+      <EditProfileDialog user={user} onUpdate={fetchProfile} />
     </HeaderLayout>
   );
 };
