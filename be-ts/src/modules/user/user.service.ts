@@ -5,6 +5,11 @@ export interface UserService {
   findByUid: (userId: string) => Promise<UserServiceResponse<User>>;
   upsert: (userId: string, email: string) => Promise<UserServiceResponse<User>>;
   getMyInfo: (userId: string) => Promise<UserServiceResponse<MyInfo>>;
+  editMyInfo: (
+    user_id: string,
+    user_name: string,
+    icon_url: string,
+  ) => Promise<UserServiceResponse<User>>;
 }
 
 export const createUserService = (repository: UserRepository): UserService => {
@@ -60,5 +65,23 @@ export const createUserService = (repository: UserRepository): UserService => {
     }
   };
 
-  return { findByUid, upsert, getMyInfo };
+  const editMyInfo = async (
+    user_id: string,
+    user_name: string,
+    icon_url: string,
+  ): Promise<UserServiceResponse<User>> => {
+    try {
+      const updatededUser = await repository.editMyInfo(
+        user_id,
+        user_name,
+        icon_url,
+      );
+      return { ok: true, data: updatededUser };
+    } catch (error) {
+      const err = error as Error;
+      return { ok: false, status: 500, message: err.message };
+    }
+  };
+
+  return { findByUid, upsert, getMyInfo, editMyInfo };
 };

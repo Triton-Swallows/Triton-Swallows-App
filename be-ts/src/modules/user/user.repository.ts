@@ -13,6 +13,11 @@ export interface UserRepository {
   getReviewCountByUserId: (uid: string) => Promise<ReviewCountType>;
   getTotalPointByUserId: (uid: string) => Promise<PointCountType>;
   getLikeCountByUserId: (userId: string) => Promise<LikeCountType>;
+  editMyInfo: (
+    user_id: string,
+    user_name: string,
+    icon_url: string,
+  ) => Promise<User>;
 }
 
 export const createUserRepository = (db: Knex): UserRepository => {
@@ -74,6 +79,23 @@ export const createUserRepository = (db: Knex): UserRepository => {
       .first();
   };
 
+  // プロフィールの編集（user_nameとicon_urlが対象）
+  const editMyInfo = async (
+    uid: string,
+    user_name: string,
+    icon_url: string,
+  ): Promise<User> => {
+    const results = await db("users")
+      .where({ uid })
+      .update({
+        user_name,
+        icon_url,
+      })
+      .returning("*");
+
+    return results[0];
+  };
+
   return {
     getAllUsers,
     getUserByUid,
@@ -81,5 +103,6 @@ export const createUserRepository = (db: Knex): UserRepository => {
     getLikeCountByUserId,
     getReviewCountByUserId,
     getTotalPointByUserId,
+    editMyInfo,
   };
 };

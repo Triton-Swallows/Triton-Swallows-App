@@ -12,6 +12,7 @@ export interface UserController {
   getMe: (req: AuthRequest, res: Response) => Promise<void>;
   upsert: (req: AuthRequest, res: Response) => Promise<void>;
   getMyInfo: (req: AuthRequest, res: Response) => Promise<void>;
+  editMyInfo: (req: AuthRequest, res: Response) => Promise<void>;
 }
 
 export const createUserController = (service: UserService): UserController => {
@@ -69,5 +70,25 @@ export const createUserController = (service: UserService): UserController => {
     }
   };
 
-  return { getMe, upsert, getMyInfo };
+  // プロフィールの編集（アイコン画像とアカウント名が対象）
+  const editMyInfo = async (req: AuthRequest, res: Response): Promise<void> => {
+    try {
+      const user_id = req.user!.uid;
+      const user_name = req.body.user_name;
+      const icon_url = req.body.icon_url;
+
+      const result = await service.editMyInfo(user_id, user_name, icon_url);
+
+      if (result.ok) {
+        res.status(201).json({ data: result.data });
+      } else {
+        res.status(500).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  return { getMe, upsert, getMyInfo, editMyInfo };
 };
