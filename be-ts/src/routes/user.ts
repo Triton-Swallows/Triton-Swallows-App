@@ -11,6 +11,9 @@ function createUserRouter(userController: UserController) {
   // ユーザー登録/更新
   router.post("/users", verifyToken, userController.upsert);
 
+  // 自分のユーザー情報を取得
+  router.get("/users/me", verifyToken, userController.getMyInfo);
+
   return router;
 }
 

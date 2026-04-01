@@ -8,14 +8,17 @@ export async function seed(knex: Knex): Promise<void> {
     {
       uid: "tsJF90ELf6YFtJuc9ac247khhr02",
       email: "natsumi.miyamoto2@gmail.com",
+      is_admin: true,
     },
     {
       uid: "5A2LwTI4C3WMzWLOi80HoY6oyQB2",
       email: "jera.hq.devtr.mem090@outlook.jp",
+      is_admin: true,
     },
     {
       uid: "9HLcP3zl5ifAqniVlfz0Qp62xE63",
       email: "kei.ccbdev07@gmail.com",
+      is_admin: true,
     },
     {
       uid: "brDXtUpoT4dACsJkpmTO8XJeViz1",

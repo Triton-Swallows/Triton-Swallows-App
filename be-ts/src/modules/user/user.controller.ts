@@ -11,6 +11,7 @@ export interface AuthRequest extends Request {
 export interface UserController {
   getMe: (req: AuthRequest, res: Response) => Promise<void>;
   upsert: (req: AuthRequest, res: Response) => Promise<void>;
+  getMyInfo: (req: AuthRequest, res: Response) => Promise<void>;
 }
 
 export const createUserController = (service: UserService): UserController => {
@@ -51,5 +52,22 @@ export const createUserController = (service: UserService): UserController => {
     }
   };
 
-  return { getMe, upsert };
+  // マイページに表示する情報を取得（ポイント数、いいね数、採用数も含む）
+  const getMyInfo = async (req: AuthRequest, res: Response): Promise<void> => {
+    const uid = req.user!.uid;
+
+    try {
+      const result = await service.getMyInfo(uid);
+      if (result.ok) {
+        res.status(200).json({ data: result.data });
+      } else {
+        res.status(500).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  return { getMe, upsert, getMyInfo };
 };
