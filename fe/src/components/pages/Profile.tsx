@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { HeaderNav } from "../molecules/HeaderNav";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import defalutlProfileIcon from "../../assets/UserIcon.png";
+import { Button } from "../ui/button";
 import { EditProfileDialog } from "../organisms/dialogs/EditProfileDialog";
 
 type User = {
@@ -17,13 +19,10 @@ type User = {
   point: number; //累計ポイント数
 };
 
-// TODO: ログイン状態でないとこのページは表示できません
-
 export const Profile = () => {
-  const authContext = AuthContextConsumer();
+  const { loginUser, loading, logout } = AuthContextConsumer();
   const [user, setUser] = useState<User | null>(null);
-
-  const loginUser = authContext.loginUser;
+  const navigate = useNavigate();
 
   const fetchProfile = async () => {
     if (!loginUser) return;
@@ -39,6 +38,15 @@ export const Profile = () => {
   useEffect(() => {
     fetchProfile();
   }, [loginUser]);
+
+  const handleLogout = async (): Promise<void> => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (error) {
+      console.error("ログアウトに失敗しました。", error);
+    }
+  };
 
   // アカウント名（UUID）の8文字省略処理
   const displayId = user?.user_name || loginUser?.uid || "名称未定";
@@ -74,6 +82,14 @@ export const Profile = () => {
         <label>累計いいね数:</label>
         <p>{user?.like_count || "TBD"}</p>
       </div>
+      <Button
+        type="button"
+        className="bg-[#00588C] text-[#FAF6F0] text-[14px] py-[8px] px-[16px]"
+        disabled={!loginUser || loading}
+        onClick={handleLogout}
+      >
+        ログアウト
+      </Button>
 
       <EditProfileDialog user={user} onUpdate={fetchProfile} />
     </HeaderLayout>

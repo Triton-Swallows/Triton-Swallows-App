@@ -15,7 +15,7 @@ export const PrivateRoute: React.FC<Props> = ({
   }
 
   if (!loginUser) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children;
