@@ -11,6 +11,7 @@ export async function up(knex: Knex): Promise<void> {
     table.foreign("user_id").references("users.uid");
     table.text("review").notNullable();
     table.string("country_name");
+    table.integer("liked_count").notNullable().defaultTo(0);
     table.timestamps(true, true);
   });
 }

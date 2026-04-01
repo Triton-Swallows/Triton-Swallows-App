@@ -5,7 +5,7 @@ export interface RawReview {
   review: string;
   country_name: string;
   created_at: string;
-  like_count: string;
+  like_count: number;
   liked_by_me: string;
 }
 
@@ -17,7 +17,7 @@ export interface GuestReview {
   review: string;
   country_name: string;
   created_at: string;
-  like_count: string;
+  like_count: number;
 }
 
 // export interface RawReview {
@@ -37,8 +37,17 @@ export interface Review {
   review: string;
   country_name: string;
   created_at: string;
-  like_count: string;
+  like_count: number;
   liked_by_me: boolean;
+}
+
+export interface UserLikeCount {
+  user_id: string;
+  total_like_count: number;
+}
+
+export interface MyLikeCount {
+  total_like_count: number;
 }
 
 // 成功レスポンスの型
