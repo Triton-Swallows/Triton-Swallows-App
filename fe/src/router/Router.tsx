@@ -9,6 +9,9 @@ import { PackingList } from "@/components/pages/PackingList";
 import { Profile } from "@/components/pages/Profile";
 import { PrivateRoute } from "@/components/templetes/PrivateRoute";
 import { Review } from "@/components/pages/Review";
+import { PassportPage } from "@/components/pages/PassportPage";
+import { TicketPage } from "@/components/pages/TicketPage";
+import { TaxPage } from "@/components/pages/TaxPage";
 
 export const Router = () => {
   return (
@@ -25,6 +28,12 @@ export const Router = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/:country/packing-list/esta" element={<EstaPage />} />
+        <Route
+          path="/:country/packing-list/passport"
+          element={<PassportPage />}
+        />
+        <Route path="/:country/packing-list/ticket" element={<TicketPage />} />
+        <Route path="/:country/packing-list/tax" element={<TaxPage />} />
         <Route path="/country-list" element={<CountryPage />} />
         <Route path="/:country/packing-list" element={<PackingList />} />
         <Route
