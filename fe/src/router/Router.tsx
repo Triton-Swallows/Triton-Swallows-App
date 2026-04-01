@@ -12,7 +12,6 @@ import { Review } from "@/components/pages/Review";
 import { PassportPage } from "@/components/pages/PassportPage";
 import { TicketPage } from "@/components/pages/TicketPage";
 import { TaxPage } from "@/components/pages/TaxPage";
-// import { PrivateRoute } from "@/components/templetes/PrivateRoute";
 
 export const Router = () => {
   return (
