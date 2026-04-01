@@ -11,7 +11,7 @@ export async function up(knex: Knex): Promise<void> {
     table.text("description").notNullable();
     table.text("others");
     table.boolean("is_checked").notNullable().defaultTo(false);
-    table.boolean("is_accepted").notNullable();
+    table.boolean("is_accepted").notNullable().defaultTo(false);
     table.timestamps(true, true);
   });
 }
