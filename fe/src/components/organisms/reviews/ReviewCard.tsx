@@ -28,6 +28,10 @@ export const ReviewCard: React.FC<Props> = ({
   const d = String(date.getDate()).padStart(2, "0");
   const yyyymmdd = `${y}年${m}月${d}日`;
   const profileIconSrc = icon_url?.trim() ? icon_url : defaultProfileIcon;
+  const displayUserName =
+    Array.from(user_name).length > 8
+      ? `${Array.from(user_name).slice(0, 8).join("")}...`
+      : user_name;
 
   return (
     <div className="bg-[#A8C9DE] my-[16px] p-[4px] rounded">
@@ -40,7 +44,7 @@ export const ReviewCard: React.FC<Props> = ({
               e.currentTarget.src = defaultProfileIcon;
             }}
           />
-          <p>{user_name}</p>
+          <p>{displayUserName}</p>
         </div>
         <div className="text-center">
           <time className="relative top-[4px] text-[10px]">{yyyymmdd}</time>
