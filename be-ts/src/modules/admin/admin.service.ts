@@ -1,5 +1,10 @@
 import { AdminRepository } from "./admin.repository";
-import { AdminServiceResponse, Info, Points } from "../../types/admin";
+import {
+  AdminServiceResponse,
+  Info,
+  Points,
+  Contacts,
+} from "../../types/admin";
 
 export interface AdminService {
   getAllUserInfo: () => Promise<AdminServiceResponse<Info[]>>;
@@ -8,6 +13,7 @@ export interface AdminService {
     bonus_point: string,
     consume_point: string,
   ) => Promise<AdminServiceResponse<Points>>;
+  getContacts: () => Promise<AdminServiceResponse<Contacts[]>>;
 }
 
 export const createAdminService = (
@@ -85,5 +91,15 @@ export const createAdminService = (
     }
   };
 
-  return { getAllUserInfo, editPoints };
+  const getContacts = async (): Promise<AdminServiceResponse<Contacts[]>> => {
+    try {
+      const data = await repository.getContacts();
+      return { ok: true, data };
+    } catch (error) {
+      const err = error as Error;
+      return { ok: false, status: 500, message: err.message };
+    }
+  };
+
+  return { getAllUserInfo, editPoints, getContacts };
 };

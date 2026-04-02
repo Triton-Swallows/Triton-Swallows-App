@@ -10,6 +10,8 @@ function createAdminRouter(adminController: AdminController) {
 
   router.patch("/admin/points", verifyToken, adminController.editPoints);
 
+  router.get("/admin/contacts", verifyToken, adminController.getContacts);
+
   return router;
 }
 

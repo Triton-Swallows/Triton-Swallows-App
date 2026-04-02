@@ -5,6 +5,7 @@ import {
   LikeCountType,
   ContactCountType,
   Points,
+  Contacts,
 } from "../../types/admin";
 
 export interface AdminRepository {
@@ -17,6 +18,7 @@ export interface AdminRepository {
     bonus_point: string,
     consume_point: string,
   ) => Promise<Points>;
+  getContacts: () => Promise<Contacts[]>;
 }
 
 export const createAdminRepository = (db: Knex): AdminRepository => {
@@ -83,11 +85,19 @@ export const createAdminRepository = (db: Knex): AdminRepository => {
     return results[0];
   };
 
+  const getContacts = async (): Promise<Contacts[]> => {
+    return await db("contacts")
+      .whereNot("is_checked", true)
+      .select("*")
+      .orderBy("created_at", "desc");
+  };
+
   return {
     getAllUsers,
     getReviewCounts,
     getLikeCounts,
     getAcceptedCounts,
     editPoints,
+    getContacts,
   };
 };
