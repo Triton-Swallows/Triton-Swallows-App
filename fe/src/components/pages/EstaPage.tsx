@@ -205,7 +205,7 @@ export const EstaPage = () => {
         </Accordion>
       </section>
 
-      <ContactRequestButton />
+      <ContactRequestButton buttonLabel="情報の追加を依頼する" />
 
       <section>
         <TitleFrame

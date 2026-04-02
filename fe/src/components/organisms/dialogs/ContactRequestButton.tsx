@@ -6,7 +6,13 @@ import { Button } from "@/components/ui/button";
 import { ContactDialog } from "./ContactDialog";
 import { RequireLoginDialog } from "./requireLoginDialog";
 
-export const ContactRequestButton = () => {
+type ContactRequestButtonProps = {
+  buttonLabel?: string;
+};
+
+export const ContactRequestButton = ({
+  buttonLabel = "情報変更を依頼する",
+}: ContactRequestButtonProps) => {
   const { loginUser, loading } = AuthContextConsumer();
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
   const [contactTarget, setContactTarget] = useState("");
@@ -70,7 +76,7 @@ export const ContactRequestButton = () => {
         disabled={loading || isSubmittingContact}
         onClick={() => handleContactDialogOpenChange(true)}
       >
-        情報変更を依頼する
+        {buttonLabel}
       </Button>
       <ContactDialog
         open={isContactDialogOpen}
