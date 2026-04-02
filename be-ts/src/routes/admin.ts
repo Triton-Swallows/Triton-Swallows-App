@@ -8,6 +8,8 @@ function createAdminRouter(adminController: AdminController) {
   // 認証ユーザーの情報取得
   router.get("/admin", verifyToken, adminController.getAllUserInfo);
 
+  router.patch("/admin/points", verifyToken, adminController.editPoints);
+
   return router;
 }
 

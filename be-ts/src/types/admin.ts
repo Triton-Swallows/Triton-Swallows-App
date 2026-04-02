@@ -42,3 +42,10 @@ export interface ContactCountType {
   user_id: string;
   contact_count: number;
 }
+
+export interface Points {
+  id: number;
+  user_id: string;
+  bonus_point: number;
+  consume_point: number;
+}

@@ -57,6 +57,28 @@ export const Admin = () => {
   useEffect(() => {
     fetchData();
   }, [loading, loginUser]);
+
+  // 数値入力時のハンドラー (accepted_count, bonus_point, consume_point を編集可能にする)
+  const handleInputChange = (uid: string, key: keyof Info, value: string) => {
+    setUsers((prev) =>
+      prev.map((user) =>
+        user.uid === uid ? { ...user, [key]: Number(value) || 0 } : user,
+      ),
+    );
+  };
+
+  const onClickSave = async (user: Info): Promise<void> => {
+    try {
+      await apiClient.patch("/admin/points", {
+        uid: user.uid,
+        bonus_point: user.bonus_point,
+        consume_point: user.consume_point,
+      });
+    } catch (error) {
+      console.error("エラー", error);
+    }
+  };
+
   return (
     <HeaderLayout>
       <HeaderNav path={"/"} label="トップページ" title="管理者ページ" />
@@ -131,9 +153,8 @@ export const Admin = () => {
                   // 計算ロジック
                   const likePoints = user.total_like_count * 2;
                   const articlePoints = user.accepted_count * 10;
-                  const subTotal = likePoints + articlePoints;
-                  const total =
-                    subTotal + user.bonus_point + user.consume_point;
+                  const total = likePoints + articlePoints;
+                  const myPoint = total + user.bonus_point - user.consume_point;
 
                   return (
                     <TableRow key={user.uid} className="hover:bg-slate-50">
@@ -156,7 +177,7 @@ export const Admin = () => {
                         {articlePoints}pt
                       </TableCell>
                       <TableCell className="border text-center ">
-                        {subTotal}pt
+                        {total}pt
                       </TableCell>
 
                       {/* 初回投稿（編集可） */}
@@ -165,13 +186,13 @@ export const Admin = () => {
                           type="number"
                           className="border-none text-center h-12 rounded-none font-bold"
                           value={user.bonus_point}
-                          //   onChange={(e) =>
-                          //     handleInputChange(
-                          //       user.uid,
-                          //       "bonus_point",
-                          //       e.target.value,
-                          //     )
-                          //   }
+                          onChange={(e) =>
+                            handleInputChange(
+                              user.uid,
+                              "bonus_point",
+                              e.target.value,
+                            )
+                          }
                         />
                       </TableCell>
 
@@ -181,23 +202,26 @@ export const Admin = () => {
                           type="number"
                           className="border-none text-center h-12 rounded-none font-bold"
                           value={user.consume_point}
-                          //   onChange={(e) =>
-                          //     handleInputChange(
-                          //       user.uid,
-                          //       "consume_point",
-                          //       e.target.value,
-                          //     )
-                          //   }
+                          onChange={(e) =>
+                            handleInputChange(
+                              user.uid,
+                              "consume_point",
+                              e.target.value,
+                            )
+                          }
                         />
                       </TableCell>
 
                       {/* 合計ポイント */}
                       <TableCell className="border text-center font-bold text-2xl">
-                        {total.toLocaleString()}
+                        {myPoint.toLocaleString()}
                         <span className="text-xs ml-0.5 font-normal">pt</span>
                       </TableCell>
                       <TableCell className="border text-center font-bold">
-                        <Button className="bg-[#00588C] text-[#FAF6F0]">
+                        <Button
+                          className="bg-[#00588C] text-[#FAF6F0]"
+                          onClick={() => onClickSave(user)}
+                        >
                           保存
                         </Button>
                       </TableCell>
