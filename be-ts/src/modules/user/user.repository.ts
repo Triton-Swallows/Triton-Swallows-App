@@ -32,7 +32,7 @@ export const createUserRepository = (db: Knex): UserRepository => {
   const getUserByUid = async (uid: string): Promise<User> => {
     return await db("users")
       .where({ uid })
-      .select("uid", "email", "user_name", "icon_url")
+      .select("uid", "email", "user_name", "icon_url", "is_admin")
       .first();
   };
 

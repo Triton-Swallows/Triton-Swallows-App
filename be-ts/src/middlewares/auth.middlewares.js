@@ -27,6 +27,7 @@ async function verifyToken(req, res, next) {
   try {
     const decodedToken = await auth.verifyIdToken(token);
     req.user = decodedToken;
+    req.email = decodedToken;
     next();
   } catch (error) {
     return res.status(401).json({ error: "不正なtokenです" });

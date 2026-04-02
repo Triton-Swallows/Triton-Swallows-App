@@ -16,6 +16,7 @@ type UserInfo = {
   user_name: string;
   email: string;
   icon_url: string;
+  is_admin: boolean;
   review_count: number; //累計投稿数
   total_like_count: number; //累計いいね
   total_point: number; //累計ポイント数
@@ -55,6 +56,7 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     // auth初期化時にログインユーザ設定
     const unsubscribe = auth.onAuthStateChanged(async (user: User | null) => {
+      setLoading(true);
       setLoginUser(user);
       if (user) {
         await refreshUserInfo();
@@ -144,7 +146,7 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
   };
 
   // 最新のMyInfoを取得する関数
-  const refreshUserInfo = async () => {
+  const refreshUserInfo = async (): Promise<void> => {
     try {
       const response = await apiClient.get("/users/me");
       setUserInfo(response.data.data);
