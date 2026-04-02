@@ -266,10 +266,7 @@ export const Admin = () => {
                 {/* メインヘッダー */}
                 <TableRow className="bg-blue-200 h-14">
                   <TableHead className="border text-center font-bold">
-                    ユーザーID
-                  </TableHead>
-                  <TableHead className="border text-center font-bold">
-                    E-Mail
+                    ユーザーメール
                   </TableHead>
                   <TableHead className="border text-center font-bold">
                     ターゲットページ
@@ -299,16 +296,15 @@ export const Admin = () => {
                   return (
                     <TableRow key={contact.id} className="hover:bg-slate-50">
                       <TableCell className="border text-xs truncate max-w-[200px]">
-                        {contact.user_id}
-                      </TableCell>
-                      <TableCell className="border text-center">
                         {contact.email}
                       </TableCell>
                       <TableCell className="border text-center">
                         {contact.target}
                       </TableCell>
                       <TableCell className="border text-center">
-                        {contact.description}
+                        <div className="break-words whitespace-normal text-left">
+                          {contact.description}
+                        </div>
                       </TableCell>
                       <TableCell className="border text-center">
                         {contact.others}
