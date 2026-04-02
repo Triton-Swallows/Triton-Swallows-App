@@ -33,9 +33,27 @@ type AdminResponse = {
   data: Info[];
 };
 
+type Contacts = {
+  id: number;
+  user_id: string;
+  email: string;
+  target: string;
+  description: string;
+  others: string;
+  is_checked: boolean;
+  bonus_rate: number;
+  created_at: string;
+  updated_at: string;
+};
+
+type AdminResponseContacts = {
+  data: Contacts[];
+};
+
 export const Admin = () => {
   const { loginUser, loading } = AuthContextConsumer();
   const [users, setUsers] = useState<Info[]>([]);
+  const [contacts, setContacts] = useState<Contacts[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
 
@@ -44,9 +62,12 @@ export const Admin = () => {
     setIsFetching(true);
     setFetchError(null);
     try {
-      const response = await apiClient.get<AdminResponse>("/admin");
-      //   console.log("+++++++", response.data.data);
+      const [response, contacts] = await Promise.all([
+        apiClient.get<AdminResponse>("/admin"),
+        apiClient.get<AdminResponseContacts>("/admin/contacts"),
+      ]);
       setUsers(response.data.data);
+      setContacts(contacts.data.data);
     } catch {
       setFetchError("情報の取得に失敗しました");
     } finally {
@@ -94,7 +115,7 @@ export const Admin = () => {
           <p className="text-center py-10 text-red-500">{fetchError}</p>
         ) : (
           <div className="mt-6 overflow-x-auto border rounded-md shadow-sm bg-white">
-            <Table className="min-w-[1200px] border-collapse">
+            <Table className="border-collapse">
               <TableHeader>
                 {/* メインヘッダー */}
                 <TableRow className="bg-blue-200 h-14">
@@ -169,7 +190,7 @@ export const Admin = () => {
                       </TableCell>
 
                       {/* 記事採用数 */}
-                      <TableCell className="border text-center bg-blue-50/10">
+                      <TableCell className="border text-center">
                         {user.accepted_count}
                       </TableCell>
 
@@ -224,6 +245,79 @@ export const Admin = () => {
                         >
                           保存
                         </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        )}
+        <div className="mt-4"></div>
+        <TitleFrame title="情報変更・追加申請情報" date="" superivisor="" />
+        {isFetching ? (
+          <p className="text-center py-10">読み込み中...</p>
+        ) : fetchError ? (
+          <p className="text-center py-10 text-red-500">{fetchError}</p>
+        ) : (
+          <div className="mt-6 overflow-x-auto border rounded-md shadow-sm bg-white">
+            <Table className="border-collapse">
+              <TableHeader>
+                {/* メインヘッダー */}
+                <TableRow className="bg-blue-200 h-14">
+                  <TableHead className="border text-center font-bold">
+                    ユーザーID
+                  </TableHead>
+                  <TableHead className="border text-center font-bold">
+                    E-Mail
+                  </TableHead>
+                  <TableHead className="border text-center font-bold">
+                    ターゲットページ
+                  </TableHead>
+                  <TableHead className="border text-center font-bold">
+                    申請本文
+                  </TableHead>
+                  <TableHead className="border text-center font-bold">
+                    その他
+                  </TableHead>
+                  <TableHead className="border text-center font-bold">
+                    ボーナスレート
+                  </TableHead>
+                  <TableHead className="border text-center font-bold">
+                    申請日
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+
+              <TableBody>
+                {contacts.map((contact) => {
+                  const date = new Date(contact.created_at);
+                  const y = date.getFullYear();
+                  const m = String(date.getMonth() + 1).padStart(2, "0");
+                  const d = String(date.getDate()).padStart(2, "0");
+                  const yyyymmdd = `${y}年${m}月${d}日`;
+                  return (
+                    <TableRow key={contact.id} className="hover:bg-slate-50">
+                      <TableCell className="border text-xs truncate max-w-[200px]">
+                        {contact.user_id}
+                      </TableCell>
+                      <TableCell className="border text-center">
+                        {contact.email}
+                      </TableCell>
+                      <TableCell className="border text-center">
+                        {contact.target}
+                      </TableCell>
+                      <TableCell className="border text-center">
+                        {contact.description}
+                      </TableCell>
+                      <TableCell className="border text-center">
+                        {contact.others}
+                      </TableCell>
+                      <TableCell className="border text-center">
+                        {contact.bonus_rate}
+                      </TableCell>
+                      <TableCell className="border text-center ">
+                        {yyyymmdd}
                       </TableCell>
                     </TableRow>
                   );
