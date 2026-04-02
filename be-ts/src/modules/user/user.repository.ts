@@ -49,7 +49,7 @@ export const createUserRepository = (db: Knex): UserRepository => {
   const getReviewCountByUserId = async (
     uid: string,
   ): Promise<ReviewCountType> => {
-    const result = db("reviews")
+    const result = await db("reviews")
       .where("reviews.user_id", uid)
       .count("* as count")
       .first();
