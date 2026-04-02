@@ -80,7 +80,7 @@ export const createUserController = (service: UserService): UserController => {
       const result = await service.editMyInfo(user_id, user_name, icon_url);
 
       if (result.ok) {
-        res.status(201).json({ data: result.data });
+        res.status(201).json({ myInfo: result.data });
       } else {
         res.status(500).json({ error: result.message });
       }
