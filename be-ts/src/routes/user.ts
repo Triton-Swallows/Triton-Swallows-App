@@ -14,6 +14,9 @@ function createUserRouter(userController: UserController) {
   // 自分のユーザー情報を取得
   router.get("/users/me", verifyToken, userController.getMyInfo);
 
+  // 自分のユーザー情報を更新
+  router.patch("/users", verifyToken, userController.editMyInfo);
+
   return router;
 }
 

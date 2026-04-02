@@ -4,7 +4,7 @@ import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import userIcon from "../../../assets/UserIcon.png";
 
 export const NavBar = () => {
-  const { loginUser } = AuthContextConsumer();
+  const { loginUser, userInfo } = AuthContextConsumer();
 
   return (
     <>
@@ -18,7 +18,7 @@ export const NavBar = () => {
             // <RiUser3Line className="w-[56px] h-[56px]" />
             <Link to="/profile">
               <img
-                src={userIcon}
+                src={userInfo?.icon_url || userIcon}
                 alt="User Icon"
                 className="w-[56px] h-[56px] rounded-full"
               />
