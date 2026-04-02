@@ -44,13 +44,13 @@ export const createUserService = (repository: UserRepository): UserService => {
     uid: string,
   ): Promise<UserServiceResponse<MyInfo>> => {
     try {
-      const [user, review_count, like_count, point, approved_count] =
+      const [user, review_count, like_count, point, contacts] =
         await Promise.all([
           repository.getUserByUid(uid),
           repository.getReviewCountByUserId(uid),
           repository.getLikeCountByUserId(uid),
           repository.getTotalPointByUserId(uid),
-          repository.getApprovedCountByUserId(uid),
+          repository.getContactsByUserId(uid),
         ]);
 
       if (!user) {
@@ -59,9 +59,22 @@ export const createUserService = (repository: UserRepository): UserService => {
 
       // 残高ポイントをここで取得(repositoryからどんな型で返ってくるかをチェック)
 
+      // let contactPoint = 0;
+      // for (const contact of contacts) {
+      //   if (contact.is_accepted === true) {
+      //     contactPoint += 10 * Number(contact.bonus_rate);
+      //   }
+      // }
+
+      const contactPoint = contacts.reduce((sum, contact) => {
+        return contact.is_accepted
+          ? sum + 10 * Number(contact.bonus_rate)
+          : sum;
+      }, 0);
+
       const total_point =
         (like_count.total_like_count || 0) * 2 +
-        (approved_count.total_approved_count || 0) * 10 +
+        contactPoint +
         (point.bonus_point || 0);
 
       const myPoint = total_point - (point.consume_point || 0);
@@ -71,7 +84,7 @@ export const createUserService = (repository: UserRepository): UserService => {
         ...review_count,
         ...like_count,
         ...point,
-        ...approved_count,
+        contact_point: contactPoint,
         total_point: total_point,
         my_point: myPoint,
       };
