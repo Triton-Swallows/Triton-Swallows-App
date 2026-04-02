@@ -1,6 +1,5 @@
 import { UserRepository } from "./user.repository";
 import { User, UserServiceResponse, MyInfo } from "../../types/user";
-import { app } from "firebase-admin";
 
 export interface UserService {
   findByUid: (userId: string) => Promise<UserServiceResponse<User>>;
