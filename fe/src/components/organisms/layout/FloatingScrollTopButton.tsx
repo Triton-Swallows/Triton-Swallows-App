@@ -16,7 +16,7 @@ export const FloatingScrollTopButton = ({
       <span className="flex h-8 w-8 items-center justify-center">
         <RiGraduationCapLine className="h-5 w-5" />
       </span>
-      <span className="pr-1 tracking-[0.02em]">専門家に聞く</span>
+      <span className="pr-1 tracking-[0.02em]">HELP</span>
     </button>
   );
 };

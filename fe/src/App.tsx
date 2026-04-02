@@ -12,7 +12,7 @@ import {
 
 // TODO: chatボタンを押すだけでカウント増えちゃう　submitされなかったら、count - 1する必要あり
 // TODO: localStorageでの制限はユーザが直接書き換えられちゃうので、あんま意味ない
-const MAX_CHAT_SESSION = 20;
+const MAX_CHAT_SESSION = 3;
 
 const getChatSessionStorageKey = (uid: string) => {
   return `gemini-chat-session-count:${uid}`;

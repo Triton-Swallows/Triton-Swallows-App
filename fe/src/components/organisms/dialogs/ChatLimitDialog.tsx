@@ -23,7 +23,7 @@ export const ChatLimitDialog = ({
             チャット上限に達しました
           </DialogTitle>
           <DialogDescription className="text-sm text-slate-600">
-            このアカウントでは新規チャットを20回まで開始できます。
+            このアカウントでは新規チャットを3回まで開始できます。
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
