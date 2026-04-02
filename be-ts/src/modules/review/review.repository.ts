@@ -38,9 +38,12 @@ function createReviewRepository(db: Knex): ReviewRepository {
 
   const getAll = async (userId: string): Promise<RawReview[]> => {
     const rows = await db("reviews")
+      .leftJoin("users", "reviews.user_id", "users.uid")
       .select(
         "reviews.id",
         "reviews.user_id",
+        "users.user_name",
+        "users.icon_url",
         "reviews.review",
         "reviews.created_at",
         "reviews.country_name",
@@ -57,10 +60,13 @@ function createReviewRepository(db: Knex): ReviewRepository {
     country: string,
   ): Promise<RawReview[]> => {
     const rows = await db("reviews")
+      .leftJoin("users", "reviews.user_id", "users.uid")
       .where("reviews.country_name", country)
       .select(
         "reviews.id",
         "reviews.user_id",
+        "users.user_name",
+        "users.icon_url",
         "reviews.review",
         "reviews.created_at",
         "reviews.country_name",
@@ -74,10 +80,13 @@ function createReviewRepository(db: Knex): ReviewRepository {
 
   const getByCountryGuest = async (country: string): Promise<GuestReview[]> => {
     const rows = await db("reviews")
+      .leftJoin("users", "reviews.user_id", "users.uid")
       .where("reviews.country_name", country)
       .select(
         "reviews.id",
         "reviews.user_id",
+        "users.user_name",
+        "users.icon_url",
         "reviews.review",
         "reviews.created_at",
         "reviews.country_name",
