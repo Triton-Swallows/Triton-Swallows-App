@@ -16,6 +16,8 @@ type User = {
   count: number; //累計投稿数
   total_like_count: number; //累計いいね
   total_point: number; //累計ポイント数
+  consume_point: number; //消費ポイント
+  my_point: number; //残高
 };
 
 type ApiResponse<T> = {
@@ -83,15 +85,15 @@ export const Profile = () => {
       </div>
       <div className="flex gap-[10px]">
         <label>累計ポイント数:</label>
-        <p>{user?.total_point}</p>
+        <p>{user?.total_point} pt</p>
       </div>
       <div className="flex gap-[10px]">
         <label>消費ポイント:</label>
-        <p>TBD</p>
+        <p>{user?.consume_point} pt</p>
       </div>
       <div className="flex gap-[10px]">
         <label>残高:</label>
-        <p>TBD</p>
+        <p>{user?.my_point} pt</p>
       </div>
 
       <Button
