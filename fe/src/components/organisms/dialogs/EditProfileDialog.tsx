@@ -24,7 +24,7 @@ export const EditProfileDialog = ({
   onUpdate,
 }: EditProfileDialogProps) => {
   const [name, setName] = useState(user?.user_name);
-  const [previewUrl, setPreviewUrl] = useState("");
+  const [previewUrl, setPreviewUrl] = useState(user?.icon_url);
   const [iconFile, setIconFile] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
   let iconUrl = user?.icon_url ?? "";
@@ -33,7 +33,6 @@ export const EditProfileDialog = ({
     if (open && user) {
       setName(user.user_name);
       setIconFile(null); // ファイル選択もリセット
-      setPreviewUrl("");
     }
   }, [open, user]);
 
@@ -77,7 +76,7 @@ export const EditProfileDialog = ({
       <DialogContent className="sm:max-w-sm">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <img src={iconUrl} />
+            <img src={previewUrl} />
             <DialogTitle>プロフィールを編集</DialogTitle>
             <DialogDescription>
               編集を完了したら、「保存する」ボタンを押してください。
@@ -104,14 +103,6 @@ export const EditProfileDialog = ({
                   setPreviewUrl(file ? URL.createObjectURL(file) : ""); // https://zenn.dev/takezzoh/articles/ca64a9007d49b5
                 }}
               />
-            </div>
-            <div>
-              {previewUrl && (
-                <div>
-                  <p>プレビュー:</p>
-                  <img src={previewUrl} />
-                </div>
-              )}
             </div>
           </div>
 

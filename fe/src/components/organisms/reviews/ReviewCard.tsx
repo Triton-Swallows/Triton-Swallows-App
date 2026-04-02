@@ -1,4 +1,7 @@
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
+import { useState } from "react";
+import { Player } from "@lottiefiles/react-lottie-player";
+import likeAnimation from "../../../assets/animation/Love Animation with Particle.json";
 import defaultProfileIcon from "@/assets/UserIcon.png";
 
 type Props = {
@@ -33,6 +36,15 @@ export const ReviewCard: React.FC<Props> = ({
       ? `${Array.from(user_name).slice(0, 8).join("")}...`
       : user_name;
 
+  const [showAnimation, setShowAnimation] = useState(false);
+
+  const handleToggleLike = () => {
+    if (!liked_by_me) {
+      setShowAnimation(true);
+    }
+    onToggleLike(review_id, liked_by_me);
+  };
+
   return (
     <div className="bg-[#A8C9DE] my-[16px] p-[4px] rounded">
       <div className="grid grid-cols-3 items-center px-[4px]">
@@ -51,12 +63,36 @@ export const ReviewCard: React.FC<Props> = ({
         </div>
         <div className="flex justify-end gap-2">
           <span>{like_count}</span>
-          <button
-            className="flex items-center cursor-pointer"
-            onClick={() => onToggleLike(review_id, liked_by_me)}
-          >
-            {liked_by_me ? <RiHeartFill /> : <RiHeartLine />}
-          </button>
+          <div className="relative flex items-center">
+            {showAnimation && (
+              <Player
+                autoplay
+                src={likeAnimation}
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  height: "60px",
+                  width: "60px",
+                  zIndex: 1,
+                  pointerEvents: "none",
+                }}
+                onEvent={(event) => {
+                  if (event === "complete") {
+                    setShowAnimation(false);
+                  }
+                }}
+              />
+            )}
+
+            <button
+              className="flex items-center cursor-pointer"
+              onClick={handleToggleLike}
+            >
+              {liked_by_me ? <RiHeartFill color="red" /> : <RiHeartLine />}
+            </button>
+          </div>
         </div>
       </div>
       <div className="bg-white py-[20px] px-[8px] rounded-sm">
