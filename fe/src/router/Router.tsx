@@ -12,6 +12,8 @@ import { Review } from "@/components/pages/Review";
 import { PassportPage } from "@/components/pages/PassportPage";
 import { TicketPage } from "@/components/pages/TicketPage";
 import { TaxPage } from "@/components/pages/TaxPage";
+import { Admin } from "@/components/pages/Admin";
+import { AdminRoute } from "@/components/templetes/AdminRoute";
 
 export const Router = () => {
   return (
@@ -45,6 +47,14 @@ export const Router = () => {
           }
         />
         <Route path="/:country/reviews" element={<Review />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <Admin />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </AuthContextProvider>
   );

@@ -24,14 +24,16 @@ export const EditProfileDialog = ({
   onUpdate,
 }: EditProfileDialogProps) => {
   const [name, setName] = useState(user?.user_name);
-  // const [iconUrl, setIconUrl] = useState(user.icon_url);
+  const [previewUrl, setPreviewUrl] = useState("");
   const [iconFile, setIconFile] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
+  let iconUrl = user?.icon_url ?? "";
 
   useEffect(() => {
     if (open && user) {
       setName(user.user_name);
       setIconFile(null); // ファイル選択もリセット
+      setPreviewUrl("");
     }
   }, [open, user]);
 
@@ -40,8 +42,6 @@ export const EditProfileDialog = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      let iconUrl = user?.icon_url ?? "";
-
       if (iconFile) {
         const formData = new FormData();
         formData.append("image", iconFile);
@@ -56,6 +56,7 @@ export const EditProfileDialog = ({
         const imageBBData = await imagaBBResponse.json();
         iconUrl = imageBBData.data.url;
       }
+      setPreviewUrl(iconUrl);
 
       await apiClient.patch("/users", {
         user_name: name,
@@ -76,6 +77,7 @@ export const EditProfileDialog = ({
       <DialogContent className="sm:max-w-sm">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
+            <img src={iconUrl} />
             <DialogTitle>プロフィールを編集</DialogTitle>
             <DialogDescription>
               編集を完了したら、「保存する」ボタンを押してください。
@@ -97,10 +99,19 @@ export const EditProfileDialog = ({
                 type="file"
                 accept="image/*"
                 onChange={(e) => {
-                  console.log("e.target.filesとは", e.target.files);
-                  setIconFile(e.target.files?.[0] ?? null);
+                  const file = e.target.files?.[0] ?? null;
+                  setIconFile(file);
+                  setPreviewUrl(file ? URL.createObjectURL(file) : ""); // https://zenn.dev/takezzoh/articles/ca64a9007d49b5
                 }}
               />
+            </div>
+            <div>
+              {previewUrl && (
+                <div>
+                  <p>プレビュー:</p>
+                  <img src={previewUrl} />
+                </div>
+              )}
             </div>
           </div>
 

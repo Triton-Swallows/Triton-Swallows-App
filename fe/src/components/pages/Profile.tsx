@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { HeaderNav } from "../molecules/HeaderNav";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
@@ -19,6 +20,10 @@ export const Profile = () => {
       console.error("ログアウトに失敗しました。", error);
     }
   };
+
+  useEffect(() => {
+    refreshUserInfo();
+  }, []);
 
   return (
     <HeaderLayout>
@@ -70,6 +75,16 @@ export const Profile = () => {
       >
         ログアウト
       </Button>
+
+      <Link to="TBD">
+        <Button
+          type="button"
+          className="bg-[#00588C] text-[#FAF6F0] text-[14px] py-[8px] px-[16px]"
+          disabled={!loginUser || loading}
+        >
+          ポイントをAmazonギフト券に交換
+        </Button>
+      </Link>
 
       <EditProfileDialog user={userInfo} onUpdate={refreshUserInfo} />
     </HeaderLayout>

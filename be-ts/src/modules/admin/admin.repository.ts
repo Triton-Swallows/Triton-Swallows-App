@@ -1,0 +1,93 @@
+import { Knex } from "knex";
+import {
+  User,
+  ReviewCountType,
+  LikeCountType,
+  ContactCountType,
+  Points,
+} from "../../types/admin";
+
+export interface AdminRepository {
+  getAllUsers: () => Promise<User[]>;
+  getReviewCounts: (uids: string[]) => Promise<ReviewCountType[]>;
+  getLikeCounts: (uids: string[]) => Promise<LikeCountType[]>;
+  getAcceptedCounts: (uids: string[]) => Promise<ContactCountType[]>;
+  editPoints: (
+    user_id: string,
+    bonus_point: string,
+    consume_point: string,
+  ) => Promise<Points>;
+}
+
+export const createAdminRepository = (db: Knex): AdminRepository => {
+  // 全ユーザーの基本情報を取得
+  const getAllUsers = async (): Promise<User[]> => {
+    return await db("users")
+      .select(
+        "users.uid",
+        "users.email",
+        "users.user_name",
+        "users.icon_url",
+        db.raw("COALESCE(points.bonus_point, 0) as bonus_point"),
+        db.raw("COALESCE(points.consume_point, 0) as consume_point"),
+      )
+      .leftJoin("points", "users.uid", "points.user_id");
+  };
+
+  // ユーザー毎のレビュー数取得
+  const getReviewCounts = async (
+    uids: string[],
+  ): Promise<ReviewCountType[]> => {
+    return await db("reviews")
+      .whereIn("user_id", uids)
+      .select("user_id")
+      .count("id as review_count")
+      .groupBy("user_id");
+  };
+
+  // ユーザー毎のいいね数取得
+  const getLikeCounts = async (uids: string[]): Promise<LikeCountType[]> => {
+    return await db("likes")
+      .join("reviews", "likes.review_id", "reviews.id")
+      .whereIn("reviews.user_id", uids)
+      .select("reviews.user_id")
+      .count("likes.review_id as total_like_count")
+      .groupBy("reviews.user_id");
+  };
+
+  // ユーザー毎の記事採用数取得
+  const getAcceptedCounts = async (
+    uids: string[],
+  ): Promise<ContactCountType[]> => {
+    return await db("contacts")
+      .whereIn("user_id", uids)
+      .where("is_accepted", true)
+      .select("user_id")
+      .count("id as contact_count")
+      .groupBy("user_id");
+  };
+
+  const editPoints = async (
+    user_id: string,
+    bonus_point: string,
+    consume_point: string,
+  ): Promise<Points> => {
+    const results = await db("points")
+      .where({ user_id })
+      .update({
+        bonus_point,
+        consume_point,
+      })
+      .returning("*");
+
+    return results[0];
+  };
+
+  return {
+    getAllUsers,
+    getReviewCounts,
+    getLikeCounts,
+    getAcceptedCounts,
+    editPoints,
+  };
+};

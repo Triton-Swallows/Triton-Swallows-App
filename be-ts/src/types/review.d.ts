@@ -2,6 +2,8 @@
 export interface RawReview {
   id: string;
   user_id: string;
+  user_name: string;
+  icon_url: string;
   review: string;
   country_name: string;
   created_at: string;
@@ -14,6 +16,8 @@ export interface RawReview {
 export interface GuestReview {
   id: string;
   user_id: string;
+  user_name: string;
+  icon_url: string;
   review: string;
   country_name: string;
   created_at: string;
