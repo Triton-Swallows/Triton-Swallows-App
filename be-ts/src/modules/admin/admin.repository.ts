@@ -28,7 +28,7 @@ export const createAdminRepository = (db: Knex): AdminRepository => {
         "users.email",
         "users.user_name",
         "users.icon_url",
-        db.raw("COALESCE(points.bounus_point, 0) as bonus_point"),
+        db.raw("COALESCE(points.bonus_point, 0) as bonus_point"),
         db.raw("COALESCE(points.consume_point, 0) as consume_point"),
       )
       .leftJoin("points", "users.uid", "points.user_id");
@@ -69,13 +69,13 @@ export const createAdminRepository = (db: Knex): AdminRepository => {
 
   const editPoints = async (
     user_id: string,
-    bounus_point: string,
+    bonus_point: string,
     consume_point: string,
   ): Promise<Points> => {
     const results = await db("points")
       .where({ user_id })
       .update({
-        bounus_point,
+        bonus_point,
         consume_point,
       })
       .returning("*");

@@ -35,7 +35,6 @@ export const createAdminController = (
       const user_id = req.body.uid;
       const bonus_point = req.body.bonus_point;
       const consume_point = req.body.consume_point;
-      console.log("*****:");
 
       const result = await service.editPoints(
         user_id,
