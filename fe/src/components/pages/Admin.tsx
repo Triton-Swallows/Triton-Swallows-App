@@ -79,7 +79,7 @@ export const Admin = () => {
     fetchData();
   }, [loading, loginUser]);
 
-  // 数値入力時のハンドラー (accepted_count, bonus_point, consume_point を編集可能にする)
+  // 数値入力時
   const handleInputChange = (uid: string, key: keyof Info, value: string) => {
     setUsers((prev) =>
       prev.map((user) =>
@@ -94,6 +94,16 @@ export const Admin = () => {
         uid: user.uid,
         bonus_point: user.bonus_point,
         consume_point: user.consume_point,
+      });
+    } catch (error) {
+      console.error("エラー", error);
+    }
+  };
+
+  const onClickCheck = async (id: number, accept: boolean): Promise<void> => {
+    try {
+      await apiClient.patch(`/admin/contacts/:${id}`, {
+        is_accepted: accept,
       });
     } catch (error) {
       console.error("エラー", error);
@@ -283,6 +293,9 @@ export const Admin = () => {
                   <TableHead className="border text-center font-bold">
                     申請日
                   </TableHead>
+                  <TableHead className="border text-center font-bold">
+                    承諾 / 拒否
+                  </TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -314,6 +327,20 @@ export const Admin = () => {
                       </TableCell>
                       <TableCell className="border text-center ">
                         {yyyymmdd}
+                      </TableCell>
+                      <TableCell className="border text-center ">
+                        <Button
+                          className="bg-[#00588C] text-[#FAF6F0]"
+                          onClick={() => onClickCheck(contact.id, true)}
+                        >
+                          承諾
+                        </Button>
+                        <Button
+                          className="bg-red-600 text-[#FAF6F0]"
+                          onClick={() => onClickCheck(contact.id, false)}
+                        >
+                          拒否
+                        </Button>
                       </TableCell>
                     </TableRow>
                   );
