@@ -14,6 +14,10 @@ export interface AdminService {
     consume_point: string,
   ) => Promise<AdminServiceResponse<Points>>;
   getContacts: () => Promise<AdminServiceResponse<Contacts[]>>;
+  editContacts: (
+    id: string,
+    is_accepted: boolean,
+  ) => Promise<AdminServiceResponse<Contacts>>;
 }
 
 export const createAdminService = (
@@ -101,5 +105,18 @@ export const createAdminService = (
     }
   };
 
-  return { getAllUserInfo, editPoints, getContacts };
+  const editContacts = async (
+    id: string,
+    is_accepted: boolean,
+  ): Promise<AdminServiceResponse<Contacts>> => {
+    try {
+      const data = await repository.editContacts(id, is_accepted);
+      return { ok: true, data };
+    } catch (error) {
+      const err = error as Error;
+      return { ok: false, status: 500, message: err.message };
+    }
+  };
+
+  return { getAllUserInfo, editPoints, getContacts, editContacts };
 };

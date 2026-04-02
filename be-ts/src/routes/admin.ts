@@ -12,6 +12,12 @@ function createAdminRouter(adminController: AdminController) {
 
   router.get("/admin/contacts", verifyToken, adminController.getContacts);
 
+  router.patch(
+    "/admin/contacts/:id",
+    verifyToken,
+    adminController.editContacts,
+  );
+
   return router;
 }
 

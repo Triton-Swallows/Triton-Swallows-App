@@ -19,6 +19,7 @@ export interface AdminRepository {
     consume_point: string,
   ) => Promise<Points>;
   getContacts: () => Promise<Contacts[]>;
+  editContacts: (id: string, is_accepted: boolean) => Promise<Contacts>;
 }
 
 export const createAdminRepository = (db: Knex): AdminRepository => {
@@ -92,6 +93,18 @@ export const createAdminRepository = (db: Knex): AdminRepository => {
       .orderBy("created_at", "desc");
   };
 
+  const editContacts = async (id: string, is_accepted: boolean) => {
+    const result = await db("contacts")
+      .where({ id })
+      .update({
+        is_checked: true,
+        is_accepted,
+        updated_at: db.fn.now(),
+      })
+      .returning("*");
+    return result[0];
+  };
+
   return {
     getAllUsers,
     getReviewCounts,
@@ -99,5 +112,6 @@ export const createAdminRepository = (db: Knex): AdminRepository => {
     getAcceptedCounts,
     editPoints,
     getContacts,
+    editContacts,
   };
 };
