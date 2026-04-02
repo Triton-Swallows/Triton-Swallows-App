@@ -5,17 +5,19 @@ import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Button } from "@/components/ui/button";
 import { ContactDialog } from "./ContactDialog";
 import { RequireLoginDialog } from "./requireLoginDialog";
+import { useLocation } from "react-router-dom";
 
 type ContactRequestButtonProps = {
   buttonLabel?: string;
+  bonusRate?: number;
 };
 
 export const ContactRequestButton = ({
   buttonLabel = "情報変更を依頼する",
+  bonusRate = 1,
 }: ContactRequestButtonProps) => {
   const { loginUser, loading } = AuthContextConsumer();
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
-  const [contactTarget, setContactTarget] = useState("");
   const [contactDescription, setContactDescription] = useState("");
   const [contactOthers, setContactOthers] = useState("");
   const [isSubmittingContact, setIsSubmittingContact] = useState(false);
@@ -25,6 +27,7 @@ export const ContactRequestButton = ({
   } | null>(null);
   const [requireLogindialogOpen, setRequireLoginDialogOpen] =
     useState<boolean>(false);
+  const location = useLocation();
 
   const handleContactDialogOpenChange = (open: boolean) => {
     if (!loginUser) {
@@ -46,16 +49,16 @@ export const ContactRequestButton = ({
     try {
       setIsSubmittingContact(true);
       await apiClient.post("/contacts", {
-        target: contactTarget,
+        target: location,
         description: contactDescription,
         others: contactOthers,
+        bonus_rate: bonusRate,
       });
       setContactStatus({
         type: "success",
         message: "変更申請を送信しました。情報提供ありがとうございます。",
       });
       setIsContactDialogOpen(false);
-      setContactTarget("");
       setContactDescription("");
       setContactOthers("");
     } catch (error) {
@@ -82,15 +85,14 @@ export const ContactRequestButton = ({
         open={isContactDialogOpen}
         onOpenChange={handleContactDialogOpenChange}
         disabled={!loginUser || loading || isSubmittingContact}
-        target={contactTarget}
         description={contactDescription}
         others={contactOthers}
         statusType={contactStatus?.type}
         statusMessage={isContactDialogOpen ? contactStatus?.message : undefined}
-        onTargetChange={setContactTarget}
         onDescriptionChange={setContactDescription}
         onOthersChange={setContactOthers}
         onSubmit={handleContactSubmit}
+        location={location.pathname}
       />
       <RequireLoginDialog
         open={requireLogindialogOpen}
