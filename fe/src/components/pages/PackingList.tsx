@@ -3,6 +3,7 @@ import { TitleFrame } from "../atoms/TitleFrame";
 import { Link } from "react-router-dom";
 import { HeaderNav } from "../molecules/HeaderNav";
 import { ContactRequestButton } from "@/components/organisms/dialogs/ContactRequestButton";
+import { GeminiChatLauncher } from "../organisms/layout/GeminiChatLauncher";
 
 type PackingItem = {
   name: string;
@@ -106,6 +107,7 @@ export const PackingList = () => {
           <ContactRequestButton />
         </div>
       </div>
+      <GeminiChatLauncher />
     </HeaderLayout>
   );
 };
