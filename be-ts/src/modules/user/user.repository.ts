@@ -4,6 +4,7 @@ import {
   ReviewCountType,
   PointCountType,
   LikeCountType,
+  ApprovedCountType,
 } from "../../types/user";
 
 export interface UserRepository {
@@ -13,6 +14,12 @@ export interface UserRepository {
   getReviewCountByUserId: (uid: string) => Promise<ReviewCountType>;
   getTotalPointByUserId: (uid: string) => Promise<PointCountType>;
   getLikeCountByUserId: (userId: string) => Promise<LikeCountType>;
+  editMyInfo: (
+    user_id: string,
+    user_name: string,
+    icon_url: string,
+  ) => Promise<User>;
+  getApprovedCountByUserId: (userId: string) => Promise<ApprovedCountType>;
 }
 
 export const createUserRepository = (db: Knex): UserRepository => {
@@ -42,22 +49,35 @@ export const createUserRepository = (db: Knex): UserRepository => {
   const getReviewCountByUserId = async (
     uid: string,
   ): Promise<ReviewCountType> => {
-    const result = db("reviews")
+    const result = await db("reviews")
       .where("reviews.user_id", uid)
-      .count("*")
-      .as("review_count")
-      .first() as unknown as ReviewCountType;
-    return result ?? { review_count: 0 };
+      .count("* as count")
+      .first();
+    return { review_count: Number(result?.count || 0) };
   };
 
   // user_idに基づく累計ポイント数をget
   const getTotalPointByUserId = async (
     uid: string,
   ): Promise<PointCountType> => {
-    return await db("points")
+    const result = await db("points")
       .where("points.user_id", uid)
-      .select("total_point")
+      .select("consume_point", "bonus_point")
       .first();
+
+    return result || { consume_point: 0, bonus_point: 0 };
+  };
+
+  // user_idに基づく累計記事採用数をget
+  const getApprovedCountByUserId = async (
+    uid: string,
+  ): Promise<ApprovedCountType> => {
+    const result = await db("contacts")
+      .where("user_id", uid)
+      .andWhere("is_accepted", true)
+      .count("* as count")
+      .first();
+    return { total_approved_count: Number(result?.count || 0) };
   };
 
   // ユーザごとのtotal_like_count集計
@@ -74,6 +94,23 @@ export const createUserRepository = (db: Knex): UserRepository => {
       .first();
   };
 
+  // プロフィールの編集（user_nameとicon_urlが対象）
+  const editMyInfo = async (
+    uid: string,
+    user_name: string,
+    icon_url: string,
+  ): Promise<User> => {
+    const results = await db("users")
+      .where({ uid })
+      .update({
+        user_name,
+        icon_url,
+      })
+      .returning("*");
+
+    return results[0];
+  };
+
   return {
     getAllUsers,
     getUserByUid,
@@ -81,5 +118,7 @@ export const createUserRepository = (db: Knex): UserRepository => {
     getLikeCountByUserId,
     getReviewCountByUserId,
     getTotalPointByUserId,
+    editMyInfo,
+    getApprovedCountByUserId,
   };
 };

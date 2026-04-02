@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import apiClient from "@/config/apiClient";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type EditProfileDialogProps = {
   user: {
@@ -23,10 +23,17 @@ export const EditProfileDialog = ({
   user,
   onUpdate,
 }: EditProfileDialogProps) => {
-  const [name, setName] = useState(user?.user_name ?? "TBD");
+  const [name, setName] = useState(user?.user_name);
   // const [iconUrl, setIconUrl] = useState(user.icon_url);
   const [iconFile, setIconFile] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (open && user) {
+      setName(user.user_name);
+      setIconFile(null); // ファイル選択もリセット
+    }
+  }, [open, user]);
 
   const API_KEY = import.meta.env.VITE_IMAGEBB_API_KEY;
 

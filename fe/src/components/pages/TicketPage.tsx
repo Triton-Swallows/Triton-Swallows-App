@@ -2,6 +2,7 @@ import { HeaderLayout } from "../templetes/HeaderLayout";
 import { TitleFrame } from "../atoms/TitleFrame";
 import { SummaryFrameDetail } from "../atoms/SummaryFrameDetail";
 import { HeaderNav } from "../molecules/HeaderNav";
+import { GeminiChatLauncher } from "../organisms/layout/GeminiChatLauncher";
 
 export const TicketPage = () => {
   return (
@@ -18,6 +19,7 @@ export const TicketPage = () => {
           notes=""
         />
       </section>
+      <GeminiChatLauncher />
     </HeaderLayout>
   );
 };
