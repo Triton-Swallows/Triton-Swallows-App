@@ -4,6 +4,7 @@ import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Link } from "react-router-dom";
 import { HeaderNav } from "../molecules/HeaderNav";
 import { Button } from "../ui/button";
+import { GeminiChatLauncher } from "../organisms/layout/GeminiChatLauncher";
 
 type PackingItem = {
   name: string;
@@ -126,6 +127,7 @@ export const PackingList = () => {
           </div>
         </div>
       </div>
+      <GeminiChatLauncher />
     </HeaderLayout>
   );
 };

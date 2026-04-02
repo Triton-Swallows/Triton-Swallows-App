@@ -12,6 +12,7 @@ import apiClient from "@/config/apiClient";
 import { Button } from "../ui/button";
 import { HeaderNav } from "../molecules/HeaderNav";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
+import { GeminiChatLauncher } from "../organisms/layout/GeminiChatLauncher";
 
 export const EstaPage = () => {
   const { loginUser, loading } = AuthContextConsumer();
@@ -259,6 +260,7 @@ export const EstaPage = () => {
           ))}
         </div>
       </section>
+      <GeminiChatLauncher />
     </HeaderLayout>
   );
 };
