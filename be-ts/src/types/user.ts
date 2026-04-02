@@ -19,7 +19,11 @@ export interface MyInfo {
   icon_url: string;
   review_count: number;
   total_like_count: number;
+  consume_point: number;
+  total_approved_count: number;
+  bonus_point: number;
   total_point: number;
+  my_point: number;
 }
 
 export interface ReviewCountType {
@@ -27,9 +31,14 @@ export interface ReviewCountType {
 }
 
 export interface PointCountType {
-  total_point: number;
+  consume_point: number;
+  bonus_point: number;
 }
 
 export interface LikeCountType {
   total_like_count: number;
+}
+
+export interface ApprovedCountType {
+  total_approved_count: number;
 }
