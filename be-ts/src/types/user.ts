@@ -3,6 +3,7 @@ export interface User {
   email: string;
   user_name: string;
   icon_url: string;
+  is_admin: boolean;
 }
 
 export interface UserServiceResponse<T> {
@@ -17,6 +18,7 @@ export interface MyInfo {
   user_name: string;
   email: string;
   icon_url: string;
+  is_admin: boolean;
   review_count: number;
   total_like_count: number;
   consume_point: number;
