@@ -102,9 +102,10 @@ export const Admin = () => {
 
   const onClickCheck = async (id: number, accept: boolean): Promise<void> => {
     try {
-      await apiClient.patch(`/admin/contacts/:${id}`, {
+      await apiClient.patch(`/admin/contacts/${id}`, {
         is_accepted: accept,
       });
+      setContacts((prev) => prev.filter((contact) => contact.id !== id));
     } catch (error) {
       console.error("エラー", error);
     }
