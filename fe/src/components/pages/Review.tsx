@@ -31,7 +31,7 @@ type ReviewSummaryItem = {
 
 type ReviewApiItem = {
   user_name: string;
-  user_icon: string;
+  icon_url: string;
   id: number;
   review: string;
   like_count: string;
@@ -41,7 +41,7 @@ type ReviewApiItem = {
 
 type ReviewItem = {
   user_name: string;
-  user_icon: string;
+  icon_url: string;
   id: number;
   review: string;
   like_count: number;
@@ -316,7 +316,7 @@ export const Review = () => {
                   <ReviewCard
                     key={review.id}
                     user_name={review.user_name}
-                    user_icon={review.user_icon}
+                    icon_url={review.icon_url}
                     review_id={review.id}
                     review={review.review}
                     like_count={review.like_count}
