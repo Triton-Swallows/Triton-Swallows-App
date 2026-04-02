@@ -50,7 +50,7 @@ export const createAdminService = (
           ...user,
           review_count: reviewCount,
           total_like_count: likeCount,
-          contact_count: isAcceptedCount,
+          accepted_count: isAcceptedCount,
           total_point: TotalPoint,
           my_point: MyPoint,
         };

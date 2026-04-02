@@ -23,7 +23,7 @@ export interface Info {
   consume_point: number;
   review_count: number;
   total_like_count: number;
-  contact_count: number;
+  accepted_count: number;
   total_point: number;
   my_point: number;
 }
