@@ -7,19 +7,16 @@ export async function seed(knex: Knex): Promise<void> {
       user_id: "tsJF90ELf6YFtJuc9ac247khhr02",
       bonus_point: 200,
       consume_point: 0,
-      total_point: 206,
     },
     {
       user_id: "5A2LwTI4C3WMzWLOi80HoY6oyQB2",
       bonus_point: 0,
       consume_point: 0,
-      total_point: 2,
     },
     {
       user_id: "9HLcP3zl5ifAqniVlfz0Qp62xE63",
       bonus_point: 0,
       consume_point: 0,
-      total_point: 2,
     },
   ]);
 }
