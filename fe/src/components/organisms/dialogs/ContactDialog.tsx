@@ -12,30 +12,28 @@ type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   disabled: boolean;
-  target: string;
   description: string;
   others: string;
   statusType?: "success" | "error";
   statusMessage?: string;
-  onTargetChange: (value: string) => void;
   onDescriptionChange: (value: string) => void;
   onOthersChange: (value: string) => void;
   onSubmit: (e: FormEvent) => void;
+  location: string;
 };
 
 export const ContactDialog = ({
   open,
   onOpenChange,
   disabled,
-  target,
   description,
   others,
   statusType,
   statusMessage,
-  onTargetChange,
   onDescriptionChange,
   onOthersChange,
   onSubmit,
+  location,
 }: Props) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -64,18 +62,8 @@ export const ContactDialog = ({
           )}
 
           <div className="w-full space-y-2">
-            <label htmlFor="contact-target" className="block font-medium">
-              どのページに対する変更申請ですか？（必須）
-            </label>
-            <input
-              id="contact-target"
-              disabled={disabled}
-              className="w-full border border-[#D4D4D4] p-2 bg-white"
-              placeholder="例: ESTAページ"
-              value={target}
-              onChange={(e) => onTargetChange(e.target.value)}
-              required
-            />
+            <p className="block font-medium">変更を申請するページ：</p>
+            <div>{location}</div>
           </div>
 
           <div className="w-full space-y-2">
@@ -109,7 +97,7 @@ export const ContactDialog = ({
 
           <Button
             type="submit"
-            disabled={disabled}
+            disabled={disabled || description === ""}
             className="bg-[#00588C] rounded-sl text-[#FAF6F0] text-[12px] py-4 px-4"
           >
             送信する
