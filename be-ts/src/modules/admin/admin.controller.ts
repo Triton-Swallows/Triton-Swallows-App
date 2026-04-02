@@ -10,8 +10,8 @@ export interface AuthRequest extends Request {
 
 export interface AdminController {
   getAllUserInfo: (req: Request, res: Response) => Promise<void>;
-  editPoints: (req: AuthRequest, res: Response) => Promise<void>;
-  getContacts: (req: AuthRequest, res: Response) => Promise<void>;
+  editPoints: (req: Request, res: Response) => Promise<void>;
+  getContacts: (req: Request, res: Response) => Promise<void>;
 }
 
 export const createAdminController = (
