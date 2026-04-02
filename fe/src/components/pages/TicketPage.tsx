@@ -2,6 +2,7 @@ import { HeaderLayout } from "../templetes/HeaderLayout";
 import { TitleFrame } from "../atoms/TitleFrame";
 import { SummaryFrameDetail } from "../atoms/SummaryFrameDetail";
 import { HeaderNav } from "../molecules/HeaderNav";
+import { ContactRequestButton } from "@/components/organisms/dialogs/ContactRequestButton";
 import { GeminiChatLauncher } from "../organisms/layout/GeminiChatLauncher";
 
 export const TicketPage = () => {
@@ -19,6 +20,7 @@ export const TicketPage = () => {
           notes=""
         />
       </section>
+      <ContactRequestButton buttonLabel="情報の追加を依頼する" bonusRate={10} />
       <GeminiChatLauncher />
     </HeaderLayout>
   );
