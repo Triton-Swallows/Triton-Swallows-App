@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     table.increments("id").primary();
     table.string("user_id").notNullable();
     table.string("title").notNullable();
-    table.boolean("is_favorite").notNullable();
+    table.boolean("is_favorite").notNullable().defaultTo(false);
     table.timestamps(true, true);
     table.foreign("user_id").references("users.uid").onDelete("CASCADE");
   });
