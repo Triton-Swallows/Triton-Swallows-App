@@ -6,28 +6,18 @@ export async function seed(knex: Knex): Promise<void> {
   await knex("users").del();
   await knex("users").insert([
     {
-      uid: "tsJF90ELf6YFtJuc9ac247khhr02",
-      email: "natsumi.miyamoto2@gmail.com",
+      uid: "6SpgBAFdthRoHCYeacUhjV11Idz2",
+      email: "jera.hq.devtr.mem010@outlook.jp",
       is_admin: true,
     },
     {
-      uid: "5A2LwTI4C3WMzWLOi80HoY6oyQB2",
+      uid: "qulZYxjU5wfSjZXRc4gir5rxTV23",
       email: "jera.hq.devtr.mem009@outlook.jp",
       is_admin: true,
     },
     {
-      uid: "9HLcP3zl5ifAqniVlfz0Qp62xE63",
+      uid: "64wVqL7j7BgOKT4RvgtNMTokHwQ2",
       email: "kei.ccbdev07@gmail.com",
-      is_admin: true,
-    },
-    {
-      uid: "brDXtUpoT4dACsJkpmTO8XJeViz1",
-      email: "takumi.hagi@toyota.global",
-      is_admin: true,
-    },
-    {
-      uid: "3pOFAkW1glYHHO7Bx1ogMELFf5I2",
-      email: "masataka.shintoku@gmail.com",
       is_admin: true,
     },
   ]);

@@ -9,7 +9,7 @@ exports.seed = async function (knex) {
   await knex("users").insert([
     {
       uid: "tsJF90ELf6YFtJuc9ac247khhr02",
-      email: "natsumi.miyamoto2@gmail.com",
+      email: "jera.hq.devtr.mem010@outlook.jp",
     },
     {
       uid: "5A2LwTI4C3WMzWLOi80HoY6oyQB2",
