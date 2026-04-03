@@ -49,7 +49,7 @@ export const ContactRequestButton = ({
     try {
       setIsSubmittingContact(true);
       await apiClient.post("/contacts", {
-        target: location,
+        target: location.pathname,
         description: contactDescription,
         others: contactOthers,
         bonus_rate: bonusRate,

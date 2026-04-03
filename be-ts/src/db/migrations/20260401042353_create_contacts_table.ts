@@ -12,7 +12,7 @@ export async function up(knex: Knex): Promise<void> {
     table.text("others");
     table.boolean("is_checked").notNullable().defaultTo(false);
     table.boolean("is_accepted").notNullable().defaultTo(false);
-    table.decimal("bonus_rate", 3, 2).notNullable().defaultTo(1);
+    table.decimal("bonus_rate", 5, 2).notNullable().defaultTo(1);
     table.timestamps(true, true);
   });
 }
