@@ -54,27 +54,29 @@ export const Profile = () => {
           </div>
         </div>
 
-        <div className="mt-7 flex w-full py-2 items-stretch overflow-hidden rounded-[5px] bg-[#EAFBFA] shadow-[0px_1px_2px_rgba(0,0,0,0.18)] text-center">
-          <div className="flex min-h-[72px] flex-1 flex-col items-center justify-between border-r border-[#00588C] px-2 py-2">
+        <div className="mt-7 flex w-full py-1 items-stretch overflow-hidden rounded-[5px] bg-[#EAFBFA] shadow-[0px_1px_2px_rgba(0,0,0,0.18)] text-center">
+          <div className="flex flex-1 flex-col items-center justify-between px-2 py-2">
             <RiHeartFill className="text-[30px] text-[#c6422f] mb-2 " />
             <label className="text-xs font-medium leading-4">いいね数</label>
-            <p className="text-[16px] font-medium leading-6 tracking-[-0.02em]">
+            <p className="text-[16px] font-medium leading-6">
               {userInfo?.total_like_count}
             </p>
           </div>
-          <div className="flex min-h-[72px] flex-1 flex-col items-center justify-between border-r border-[#00588C] px-2 py-2">
+          <div className="my-auto h-[72px] w-px bg-[#00588C]" />
+          <div className="flex flex-1 flex-col items-center justify-between px-2 py-2">
             <RiMessage2Line className="text-[30px] text-[#2da7b2] mb-2 " />
             <label className="text-xs font-medium leading-4">口コミ数</label>
-            <p className="text-[16px] font-medium leading-6 tracking-[-0.02em]">
+            <p className="text-[16px] font-medium leading-6">
               {userInfo?.review_count}
             </p>
           </div>
-          <div className="flex min-h-[72px] flex-1 flex-col items-center justify-between px-2 py-2">
+          <div className="my-auto h-[72px] w-px bg-[#00588C]" />
+          <div className="flex flex-1 flex-col items-center justify-between px-2 py-2">
             <RiStarSmileLine className="text-[30px] text-[#f0b400] mb-2 " />
             <label className="text-xs font-medium leading-4">
               累計ポイント
             </label>
-            <p className="text-[16px] font-medium leading-6 tracking-[-0.02em]">
+            <p className="text-[16px] font-medium leading-6">
               {userInfo?.total_point} pt
             </p>
           </div>
