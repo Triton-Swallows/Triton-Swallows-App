@@ -13,7 +13,7 @@ export async function seed(knex: Knex): Promise<void> {
     { user_id: users[0].uid, summary_id: summaries[1].id },
     { user_id: users[1].uid, summary_id: summaries[0].id },
     { user_id: users[2].uid, summary_id: summaries[2].id },
-    // { user_id: users[3].uid, summary_id: summaries[3].id },
+    { user_id: users[3].uid, summary_id: summaries[3].id },
   ];
 
   // データを挿入
