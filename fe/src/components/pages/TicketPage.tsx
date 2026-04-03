@@ -8,7 +8,7 @@ export const TicketPage = () => {
   return (
     <HeaderLayout
       path={"/usa/packing-list"}
-      title="アメリカ（米国）"
+      title="アメリカ"
       showBackButton
       backgroundImage={USHeaderImage}
     >

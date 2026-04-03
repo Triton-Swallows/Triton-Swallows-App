@@ -225,7 +225,7 @@ export const Review = () => {
   return (
     <HeaderLayout
       path={"/country-list"}
-      title="アメリカ（米国）"
+      title="アメリカ"
       showBackButton
       backgroundImage={USHeaderImage}
     >
