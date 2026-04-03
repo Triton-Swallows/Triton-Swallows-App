@@ -5,7 +5,7 @@ const admin = require("firebase-admin");
 const serviceAccount =
   process.env.NODE_ENV === "production"
     ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-    : require("./triton-travel-be128-firebase-adminsdk-fbsvc-3a00e95aef.json");
+    : require("./triton-travel-jp-firebase-adminsdk-fbsvc-fadf0fd1ab.json");
 
 // firebaseAdmin SDK 初期化
 admin.initializeApp({
