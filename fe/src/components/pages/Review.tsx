@@ -11,7 +11,6 @@ import { HeaderNav } from "../molecules/HeaderNav";
 import { Button } from "../ui/button";
 import type { ChangeEvent } from "react";
 import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
-import { GeminiChatLauncher } from "../organisms/layout/GeminiChatLauncher";
 
 type ReviewSummaryApiItem = {
   id: number;
@@ -344,7 +343,6 @@ export const Review = () => {
         onOpenChange={setRequireLoginDialogOpen}
         redirectPath={location.pathname}
       />
-      <GeminiChatLauncher />
     </HeaderLayout>
   );
 };
