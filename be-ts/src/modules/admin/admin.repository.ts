@@ -13,6 +13,8 @@ export interface AdminRepository {
   getReviewCounts: (uids: string[]) => Promise<ReviewCountType[]>;
   getLikeCounts: (uids: string[]) => Promise<LikeCountType[]>;
   getAcceptedCounts: (uids: string[]) => Promise<ContactCountType[]>;
+  checkPointsUser: (user_id: string) => Promise<Points>;
+  createPoints: (user_id: string) => Promise<void>;
   editPoints: (
     user_id: string,
     bonus_point: string,
@@ -70,6 +72,14 @@ export const createAdminRepository = (db: Knex): AdminRepository => {
       .groupBy("user_id");
   };
 
+  const checkPointsUser = async (user_id: string): Promise<Points> => {
+    return await db("points").where({ user_id }).first();
+  };
+
+  const createPoints = async (user_id: string): Promise<void> => {
+    await db("points").insert({ user_id });
+  };
+
   const editPoints = async (
     user_id: string,
     bonus_point: string,
@@ -113,5 +123,7 @@ export const createAdminRepository = (db: Knex): AdminRepository => {
     editPoints,
     getContacts,
     editContacts,
+    checkPointsUser,
+    createPoints,
   };
 };

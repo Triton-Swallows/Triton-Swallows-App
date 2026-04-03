@@ -83,12 +83,16 @@ export const createAdminService = (
     consume_point: string,
   ): Promise<AdminServiceResponse<Points>> => {
     try {
-      const updatededPoints = await repository.editPoints(
+      const checkUser = await repository.checkPointsUser(user_id);
+      if (!checkUser) {
+        await repository.createPoints(user_id);
+      }
+      const data = await repository.editPoints(
         user_id,
         bonus_point,
         consume_point,
       );
-      return { ok: true, data: updatededPoints };
+      return { ok: true, data: data };
     } catch (error) {
       const err = error as Error;
       return { ok: false, status: 500, message: err.message };
