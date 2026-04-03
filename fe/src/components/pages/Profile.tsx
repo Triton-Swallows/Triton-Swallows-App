@@ -76,7 +76,10 @@ export const Profile = () => {
         ログアウト
       </Button>
 
-      <Link to="TBD">
+      <Link
+        to="https://docs.google.com/forms/d/e/1FAIpQLSd5tk2-KA1i5D4tYjSJJHyfcKO-lqfUy5-zysPJypNXgktEQw/viewform"
+        target="_blank"
+      >
         <Button
           type="button"
           className="bg-[#00588C] text-[#FAF6F0] text-[14px] py-[8px] px-[16px]"
