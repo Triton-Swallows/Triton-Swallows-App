@@ -5,15 +5,15 @@ export async function seed(knex: Knex): Promise<void> {
   await knex("summary_likes").del();
 
   const users = await knex("users").select("uid");
-  const reviews = await knex("reviews").select("id");
+  const summaries = await knex("summaries").select("id");
 
-  // 重複を避けるためのセット（同じユーザーが同じレビューに複数回いいねできない想定）
+  // 重複を避けるためのセット（同じユーザーが同じ要約に複数回いいねできない想定）
   const likesData = [
-    { user_id: users[0].uid, summary_id: reviews[0].id }, //なつみが、レビュー[0]にいいね
-    { user_id: users[0].uid, summary_id: reviews[1].id }, //なつみが、レビュー[1]にいいね
-    { user_id: users[1].uid, summary_id: reviews[0].id }, //なおきが、レビュー[0]にいいね
-    { user_id: users[2].uid, summary_id: reviews[2].id }, //けいが、レビュー[2]にいいね
-    { user_id: users[3].uid, summary_id: reviews[3].id }, //testユーザーが、日本のレビューにいいね
+    { user_id: users[0].uid, summary_id: summaries[0].id },
+    { user_id: users[0].uid, summary_id: summaries[1].id },
+    { user_id: users[1].uid, summary_id: summaries[0].id },
+    { user_id: users[2].uid, summary_id: summaries[2].id },
+    // { user_id: users[3].uid, summary_id: summaries[3].id },
   ];
 
   // データを挿入
