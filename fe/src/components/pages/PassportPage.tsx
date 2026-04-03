@@ -16,7 +16,7 @@ export const PassportPage = () => {
       <section>
         <TitleFrame title="パスポートとは:" date="" superivisor="" />
         <SummaryFrameDetail
-          contents="こちら現在開発中になっております。しばらくお待ちください"
+          contents="こちら現在、情報を集めております。 🎁今ならポイント10倍キャンペーン中🎁  先着採用順のため、早めの投稿をお願いいたします！"
           notes=""
         />
       </section>

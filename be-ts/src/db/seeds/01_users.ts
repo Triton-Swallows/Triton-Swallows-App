@@ -22,11 +22,13 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       uid: "brDXtUpoT4dACsJkpmTO8XJeViz1",
-      email: "test@gmail.com",
+      email: "takumi.hagi@toyota.global",
+      is_admin: true,
     },
     {
       uid: "3pOFAkW1glYHHO7Bx1ogMELFf5I2",
-      email: "test2@gmail.com",
+      email: "masataka.shintoku@gmail.com",
+      is_admin: true,
     },
   ]);
 }
