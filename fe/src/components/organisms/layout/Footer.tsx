@@ -20,17 +20,17 @@ export const Footer = () => {
 
   return (
     <>
-      <footer className="fixed bottom-[4px] left-1/2 -translate-x-1/2 bg-white text-[#00588C] py-4 shadow-lg h-[63px] w-[262px] bottom-0 z-20 rounded-3xl">
+      <footer className="fixed bottom-[4px] left-1/2 -translate-x-1/2 z-20 bg-white text-[#00588C] py-4 shadow-lg h-[63px] w-[262px] md:w-[1200px] md:h-[80px] bottom-0 rounded-3xl">
         <div className="flex justify-around items-center px-4 h-full">
-          <Link to="/" className="text-xl font-bold hover:text-blue-100">
+          <Link to="/" className=" hover:text-blue-100">
             <RiHome3Line className="w-[45px] h-[50px]" />
           </Link>
 
-          <Link to="TBD">
+          <Link to="TBD" className=" hover:text-blue-100">
             <RiTodoLine className="w-[45px] h-[50px]" />
           </Link>
 
-          <button onClick={handleChatOpen}>
+          <button onClick={handleChatOpen} className=" hover:text-blue-100">
             <RiChatAiLine className="w-[45px] h-[50px]" />
           </button>
         </div>
