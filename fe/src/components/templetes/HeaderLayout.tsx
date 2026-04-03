@@ -7,10 +7,10 @@ type Props = {
 
 export const HeaderLayout: React.FC<Props> = ({ children }) => {
   return (
-    <>
+    <div className="flex flex-col h-screen overflow-hidden">
       <NavBar />
-      {children}
+      <main className="flex-1 overflow-auto pb-24">{children}</main>
       <Footer />
-    </>
+    </div>
   );
 };
