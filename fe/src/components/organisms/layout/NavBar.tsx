@@ -8,7 +8,7 @@ export const NavBar = () => {
 
   return (
     <>
-      <header className="bg-[#00588C] text-white py-4 shadow-lg h-[96px] sticky top-0 z-10">
+      <header className="bg-[#00588C] text-white py-4 shadow-lg h-[96px] sticky top-0 z-20">
         <div className="flex justify-between items-center px-6">
           <Link to="/" className="text-xl font-bold hover:text-blue-100">
             <RiHome3Line className="w-[56px] h-[50px]" />
