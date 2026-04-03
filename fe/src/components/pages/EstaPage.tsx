@@ -9,8 +9,8 @@ import {
 import { TitleFrame } from "../atoms/TitleFrame";
 import { SummaryFrameDetail } from "../atoms/SummaryFrameDetail";
 import apiClient from "@/config/apiClient";
-import { HeaderNav } from "../molecules/HeaderNav";
 import { ContactRequestButton } from "@/components/organisms/dialogs/ContactRequestButton";
+import USHeaderImage from "../../assets/US_Header_pic.jpg";
 
 export const EstaPage = () => {
   const urlList = [
@@ -58,13 +58,13 @@ export const EstaPage = () => {
   }, []);
 
   return (
-    <HeaderLayout>
-      <HeaderNav
-        path={"/usa/packing-list"}
-        label="持ち物/口コミ"
-        title="アメリカ（米国）"
-      />
-      <section>
+    <HeaderLayout
+      path={"/usa/packing-list"}
+      title="アメリカ（米国）"
+      showBackButton
+      backgroundImage={USHeaderImage}
+    >
+      <section className="pt-[10px]">
         <TitleFrame
           title="ESTAとは:"
           date="2026年3月24日"
