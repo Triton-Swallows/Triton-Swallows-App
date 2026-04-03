@@ -11,6 +11,7 @@ import {
 import apiClient from "@/config/apiClient";
 import { useState, useEffect } from "react";
 import defaultUserIcon from "../../../assets/UserIcon.png";
+import { RiPencilLine } from "react-icons/ri";
 
 type EditProfileDialogProps = {
   user: {
@@ -72,7 +73,10 @@ export const EditProfileDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">プロフィールを編集</Button>
+        <Button className="h-9 gap-2 bg-[#00588C] px-4 py-2 text-xs leading-4 text-[#FAF6F0] hover:bg-[#004B77]">
+          <RiPencilLine className="size-5 text-[#FAF6F0]" />
+          アカウントを編集
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <form onSubmit={handleSubmit}>
