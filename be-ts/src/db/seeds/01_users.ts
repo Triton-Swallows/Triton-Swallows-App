@@ -12,7 +12,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       uid: "5A2LwTI4C3WMzWLOi80HoY6oyQB2",
-      email: "jera.hq.devtr.mem090@outlook.jp",
+      email: "jera.hq.devtr.mem009@outlook.jp",
       is_admin: true,
     },
     {
