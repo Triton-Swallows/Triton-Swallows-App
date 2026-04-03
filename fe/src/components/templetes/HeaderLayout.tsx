@@ -1,3 +1,4 @@
+import { Footer } from "../organisms/layout/Footer";
 import { NavBar } from "../organisms/layout/NavBar";
 
 type Props = {
@@ -9,6 +10,7 @@ export const HeaderLayout: React.FC<Props> = ({ children }) => {
     <>
       <NavBar />
       {children}
+      <Footer />
     </>
   );
 };
