@@ -6,7 +6,6 @@ import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
 import { Button } from "../ui/button";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
-import { GeminiChatLauncher } from "../organisms/layout/GeminiChatLauncher";
 
 type Country = {
   country_id: number;
@@ -133,7 +132,6 @@ export const CountryPage = () => {
       )}
 
       <RequireLoginDialog open={dialogOpen} onOpenChange={setDialogOpen} />
-      <GeminiChatLauncher />
     </HeaderLayout>
   );
 };
