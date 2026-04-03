@@ -11,7 +11,6 @@ import { SummaryFrameDetail } from "../atoms/SummaryFrameDetail";
 import apiClient from "@/config/apiClient";
 import { HeaderNav } from "../molecules/HeaderNav";
 import { ContactRequestButton } from "@/components/organisms/dialogs/ContactRequestButton";
-import { GeminiChatLauncher } from "../organisms/layout/GeminiChatLauncher";
 
 export const EstaPage = () => {
   const urlList = [
@@ -241,7 +240,6 @@ export const EstaPage = () => {
           ))}
         </div>
       </section>
-      <GeminiChatLauncher />
     </HeaderLayout>
   );
 };
