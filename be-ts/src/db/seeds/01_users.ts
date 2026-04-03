@@ -20,5 +20,15 @@ export async function seed(knex: Knex): Promise<void> {
       email: "kei.ccbdev07@gmail.com",
       is_admin: true,
     },
+    {
+      uid: "a3JtsldqPnY55rPrUBRsu3zHHwm1",
+      email: "takumi.hagi@toyota.global",
+      is_admin: true,
+    },
+    {
+      uid: "UlSHDnuDG4hEFPi6DJznEcdHw8q1",
+      email: "masataka.shintoku@gmail.com",
+      is_admin: true,
+    },
   ]);
 }
