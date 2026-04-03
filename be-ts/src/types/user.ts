@@ -22,7 +22,7 @@ export interface MyInfo {
   review_count: number;
   total_like_count: number;
   consume_point: number;
-  total_approved_count: number;
+  contact_point: number;
   bonus_point: number;
   total_point: number;
   my_point: number;
@@ -41,6 +41,7 @@ export interface LikeCountType {
   total_like_count: number;
 }
 
-export interface ApprovedCountType {
-  total_approved_count: number;
+export interface ContactType {
+  is_accepted: boolean;
+  bonus_rate: number;
 }

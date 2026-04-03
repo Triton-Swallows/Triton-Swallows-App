@@ -17,6 +17,8 @@ import { initCountryCheers } from "./modules/country_cheers";
 import { createCountryCheersRouter } from "./routes/country_cheer";
 import { initAdmin } from "./modules/admin";
 import { createAdminRouter } from "./routes/admin";
+import { initContact } from "./modules/contact";
+import { createContactRouter } from "./routes/cotact";
 
 export function buildApp(): Application {
   const app: Application = express();
@@ -70,6 +72,9 @@ export function buildApp(): Application {
 
   const AdminController = initAdmin(db);
   app.use("/api", createAdminRouter(AdminController));
+
+  const ContactController = initContact(db);
+  app.use("/api", createContactRouter(ContactController));
 
   return app;
 }

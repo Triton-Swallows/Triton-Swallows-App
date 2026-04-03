@@ -4,7 +4,7 @@ import {
   ReviewCountType,
   PointCountType,
   LikeCountType,
-  ApprovedCountType,
+  ContactType,
 } from "../../types/user";
 
 export interface UserRepository {
@@ -19,7 +19,7 @@ export interface UserRepository {
     user_name: string,
     icon_url: string,
   ) => Promise<User>;
-  getApprovedCountByUserId: (userId: string) => Promise<ApprovedCountType>;
+  getContactsByUserId: (userId: string) => Promise<ContactType[]>;
 }
 
 export const createUserRepository = (db: Knex): UserRepository => {
@@ -68,16 +68,11 @@ export const createUserRepository = (db: Knex): UserRepository => {
     return result || { consume_point: 0, bonus_point: 0 };
   };
 
-  // user_idに基づく累計記事採用数をget
-  const getApprovedCountByUserId = async (
-    uid: string,
-  ): Promise<ApprovedCountType> => {
-    const result = await db("contacts")
+  // user_idに基づく記事(contact)をget
+  const getContactsByUserId = async (uid: string): Promise<ContactType[]> => {
+    return await db("contacts")
       .where("user_id", uid)
-      .andWhere("is_accepted", true)
-      .count("* as count")
-      .first();
-    return { total_approved_count: Number(result?.count || 0) };
+      .select("bonus_rate", "is_accepted");
   };
 
   // ユーザごとのtotal_like_count集計
@@ -119,6 +114,6 @@ export const createUserRepository = (db: Knex): UserRepository => {
     getReviewCountByUserId,
     getTotalPointByUserId,
     editMyInfo,
-    getApprovedCountByUserId,
+    getContactsByUserId,
   };
 };

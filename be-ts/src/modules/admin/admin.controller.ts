@@ -10,7 +10,9 @@ export interface AuthRequest extends Request {
 
 export interface AdminController {
   getAllUserInfo: (req: Request, res: Response) => Promise<void>;
-  editPoints: (req: AuthRequest, res: Response) => Promise<void>;
+  editPoints: (req: Request, res: Response) => Promise<void>;
+  getContacts: (req: Request, res: Response) => Promise<void>;
+  editContacts: (req: Request, res: Response) => Promise<void>;
 }
 
 export const createAdminController = (
@@ -53,5 +55,37 @@ export const createAdminController = (
     }
   };
 
-  return { getAllUserInfo, editPoints };
+  const getContacts = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const result = await service.getContacts();
+      if (result.ok) {
+        res.status(200).json({ data: result.data });
+      } else {
+        res.status(500).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  const editContacts = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const id = String(req.params.id);
+      const { is_accepted } = req.body;
+
+      const result = await service.editContacts(id, is_accepted);
+
+      if (result.ok) {
+        res.status(201).json({ data: result.data });
+      } else {
+        res.status(500).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  return { getAllUserInfo, editPoints, getContacts, editContacts };
 };
