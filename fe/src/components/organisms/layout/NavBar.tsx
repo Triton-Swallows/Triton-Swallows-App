@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { RiHome3Line, RiUser3Line } from "react-icons/ri";
+import { RiFileListLine, RiHome3Line, RiUser3Line } from "react-icons/ri";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import userIcon from "../../../assets/UserIcon.png";
 
@@ -12,6 +12,12 @@ export const NavBar = () => {
         <div className="flex justify-between items-center px-6">
           <Link to="/" className="text-xl font-bold hover:text-blue-100">
             <RiHome3Line className="w-[56px] h-[50px]" />
+          </Link>
+          <Link
+            to="/packing-checklist"
+            className="text-xl font-bold hover:text-blue-100"
+          >
+            <RiFileListLine className="w-[56px] h-[50px]" />
           </Link>
 
           {loginUser ? (

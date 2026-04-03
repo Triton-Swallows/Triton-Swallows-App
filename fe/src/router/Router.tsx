@@ -14,6 +14,7 @@ import { TicketPage } from "@/components/pages/TicketPage";
 import { TaxPage } from "@/components/pages/TaxPage";
 import { Admin } from "@/components/pages/Admin";
 import { AdminRoute } from "@/components/templetes/AdminRoute";
+import { PackingCheckList } from "@/components/pages/PackingCheckList";
 
 export const Router = () => {
   return (
@@ -55,6 +56,7 @@ export const Router = () => {
             </AdminRoute>
           }
         />
+        <Route path="/packing-checklist" element={<PackingCheckList />} />
       </Routes>
     </AuthContextProvider>
   );
