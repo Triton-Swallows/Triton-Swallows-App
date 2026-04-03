@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import apiClient from "@/config/apiClient";
 import { useState, useEffect } from "react";
+import defaultUserIcon from "../../../assets/UserIcon.png";
 
 type EditProfileDialogProps = {
   user: {
@@ -76,7 +77,11 @@ export const EditProfileDialog = ({
       <DialogContent className="sm:max-w-sm">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <img src={previewUrl} />
+            <img
+              src={previewUrl || defaultUserIcon}
+              alt="プロフィールアイコンのプレビュー"
+              className="w-[120px] h-[120px] rounded-full"
+            />
             <DialogTitle>プロフィールを編集</DialogTitle>
             <DialogDescription>
               編集を完了したら、「保存する」ボタンを押してください。
@@ -84,19 +89,23 @@ export const EditProfileDialog = ({
           </DialogHeader>
           <div>
             <div>
-              <label htmlFor="name-1">アカウント名</label>
+              <label htmlFor="name-1">アカウント名を変更：</label>
               <input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                className="border"
               />
             </div>
             <div>
-              <label htmlFor="username-1">プロフィール画像</label>
+              <label htmlFor="icon" className="text-blue-500 bg-white rounded">
+                プロフィール画像を変更
+              </label>
               <input
                 id="icon"
                 type="file"
                 accept="image/*"
+                className="hidden"
                 onChange={(e) => {
                   const file = e.target.files?.[0] ?? null;
                   setIconFile(file);
