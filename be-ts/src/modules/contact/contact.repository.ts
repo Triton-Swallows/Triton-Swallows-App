@@ -1,5 +1,5 @@
 import { Knex } from "knex";
-import { Contacts } from "../../types/admin";
+import { Contacts } from "../../types/contact";
 
 export interface ContactRepository {
   postContacts: (

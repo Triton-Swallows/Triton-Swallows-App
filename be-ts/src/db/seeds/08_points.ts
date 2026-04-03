@@ -4,17 +4,17 @@ export async function seed(knex: Knex): Promise<void> {
   await knex("points").del();
   await knex("points").insert([
     {
-      user_id: "tsJF90ELf6YFtJuc9ac247khhr02",
+      user_id: "6SpgBAFdthRoHCYeacUhjV11Idz2",
       bonus_point: 200,
       consume_point: 0,
     },
     {
-      user_id: "5A2LwTI4C3WMzWLOi80HoY6oyQB2",
+      user_id: "qulZYxjU5wfSjZXRc4gir5rxTV23",
       bonus_point: 0,
       consume_point: 0,
     },
     {
-      user_id: "9HLcP3zl5ifAqniVlfz0Qp62xE63",
+      user_id: "64wVqL7j7BgOKT4RvgtNMTokHwQ2",
       bonus_point: 0,
       consume_point: 0,
     },

@@ -14,7 +14,7 @@ export async function seed(knex: Knex): Promise<void> {
     { user_id: users[0].uid, review_id: reviews[1].id }, //なつみが、レビュー[1]にいいね
     { user_id: users[1].uid, review_id: reviews[0].id }, //なおきが、レビュー[0]にいいね
     { user_id: users[2].uid, review_id: reviews[0].id }, //けいが、レビュー[0]にいいね
-    { user_id: users[3].uid, review_id: reviews[3].id }, //testユーザーが、日本のレビューにいいね
+    // { user_id: users[3].uid, review_id: reviews[3].id }, //testユーザーが、日本のレビューにいいね
   ];
 
   // データを挿入
