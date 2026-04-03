@@ -1,9 +1,22 @@
 import { Link } from "react-router-dom";
 import { RiHome3Line, RiChatAiLine, RiTodoLine } from "react-icons/ri";
-import { AuthContextConsumer } from "@/contexts/AuthContexts";
+import { useGeminiChat } from "@/hooks/useGeminiChat";
+import { GeminiChatDialog } from "../dialogs/GeminiChatDialog";
+import { ChatLimitDialog } from "../dialogs/ChatLimitDialog";
+import { RequireLoginDialog } from "../dialogs/requireLoginDialog";
 
 export const Footer = () => {
-  const { loginUser, userInfo } = AuthContextConsumer();
+  const {
+    handleChatOpen,
+    isGeminiChatOpen,
+    setIsGeminiChatOpen,
+    loginDialogOpen,
+    setLoginDialogOpen,
+    chatLimitDialogOpen,
+    setChatLimitDialogOpen,
+    chatSessionKey,
+    location,
+  } = useGeminiChat();
 
   return (
     <>
@@ -17,11 +30,29 @@ export const Footer = () => {
             <RiTodoLine className="w-[45px] h-[50px]" />
           </Link>
 
-          <Link to="TBD">
+          <button onClick={handleChatOpen}>
             <RiChatAiLine className="w-[45px] h-[50px]" />
-          </Link>
+          </button>
         </div>
       </footer>
+
+      {/* Gemini関連のダイアログ */}
+      {isGeminiChatOpen && (
+        <GeminiChatDialog
+          key={chatSessionKey}
+          open={isGeminiChatOpen}
+          onOpenChange={setIsGeminiChatOpen}
+        />
+      )}
+      <RequireLoginDialog
+        open={loginDialogOpen}
+        onOpenChange={setLoginDialogOpen}
+        redirectPath={location.pathname}
+      />
+      <ChatLimitDialog
+        open={chatLimitDialogOpen}
+        onOpenChange={setChatLimitDialogOpen}
+      />
     </>
   );
 };
