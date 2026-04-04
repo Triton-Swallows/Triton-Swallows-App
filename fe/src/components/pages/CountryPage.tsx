@@ -132,12 +132,11 @@ export const CountryPage = () => {
   };
 
   return (
-    <HeaderLayout>
-      {/* <HeaderNav path={"/"} label="トップページ" title="国リスト" /> */}
+    <HeaderLayout transparent={false} showBackButton title="国リスト" path="/">
       {isFetching ? (
         <div>読み込み中...</div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 px-4 pb-6">
+        <div className="grid grid-cols-2 gap-4 px-4 pb-6 pt-[10px]">
           {countries.map((country) => (
             <div
               key={country.country_id}
