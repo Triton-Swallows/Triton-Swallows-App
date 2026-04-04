@@ -28,7 +28,7 @@ export const createCheckListController = (
       const result = await service.getCheckLists(user_id);
 
       if (result.ok) {
-        res.status(201).json({ myInfo: result.data });
+        res.status(201).json({ data: result.data });
       } else {
         res.status(500).json({ error: result.message });
       }
