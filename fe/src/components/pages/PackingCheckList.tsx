@@ -46,9 +46,16 @@ export const PackingCheckList = () => {
     console.log("押された!");
   };
 
-  const handleEdit = (id: string, title: string) => {
+  const handleEdit = async (id: string, title: string) => {
     console.log(id);
     console.log(title);
+    try {
+      await apiClient.patch(`/check-lists/${id}`, {
+        title,
+      });
+    } catch (error) {
+      console.error("エラー", error);
+    }
   };
 
   return (
