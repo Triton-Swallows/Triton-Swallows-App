@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     table.increments("id").primary();
     table.integer("check_list_id").notNullable();
     table.string("item").notNullable();
-    table.integer("status").notNullable();
+    table.integer("status").notNullable().defaultTo(0);
     table.string("category").notNullable();
     table.timestamps(true, true);
     table
