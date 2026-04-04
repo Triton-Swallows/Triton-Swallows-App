@@ -16,6 +16,7 @@ type Props = {
   onOpenChange: (open: boolean) => void;
   checkList: CheckLists;
   handleEdit: (id: string, title: string) => void;
+  handleDelete: (id: string) => void;
 };
 
 export const EditListDialog = ({
@@ -23,11 +24,18 @@ export const EditListDialog = ({
   onOpenChange,
   checkList,
   handleEdit,
+  handleDelete,
 }: Props) => {
   const [titleDialogOpen, setTitleDialogOpen] = useState<boolean>(false);
 
   const onSubmit = (newTitle: string) => {
     handleEdit(checkList.id, newTitle);
+    setTitleDialogOpen(false); // 自身のダイアログを閉じる
+    onOpenChange(false); // 親のダイアログも閉じる
+  };
+
+  const onDelete = (id: string) => {
+    handleDelete(id);
     setTitleDialogOpen(false); // 自身のダイアログを閉じる
     onOpenChange(false); // 親のダイアログも閉じる
   };
@@ -48,6 +56,12 @@ export const EditListDialog = ({
           initialTitle={checkList.title}
           onSubmit={onSubmit}
         />
+        <Button
+          className="bg-red-500 text-[#FAF6F0]"
+          onClick={() => onDelete(checkList.id)}
+        >
+          削除
+        </Button>
       </DialogContent>
     </Dialog>
   );

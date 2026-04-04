@@ -42,8 +42,19 @@ export const PackingCheckList = () => {
     fetchData();
   }, [loading, loginUser]);
 
-  const handleCreateList = () => {
+  const handleCreateList = async () => {
     console.log("押された!");
+    try {
+      const response = await apiClient.post("/check-lists", {
+        title: "新しいリスト",
+      });
+
+      const createdList = response.data.data;
+
+      setCheckLists((prev) => [createdList, ...prev]);
+    } catch (error) {
+      console.error("エラー", error);
+    }
   };
 
   const handleEdit = async (id: string, title: string) => {
@@ -61,6 +72,15 @@ export const PackingCheckList = () => {
       await apiClient.patch(`/check-lists/${id}`, {
         title,
       });
+    } catch (error) {
+      console.error("エラー", error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    setCheckLists((prev) => prev.filter((list) => list.id !== id));
+    try {
+      await apiClient.delete(`/check-lists/${id}`);
     } catch (error) {
       console.error("エラー", error);
     }
@@ -94,6 +114,7 @@ export const PackingCheckList = () => {
                   key={checkList.id}
                   checkList={checkList}
                   handleEdit={handleEdit}
+                  handleDelete={handleDelete}
                 />
               ))}
             </div>
