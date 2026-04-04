@@ -123,6 +123,7 @@ export const CheckListItems = () => {
             <input
               className="flex items-center bg-[#99E8E2]"
               placeholder="Type to add new item"
+              value={itemName}
               onChange={(e) => setItemName(e.target.value)}
               onKeyDown={handleCreateList}
               onCompositionStart={() => setIsComposing(true)}
