@@ -8,7 +8,6 @@ type Props = {
   handleEdit: (id: string, title: string) => void;
   handleDelete: (id: string) => void;
 };
-// <Link to={`/packing-checklist/items/${checkList.id}`}>
 
 export const ListCard: React.FC<Props> = ({
   checkList,
