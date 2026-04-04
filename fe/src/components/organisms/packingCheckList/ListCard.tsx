@@ -17,9 +17,14 @@ export const ListCard: React.FC<Props> = ({ checkList, handleEdit }) => {
           className="flex items-center"
           onClick={() => handleEdit(checkList.id, checkList.title)}
         >
-          編集
+          編集テスト
         </button>
-        <EditListDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+        <EditListDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          checkList={checkList}
+          handleEdit={handleEdit}
+        />
       </div>
     </div>
   );
