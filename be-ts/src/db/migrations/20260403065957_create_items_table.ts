@@ -6,7 +6,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("check_list_id").notNullable();
     table.string("item").notNullable();
     table.integer("status").notNullable().defaultTo(0);
-    table.string("category").notNullable();
+    table.string("category");
     table.timestamps(true, true);
     table
       .foreign("check_list_id")
