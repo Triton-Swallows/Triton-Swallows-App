@@ -43,7 +43,6 @@ export const PackingCheckList = () => {
   }, [loading, loginUser]);
 
   const handleCreateList = async () => {
-    console.log("押された!");
     try {
       const response = await apiClient.post("/check-lists", {
         title: "新しいリスト",
