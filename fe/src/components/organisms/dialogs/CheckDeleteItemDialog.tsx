@@ -22,10 +22,8 @@ export const CheckDeleteItemDialog = ({
   id,
   onDelete,
 }: Props) => {
-  const [editId] = useState(id);
-
   const handleConfirm = () => {
-    onDelete(editId);
+    onDelete(id);
   };
 
   return (
