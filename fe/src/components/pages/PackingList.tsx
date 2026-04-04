@@ -1,8 +1,8 @@
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { TitleFrame } from "../atoms/TitleFrame";
 import { Link } from "react-router-dom";
-import { HeaderNav } from "../molecules/HeaderNav";
 import { ContactRequestButton } from "@/components/organisms/dialogs/ContactRequestButton";
+import USHeaderImage from "../../assets/US_Header_pic.jpg";
 
 type PackingItem = {
   name: string;
@@ -36,14 +36,13 @@ export const PackingList = () => {
   ];
 
   return (
-    <HeaderLayout>
-      <HeaderNav
-        path={"/country-list"}
-        label="国リスト"
-        title="アメリカ（米国）"
-      />
-
-      <div className="flex flex-col items-center justify-center">
+    <HeaderLayout
+      path={"/country-list"}
+      title="アメリカ"
+      showBackButton
+      backgroundImage={USHeaderImage}
+    >
+      <div className="flex flex-col items-center justify-center pt-[10px]">
         <div className="h-auto p-0 bg-transparent flex gap-[16px]">
           <Link
             to="/usa/packing-list"
