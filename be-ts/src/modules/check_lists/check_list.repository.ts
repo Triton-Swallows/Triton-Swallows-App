@@ -29,7 +29,8 @@ export const createCheckListRepository = (db: Knex): CheckListRepository => {
       .where({
         user_id,
       })
-      .select("*");
+      .select("*")
+      .orderBy("created_at", "desc");
   };
 
   const editCheckList = async (
