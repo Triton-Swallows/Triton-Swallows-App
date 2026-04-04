@@ -47,8 +47,16 @@ export const PackingCheckList = () => {
   };
 
   const handleEdit = async (id: string, title: string) => {
-    console.log(id);
-    console.log(title);
+    setCheckLists((prev) =>
+      prev.map((list) =>
+        list.id === id
+          ? {
+              ...list,
+              title: title,
+            }
+          : list,
+      ),
+    );
     try {
       await apiClient.patch(`/check-lists/${id}`, {
         title,
@@ -70,7 +78,7 @@ export const PackingCheckList = () => {
         <TabsContent value="myList">
           <h2>ここはマイリスト</h2>
           <Button
-            className="bg-[#00588C] text-[#FAF6F0]"
+            className="bg-[#2BA89D] text-[#FAF6F0]"
             onClick={handleCreateList}
           >
             +新規リスト作成

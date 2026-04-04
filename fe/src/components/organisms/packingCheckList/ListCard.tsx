@@ -10,7 +10,7 @@ type Props = {
 export const ListCard: React.FC<Props> = ({ checkList, handleEdit }) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   return (
-    <div className="flex items-center justify-between border bg-[#A8C9DE] my-1">
+    <div className="flex items-center justify-between border bg-[#99E8E2] my-1">
       <p>{checkList.title}</p>
       <div className="flex items-center gap-6">
         <button
