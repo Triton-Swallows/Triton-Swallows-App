@@ -29,9 +29,9 @@ export const createItemController = (service: ItemService): ItemController => {
   const editItem = async (req: Request, res: Response): Promise<void> => {
     try {
       const id = String(req.params.id);
-      const { title } = req.body;
+      const { item } = req.body;
 
-      const result = await service.editItem(id, title);
+      const result = await service.editItem(id, item);
 
       if (result.ok) {
         res.status(201).json({ data: result.data });
