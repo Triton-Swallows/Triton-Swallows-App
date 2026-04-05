@@ -46,7 +46,7 @@ export const ReviewCard: React.FC<Props> = ({
   };
 
   return (
-    <div className="bg-[#A8C9DE] my-[16px] p-[4px] rounded-xl">
+    <div className="bg-[#A8C9DE] my-[16px] p-[4px] rounded-xl w-full min-w-[383px]">
       <div className="grid grid-cols-3 items-center px-[4px]">
         <div className="flex items-center py-1">
           <img
@@ -101,7 +101,7 @@ export const ReviewCard: React.FC<Props> = ({
           </div>
         </div>
       </div>
-      <div className="bg-[#F1F5F9] py-[10px] px-[8px] rounded-4xl">
+      <div className="bg-[#F1F5F9] py-[10px] px-[8px] rounded-4xl w-full">
         <p className="text-[#002B45] font-normal">{review}</p>
       </div>
     </div>
