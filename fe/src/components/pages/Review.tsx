@@ -11,6 +11,13 @@ import { Button } from "../ui/button";
 import type { ChangeEvent } from "react";
 import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
 import USHeaderImage from "../../assets/US_Header_pic.jpg";
+import { TitleFrame } from "../atoms/TitleFrame";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type ReviewSummaryApiItem = {
   id: number;
@@ -66,6 +73,8 @@ export const Review = () => {
   const [searchReviewText, setSearchReviewText] = useState<string>("");
   const [requireLogindialogOpen, setRequireLoginDialogOpen] =
     useState<boolean>(false);
+
+  const [isSummaryOpen, setIsSummaryOpen] = useState(false); //要約コンテンツが開かれているかどうかの状態管理
 
   const fetchData = async () => {
     if (loading) return;
@@ -261,25 +270,51 @@ export const Review = () => {
           </Link>
         </div>
         <div className="pb-16">
+          {/* ページ読み込み中の表示 */}
           {isFetching && <p>読み込み中...</p>}
-          {fetchError && <p>{fetchError}</p>}
-          {!isFetching && !fetchError && (
-            <>
-              <h2>要約</h2>
-              {reviewSummaryList.map((reviewSummary) => (
-                <ReviewSummaryCard
-                  key={reviewSummary.id}
-                  summary_id={reviewSummary.id}
-                  summary={reviewSummary.summary}
-                  like_count={reviewSummary.like_count}
-                  created_at={reviewSummary.created_at}
-                  liked_by_me={reviewSummary.liked_by_me}
-                  onToggleLike={handleToggleSummaryLike}
-                />
-              ))}
-              <p>※この要約は会社によって審査した上で掲載しています。</p>
 
-              <div className="flex">
+          {/* ページ読み込み失敗の表示 */}
+          {fetchError && <p>{fetchError}</p>}
+
+          {/* ページ読み込み成功時の表示 */}
+          {!isFetching && !fetchError && (
+            <div className="pt-[6px]">
+              {/* タイトルセクション */}
+              <TitleFrame title="口コミ" />
+
+              {/*要約の表示部分  */}
+              <Accordion type="single" collapsible className="py-[10px] w-full">
+                <AccordionItem value="summary">
+                  <AccordionTrigger
+                    className="bg-[#A8C9DE] py-[5px] px-[10px] text-[#002B45] text-[14px] font-medium h-[52px] items-center rounded-none"
+                    onClick={() => setIsSummaryOpen(!isSummaryOpen)}
+                  >
+                    {isSummaryOpen ? "要約を閉じる" : "要約を見る"}
+                  </AccordionTrigger>
+
+                  <AccordionContent>
+                    <div className="mx-[5px] my-[10px]">
+                      <div className="bg-[#EAFBFA] rounded-xl">
+                        {reviewSummaryList.map((reviewSummary) => (
+                          <ReviewSummaryCard
+                            key={reviewSummary.id}
+                            summary_id={reviewSummary.id}
+                            summary={reviewSummary.summary}
+                            like_count={reviewSummary.like_count}
+                            created_at={reviewSummary.created_at}
+                            liked_by_me={reviewSummary.liked_by_me}
+                            onToggleLike={handleToggleSummaryLike}
+                          />
+                        ))}
+                      </div>
+                      <p>※この要約は会社によって審査した上で掲載しています。</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
+              {/* 検索部分 */}
+              <div className="flex mx-[8px]">
                 <Button
                   className="bg-[#00588C] text-[#FAF6F0]"
                   onClick={() => setSortBy("likes")}
@@ -307,33 +342,36 @@ export const Review = () => {
                 </Button>
               </div>
 
-              {sortedReviews.length === 0 ? (
-                <div>該当項目なし</div>
-              ) : (
-                sortedReviews.map((review) => (
-                  <ReviewCard
-                    key={review.id}
-                    user_name={review.user_name}
-                    icon_url={review.icon_url}
-                    review_id={review.id}
-                    review={review.review}
-                    like_count={review.like_count}
-                    created_at={review.created_at}
-                    liked_by_me={review.liked_by_me}
-                    onToggleLike={handleToggleLike}
-                  />
-                ))
-              )}
-              {postError && <div>{postError}</div>}
-              <ReviewPostDialog
-                open={dialogOpen}
-                onOpenChange={setDialogOpen}
-                disabled={!loginUser || loading}
-                reviewComment={reviewComment}
-                onCommentChange={setReviewComment}
-                onSubmit={handleSubmit}
-              />
-            </>
+              {/* 口コミの表示部分 */}
+              <div className="mx-[5px] my-[10px]">
+                {sortedReviews.length === 0 ? (
+                  <div>該当項目なし</div>
+                ) : (
+                  sortedReviews.map((review) => (
+                    <ReviewCard
+                      key={review.id}
+                      user_name={review.user_name}
+                      icon_url={review.icon_url}
+                      review_id={review.id}
+                      review={review.review}
+                      like_count={review.like_count}
+                      created_at={review.created_at}
+                      liked_by_me={review.liked_by_me}
+                      onToggleLike={handleToggleLike}
+                    />
+                  ))
+                )}
+                {postError && <div>{postError}</div>}
+                <ReviewPostDialog
+                  open={dialogOpen}
+                  onOpenChange={setDialogOpen}
+                  disabled={!loginUser || loading}
+                  reviewComment={reviewComment}
+                  onCommentChange={setReviewComment}
+                  onSubmit={handleSubmit}
+                />
+              </div>
+            </div>
           )}
         </div>
       </div>
