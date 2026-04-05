@@ -73,14 +73,16 @@ export const ContactRequestButton = ({
   };
 
   return (
-    <div className="flex justify-center mb-3">
-      <Button
-        className="bg-[#00588C] rounded-xl text-[#FAF6F0] text-[14px] py-[8px] px-[16px] w-[185px] h-[36px]"
-        disabled={loading || isSubmittingContact}
-        onClick={() => handleContactDialogOpenChange(true)}
-      >
-        {buttonLabel}
-      </Button>
+    <>
+      <div className="fixed inset-x-0 bottom-[74px] z-40 flex justify-center px-4 md:bottom-[96px]">
+        <Button
+          className="h-[42px] min-w-[120px] rounded-xl bg-white px-[18px] py-[8px] text-[14px] text-[#002B45] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+          disabled={loading || isSubmittingContact}
+          onClick={() => handleContactDialogOpenChange(true)}
+        >
+          {buttonLabel}
+        </Button>
+      </div>
       <ContactDialog
         open={isContactDialogOpen}
         onOpenChange={handleContactDialogOpenChange}
@@ -99,6 +101,6 @@ export const ContactRequestButton = ({
         onOpenChange={setRequireLoginDialogOpen}
         redirectPath={location.pathname}
       />
-    </div>
+    </>
   );
 };
