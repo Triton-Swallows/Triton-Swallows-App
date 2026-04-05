@@ -46,7 +46,7 @@ export const ReviewCard: React.FC<Props> = ({
   };
 
   return (
-    <div className="bg-[#A8C9DE] my-[16px] p-[4px] rounded">
+    <div className="bg-[#A8C9DE] my-[16px] p-[4px] rounded-xl">
       <div className="grid grid-cols-3 items-center px-[4px]">
         <div className="flex items-center py-1">
           <img
@@ -66,7 +66,7 @@ export const ReviewCard: React.FC<Props> = ({
           </time>
         </div>
         <div className="flex justify-end gap-2">
-          <span className="text-[14px] text-[#002B45] font-medium pr-[4px]">
+          <span className="text-[14px] text-[#002B45] font-bold pr-[4px]">
             {like_count}
           </span>
           <div className="relative flex items-center">
@@ -96,7 +96,7 @@ export const ReviewCard: React.FC<Props> = ({
               className="flex items-center cursor-pointer text-[#AF301F] "
               onClick={handleToggleLike}
             >
-              {liked_by_me ? <RiHeartFill color="red" /> : <RiHeartLine />}
+              {liked_by_me ? <RiHeartFill /> : <RiHeartLine />}
             </button>
           </div>
         </div>
