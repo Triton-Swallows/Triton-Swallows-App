@@ -7,6 +7,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import FloatImage from "./../../../assets/form_pic.png";
 
 type Props = {
   open: boolean;
@@ -37,18 +41,24 @@ export const ContactDialog = ({
 }: Props) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#F1F5F9] ring-0 rounded-none px-3">
+      <DialogContent className="bg-[#F1F5F9] ring-0 rounded-xl px-3 overflow-visible">
+        <img
+          src={FloatImage}
+          alt="form-icon"
+          className="mx-auto w-[98px] h-[98px]"
+        />
         <DialogHeader>
           <DialogTitle>
-            <div className="flex items-center gap-2">
-              <span>詳細情報の変更申請</span>
+            <div className="flex items-center gap-2 justify-center text-[#002B45] text-[16px] font-bold pb-[10px]">
+              <span>トリトリ - 詳細情報の変更申請</span>
             </div>
           </DialogTitle>
-          <DialogDescription>
-            送信時に登録されているメールアドレスが自動で送信されます。
+          <DialogDescription className="flex justify-center text-[#002B45] text-[12px]">
+            情報の正確性向上のため、修正にご協力ください。以下の項目への入力をお願いいたします。
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={onSubmit} className="flex flex-col gap-4 items-end">
+        <form onSubmit={onSubmit} className="flex flex-col gap-[10px]">
+          {/* TODO：何これ？？ */}
           {statusMessage && (
             <div
               className={`w-full border p-3 ${
@@ -61,47 +71,61 @@ export const ContactDialog = ({
             </div>
           )}
 
-          <div className="w-full space-y-2">
-            <p className="block font-medium">変更を申請するページ：</p>
-            <div>{location}</div>
-          </div>
+          <FieldGroup className="border border-[#A5A5A5] px-[10px] py-[15px] rounded">
+            {/* 申請対象ページ */}
+            <FieldGroup>
+              <FieldLabel className="text-[12px]">
+                どのページに対する申請ですか？
+              </FieldLabel>
+              <Input
+                placeholder={location}
+                readOnly
+                className="bg-white border-none text-[15px]"
+              />
+            </FieldGroup>
 
-          <div className="w-full space-y-2">
-            <label htmlFor="contact-description" className="block font-medium">
-              変更すべき内容を教えてください。（必須）
-            </label>
-            <textarea
-              id="contact-description"
-              disabled={disabled}
-              className="w-full border border-[#D4D4D4] p-2 resize-none h-28 bg-white"
-              placeholder="変更したい内容を入力してください"
-              value={description}
-              onChange={(e) => onDescriptionChange(e.target.value)}
-              required
-            />
-          </div>
+            {/* 変更内容 */}
+            <FieldGroup>
+              <FieldLabel className="text-[12px]">
+                変更すべき内容を教えてください。
+              </FieldLabel>
+              <Textarea
+                id="contact-description"
+                rows={5}
+                disabled={disabled}
+                value={description}
+                onChange={(e) => onDescriptionChange(e.target.value)}
+                required
+                className="bg-white border-none text-[12px]"
+              />
+            </FieldGroup>
 
-          <div className="w-full space-y-2">
-            <label htmlFor="contact-others" className="block font-medium">
-              参照リンクがあれば記入してください。（任意）
-            </label>
-            <input
-              id="contact-others"
-              disabled={disabled}
-              className="w-full border border-[#D4D4D4] p-2 bg-white"
-              placeholder="https://example.com"
-              value={others}
-              onChange={(e) => onOthersChange(e.target.value)}
-            />
-          </div>
+            {/* 参照リンクなど */}
+            <FieldGroup>
+              <FieldLabel className="text-[12px]">
+                参照リンクがあれば記入してください。
+              </FieldLabel>
+              <Input
+                id="contact-others"
+                disabled={disabled}
+                value={others}
+                onChange={(e) => onOthersChange(e.target.value)}
+                className="bg-white border-none text-[12px]"
+              />
+            </FieldGroup>
+          </FieldGroup>
 
-          <Button
-            type="submit"
-            disabled={disabled || description === ""}
-            className="bg-[#00588C] rounded-sl text-[#FAF6F0] text-[12px] py-4 px-4"
-          >
-            送信する
-          </Button>
+          {/* 送信ボタン */}
+          <div className="flex justify-center mt-[10px]">
+            <Button
+              type="submit"
+              disabled={disabled || description === ""}
+              className={`rounded-sl text-[#FAF6F0] text-[12px] py-4 px-[30px] 
+                ${disabled || description === "" ? "bg-gray-500" : "bg-[#00588C]"}`}
+            >
+              修正を依頼する
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
