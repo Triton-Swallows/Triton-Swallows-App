@@ -1,7 +1,7 @@
 type Props = {
   title: string;
-  date: string | undefined;
-  superivisor: string | undefined;
+  date?: string;
+  superivisor?: string;
 };
 
 export const TitleFrame: React.FC<Props> = ({ title, date, superivisor }) => {
