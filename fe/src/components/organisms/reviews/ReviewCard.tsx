@@ -101,7 +101,7 @@ export const ReviewCard: React.FC<Props> = ({
           </div>
         </div>
       </div>
-      <div className="bg-white py-[10px] px-[8px] rounded-4xl">
+      <div className="bg-[#F1F5F9] py-[10px] px-[8px] rounded-4xl">
         <p className="text-[#002B45] font-normal">{review}</p>
       </div>
     </div>
