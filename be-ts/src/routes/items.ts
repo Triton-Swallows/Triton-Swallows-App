@@ -13,6 +13,8 @@ function createItemRouter(ItemController: ItemController) {
 
   router.post("/items/:check_list_id", verifyToken, ItemController.createItem);
 
+  router.patch("/items/:id/status", verifyToken, ItemController.editItemStatus);
+
   return router;
 }
 

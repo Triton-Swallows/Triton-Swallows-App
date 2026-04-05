@@ -6,6 +6,7 @@ export interface ItemController {
   editItem: (req: Request, res: Response) => Promise<void>;
   deleteItem: (req: Request, res: Response) => Promise<void>;
   createItem: (req: Request, res: Response) => Promise<void>;
+  editItemStatus: (req: Request, res: Response) => Promise<void>;
 }
 
 export const createItemController = (service: ItemService): ItemController => {
@@ -79,5 +80,23 @@ export const createItemController = (service: ItemService): ItemController => {
     }
   };
 
-  return { getItem, editItem, deleteItem, createItem };
+  const editItemStatus = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const id = String(req.params.id);
+      const { status } = req.body;
+
+      const result = await service.editItemStatus(id, status);
+
+      if (result.ok) {
+        res.status(201).json({ data: result.data });
+      } else {
+        res.status(500).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  return { getItem, editItem, deleteItem, createItem, editItemStatus };
 };

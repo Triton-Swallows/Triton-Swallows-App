@@ -7,6 +7,7 @@ export interface ItemRepository {
   getItem: (user_id: string) => Promise<Item[]>;
   editItem: (id: string, title: string) => Promise<Item>;
   deleteItem: (id: string) => Promise<Item>;
+  editItemStatus: (id: string, title: string) => Promise<Item>;
 }
 
 export const createItemRepository = (db: Knex): ItemRepository => {
@@ -49,11 +50,23 @@ export const createItemRepository = (db: Knex): ItemRepository => {
     return result[0];
   };
 
+  const editItemStatus = async (id: string, status: string): Promise<Item> => {
+    const result = await db("items")
+      .where({ id })
+      .update({
+        status,
+        updated_at: db.fn.now(),
+      })
+      .returning("*");
+    return result[0];
+  };
+
   return {
     checkItem,
     createItem,
     getItem,
     editItem,
     deleteItem,
+    editItemStatus,
   };
 };

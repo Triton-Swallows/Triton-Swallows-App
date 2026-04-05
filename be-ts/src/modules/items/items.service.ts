@@ -9,6 +9,10 @@ export interface ItemService {
     user_id: string,
     title: string,
   ) => Promise<ItemServiceResponse<Item>>;
+  editItemStatus: (
+    id: string,
+    status: string,
+  ) => Promise<ItemServiceResponse<Item>>;
 }
 
 export const createItemService = (repository: ItemRepository): ItemService => {
@@ -64,5 +68,18 @@ export const createItemService = (repository: ItemRepository): ItemService => {
     }
   };
 
-  return { getItem, editItem, deleteItem, createItem };
+  const editItemStatus = async (
+    id: string,
+    status: string,
+  ): Promise<ItemServiceResponse<Item>> => {
+    try {
+      const data = await repository.editItemStatus(id, status);
+      return { ok: true, data };
+    } catch (error) {
+      const err = error as Error;
+      return { ok: false, status: 500, message: err.message };
+    }
+  };
+
+  return { getItem, editItem, deleteItem, createItem, editItemStatus };
 };
