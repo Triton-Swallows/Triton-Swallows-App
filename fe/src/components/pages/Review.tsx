@@ -7,7 +7,6 @@ import { ReviewCard } from "../organisms/reviews/ReviewCard";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
 import type { ChangeEvent } from "react";
 import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
 import USHeaderImage from "../../assets/US_Header_pic.jpg";
@@ -19,6 +18,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SelectField } from "../atoms/Select";
+import { SearchBox } from "../atoms/SearchBox";
 
 type ReviewSummaryApiItem = {
   id: number;
@@ -282,15 +282,22 @@ export const Review = () => {
             <div className="pt-[6px]">
               {/* タイトルセクション */}
               <TitleFrame title="口コミ">
-                <SelectField
-                  options={[
-                    { label: "人気順", value: "likes" },
-                    { label: "新着順", value: "newest" },
-                  ]}
-                  value={sortBy}
-                  onChange={(val) => setSortBy(val)}
-                  className="bg-[#F1F5F9] text-[#00588C] h-[32px rounded-xl"
-                />
+                <div className="flex gap-[6px] px-[5px]">
+                  <SelectField
+                    options={[
+                      { label: "人気順", value: "likes" },
+                      { label: "新着順", value: "newest" },
+                    ]}
+                    value={sortBy}
+                    onChange={(val) => setSortBy(val)}
+                    className="bg-[#F1F5F9] text-[#00588C] h-[32px rounded-xl"
+                  />
+                  <SearchBox
+                    onChage={onchangeSearchReviewText}
+                    onSearch={onClickSearchReview}
+                    className="px-[5px] h-[32px] w-[142px] bg-[#F1F5F9] text-[#00588C]"
+                  />
+                </div>
               </TitleFrame>
 
               {/*要約の表示部分  */}
@@ -323,23 +330,6 @@ export const Review = () => {
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
-
-              {/* 検索部分 */}
-              <div className="flex mx-[8px]">
-                <div className="flex items-center">
-                  <input
-                    placeholder="検索欄"
-                    className="border w-32"
-                    onChange={onchangeSearchReviewText}
-                  />
-                </div>
-                <Button
-                  className="bg-[#00588C] text-[#FAF6F0]"
-                  onClick={onClickSearchReview}
-                >
-                  検索
-                </Button>
-              </div>
 
               {/* 口コミの表示部分 */}
               <div className="mx-[5px] my-[10px]">
