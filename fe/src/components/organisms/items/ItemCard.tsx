@@ -9,6 +9,7 @@ type Props = {
   isEditing: boolean;
   onEditClick: () => void;
   onCancel: () => void;
+  handleToggleStatus: (id: string, currentStatus: number) => void;
 };
 
 export const ItemCard: React.FC<Props> = ({
@@ -18,6 +19,7 @@ export const ItemCard: React.FC<Props> = ({
   isEditing,
   onEditClick,
   onCancel,
+  handleToggleStatus,
 }) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [tempName, setTempName] = useState(item.item);
@@ -36,8 +38,21 @@ export const ItemCard: React.FC<Props> = ({
     }
   };
 
+  const getStatusLabel = (status: number) => {
+    const s = Number(status);
+    if (s === 100) return "パッキング済";
+    if (s === 50) return "準備済";
+    return "未準備";
+  };
+
   return (
     <div className="flex items-center justify-between border bg-[#99E8E2] my-1">
+      <button
+        className="bg-pink-500"
+        onClick={() => handleToggleStatus(item.id, Number(item.status))}
+      >
+        {getStatusLabel(Number(item.status))}
+      </button>
       {isEditing ? (
         // 編集モード
         <input

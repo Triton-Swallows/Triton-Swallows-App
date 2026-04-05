@@ -97,6 +97,26 @@ export const CheckListItems = () => {
     }
   };
 
+  const getNextStatus = (currentStatus: number): number => {
+    if (currentStatus === 0) return 50;
+    if (currentStatus === 50) return 100;
+    return 0;
+  };
+
+  const handleToggleStatus = async (id: string, currentStatus: number) => {
+    const nextStatus = getNextStatus(currentStatus);
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, status: String(nextStatus) } : item,
+      ),
+    );
+    try {
+      await apiClient.patch(`/items/${id}/status`, { status: nextStatus });
+    } catch (error) {
+      console.error("エラー", error);
+    }
+  };
+
   return (
     <>
       <div>このページはチェックリストです。</div>
@@ -116,6 +136,7 @@ export const CheckListItems = () => {
               isEditing={editingId === item.id} // 編集モード判定
               onEditClick={() => setEditingId(item.id)} // 編集開始
               onCancel={() => setEditingId(null)} // 編集キャンセル
+              handleToggleStatus={handleToggleStatus}
             />
           ))}
           <div className="flex items-center border bg-[#99E8E2] my-1">
