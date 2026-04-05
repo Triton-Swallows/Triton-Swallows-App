@@ -7,11 +7,10 @@ import { ReviewCard } from "../organisms/reviews/ReviewCard";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Link } from "react-router-dom";
-import { HeaderNav } from "../molecules/HeaderNav";
 import { Button } from "../ui/button";
 import type { ChangeEvent } from "react";
 import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
-import { GeminiChatLauncher } from "../organisms/layout/GeminiChatLauncher";
+import USHeaderImage from "../../assets/US_Header_pic.jpg";
 
 type ReviewSummaryApiItem = {
   id: number;
@@ -224,14 +223,13 @@ export const Review = () => {
   };
 
   return (
-    <HeaderLayout>
-      <HeaderNav
-        path={"/country-list"}
-        label="国リスト"
-        title="アメリカ（米国）"
-      />
-
-      <div className="flex flex-col items-center justify-center">
+    <HeaderLayout
+      path={"/country-list"}
+      title="アメリカ"
+      showBackButton
+      backgroundImage={USHeaderImage}
+    >
+      <div className="flex flex-col items-center justify-center pt-[10px]">
         <div className="h-auto p-0 bg-transparent flex gap-[16px]">
           <Link
             to="/usa/packing-list"
@@ -344,7 +342,6 @@ export const Review = () => {
         onOpenChange={setRequireLoginDialogOpen}
         redirectPath={location.pathname}
       />
-      <GeminiChatLauncher />
     </HeaderLayout>
   );
 };
