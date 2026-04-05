@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { TitleFrame } from "../atoms/TitleFrame";
 import { SummaryFrameDetail } from "../atoms/SummaryFrameDetail";
-import { HeaderNav } from "../molecules/HeaderNav";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import apiClient from "@/config/apiClient";
 import {
@@ -112,8 +111,7 @@ export const Admin = () => {
   };
 
   return (
-    <HeaderLayout>
-      <HeaderNav path={"/"} label="トップページ" title="管理者ページ" />
+    <HeaderLayout path={"/"} title="管理者ページ" showBackButton>
       <section>
         <TitleFrame title="ユーザー情報" date="" superivisor="" />
         <SummaryFrameDetail

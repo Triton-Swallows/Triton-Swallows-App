@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
-import { HeaderNav } from "../molecules/HeaderNav";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import defalutlProfileIcon from "../../assets/UserIcon.png";
 import { Button } from "../ui/button";
@@ -32,8 +31,7 @@ export const Profile = () => {
   }, []);
 
   return (
-    <HeaderLayout>
-      <HeaderNav path={"/"} label="トップページ" title="プロフィール" />
+    <HeaderLayout path={"/"} title="プロフィール" showBackButton>
       <div className="mx-auto flex w-full max-w-[320px] flex-col items-center px-3 pb-10 pt-4 text-[#002B45]">
         <div className="flex flex-col items-center gap-3 text-center">
           <div>
