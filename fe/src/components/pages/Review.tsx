@@ -6,7 +6,6 @@ import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
 import { ReviewCard } from "../organisms/reviews/ReviewCard";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
-import { Link } from "react-router-dom";
 import type { ChangeEvent } from "react";
 import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
 import USHeaderImage from "../../assets/US_Header_pic.jpg";
@@ -19,6 +18,7 @@ import {
 } from "@/components/ui/accordion";
 import { SelectField } from "../atoms/Select";
 import { SearchBox } from "../atoms/SearchBox";
+import { NavTab } from "../atoms/NavTba";
 
 type ReviewSummaryApiItem = {
   id: number;
@@ -240,35 +240,10 @@ export const Review = () => {
       backgroundImage={USHeaderImage}
     >
       <div className="flex flex-col items-center justify-center pt-[10px]">
-        <div className="h-auto p-0 bg-transparent flex gap-[16px]">
-          <Link
-            to="/usa/packing-list"
-            className="
-            /* 基本レイアウト */
-            flex w-[176px] h-[54px] min-h-[36px] items-center justify-center 
-            px-[16px] py-[8px] gap-[8px] 
-            rounded-l-xl rounded-r-none text-[14px] font-medium
-            
-            /* デフォルト（未選択）状態 */
-            bg-[#FAF6F0] text-[#002B45] border border-[#002B45]
-            "
-          >
-            持ち物
-          </Link>
-          <Link
-            to="/usa/reviews"
-            className="
-            /* 1.基本レイアウト */
-            flex w-[176px] h-[54px] min-h-[36px] items-center justify-center 
-            px-[16px] py-[8px] gap-[8px] 
-            rounded-r-xl rounded-l-none text-[14px] font-medium
-            
-            /* デフォルト（未選択）状態 */
-            bg-[#00588C] text-white border border-[#002B45]
-            "
-          >
-            口コミ
-          </Link>
+        {/* タブの表示部分 */}
+        <div className="flex bg-[#A8C9DE] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
+          <NavTab to="/usa/packing-list" label="概要" isActive={false} />
+          <NavTab to="/usa/reviews" label="口コミ" isActive={true} />
         </div>
         <div className="pb-16">
           {/* ページ読み込み中の表示 */}
