@@ -63,6 +63,7 @@ export const CheckListItems = () => {
         setItemName("");
       } catch (error) {
         console.error("エラー", error);
+        fetchData();
       }
     }
   };
@@ -85,6 +86,7 @@ export const CheckListItems = () => {
       });
     } catch (error) {
       console.error("エラー", error);
+      fetchData();
     }
   };
 
@@ -94,6 +96,7 @@ export const CheckListItems = () => {
       await apiClient.delete(`/items/${id}`);
     } catch (error) {
       console.error("エラー", error);
+      fetchData();
     }
   };
 
@@ -114,6 +117,7 @@ export const CheckListItems = () => {
       await apiClient.patch(`/items/${id}/status`, { status: nextStatus });
     } catch (error) {
       console.error("エラー", error);
+      fetchData();
     }
   };
 

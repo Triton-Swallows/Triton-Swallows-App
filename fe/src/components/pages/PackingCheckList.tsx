@@ -73,6 +73,7 @@ export const PackingCheckList = () => {
       });
     } catch (error) {
       console.error("エラー", error);
+      fetchData();
     }
   };
 
@@ -82,6 +83,7 @@ export const PackingCheckList = () => {
       await apiClient.delete(`/check-lists/${id}`);
     } catch (error) {
       console.error("エラー", error);
+      fetchData();
     }
   };
 
