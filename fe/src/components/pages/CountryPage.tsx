@@ -38,6 +38,8 @@ type CountriesResponse = {
   data: Country[];
 };
 
+const loadingSkeletonCards = [0, 1, 2, 3, 4, 5]; // loading中のカードの枚数分
+
 export const CountryPage = () => {
   const authContext = AuthContextConsumer();
   const isLoggedIn = !!authContext.loginUser;
@@ -134,7 +136,14 @@ export const CountryPage = () => {
   return (
     <HeaderLayout transparent={false} showBackButton title="国リスト" path="/">
       {isFetching ? (
-        <div>読み込み中...</div>
+        <div className="grid grid-cols-2 gap-4 px-4 pb-6 pt-[10px]">
+          {loadingSkeletonCards.map((cardIndex) => (
+            <div
+              key={cardIndex}
+              className="min-h-[240px] rounded-3xl border border-slate-200 bg-white shadow-sm"
+            />
+          ))}
+        </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 px-4 pb-6 pt-[10px]">
           {countries.map((country) => (
