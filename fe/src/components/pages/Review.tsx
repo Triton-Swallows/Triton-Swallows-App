@@ -58,7 +58,7 @@ type SortType = "likes" | "newest";
 
 export const Review = () => {
   const { country } = useParams<{ country: string }>();
-  const { loginUser, loading } = AuthContextConsumer();
+  const { loginUser, loading, userInfo } = AuthContextConsumer();
   const [reviewSummaryList, setReviewSummaryList] = useState<
     ReviewSummaryItem[]
   >([]);
@@ -369,6 +369,8 @@ export const Review = () => {
                   reviewComment={reviewComment}
                   onCommentChange={setReviewComment}
                   onSubmit={handleSubmit}
+                  user_name={userInfo?.user_name}
+                  user_icon={userInfo?.icon_url}
                 />
               </div>
             </div>
