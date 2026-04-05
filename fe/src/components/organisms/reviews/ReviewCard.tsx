@@ -56,13 +56,19 @@ export const ReviewCard: React.FC<Props> = ({
               e.currentTarget.src = defaultProfileIcon;
             }}
           />
-          <p>{displayUserName}</p>
+          <p className="text-[#002B45] text-[12px] font-medium">
+            {displayUserName}
+          </p>
         </div>
         <div className="text-center">
-          <time className="relative top-[4px] text-[10px]">{yyyymmdd}</time>
+          <time className="relative text-[14px] text-[#002B45] font-medium">
+            {yyyymmdd}
+          </time>
         </div>
         <div className="flex justify-end gap-2">
-          <span>{like_count}</span>
+          <span className="text-[14px] text-[#002B45] font-medium pr-[4px]">
+            {like_count}
+          </span>
           <div className="relative flex items-center">
             {showAnimation && (
               <Player
@@ -87,7 +93,7 @@ export const ReviewCard: React.FC<Props> = ({
             )}
 
             <button
-              className="flex items-center cursor-pointer"
+              className="flex items-center cursor-pointer text-[#AF301F] "
               onClick={handleToggleLike}
             >
               {liked_by_me ? <RiHeartFill color="red" /> : <RiHeartLine />}
@@ -95,8 +101,8 @@ export const ReviewCard: React.FC<Props> = ({
           </div>
         </div>
       </div>
-      <div className="bg-white py-[20px] px-[8px] rounded-sm">
-        <p>{review}</p>
+      <div className="bg-white py-[10px] px-[8px] rounded-4xl">
+        <p className="text-[#002B45] font-normal">{review}</p>
       </div>
     </div>
   );
