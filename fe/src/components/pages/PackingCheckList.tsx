@@ -87,8 +87,6 @@ export const PackingCheckList = () => {
 
   return (
     <>
-      <div>ここは新しい機能ページです</div>
-      <div>がんばるぞ</div>
       <Tabs defaultValue="myList" className="flex-col">
         <TabsList variant="line">
           <TabsTrigger value="myList">マイリスト</TabsTrigger>
