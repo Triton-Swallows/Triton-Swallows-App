@@ -18,6 +18,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { SelectField } from "../atoms/Select";
 
 type ReviewSummaryApiItem = {
   id: number;
@@ -54,7 +55,7 @@ type ReviewItem = {
   created_at: string;
   liked_by_me: boolean;
 };
-type SortType = "likes" | "newest";
+// type SortType = "likes" | "newest";
 
 export const Review = () => {
   const { country } = useParams<{ country: string }>();
@@ -68,7 +69,7 @@ export const Review = () => {
   const [postError, setPostError] = useState<string | null>(null);
   const [reviewComment, setReviewComment] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [sortBy, setSortBy] = useState<SortType>("newest");
+  const [sortBy, setSortBy] = useState<string>("newest");
   const [tmpSearchReviewText, setTmpSearchReviewText] = useState<string>("");
   const [searchReviewText, setSearchReviewText] = useState<string>("");
   const [requireLogindialogOpen, setRequireLoginDialogOpen] =
@@ -280,7 +281,17 @@ export const Review = () => {
           {!isFetching && !fetchError && (
             <div className="pt-[6px]">
               {/* タイトルセクション */}
-              <TitleFrame title="口コミ" />
+              <TitleFrame title="口コミ">
+                <SelectField
+                  options={[
+                    { label: "人気順", value: "likes" },
+                    { label: "新着順", value: "newest" },
+                  ]}
+                  value={sortBy}
+                  onChange={(val) => setSortBy(val)}
+                  className="bg-[#F1F5F9] text-[#00588C] h-[32px rounded-xl"
+                />
+              </TitleFrame>
 
               {/*要約の表示部分  */}
               <Accordion type="single" collapsible className="py-[10px] w-full">
@@ -315,18 +326,6 @@ export const Review = () => {
 
               {/* 検索部分 */}
               <div className="flex mx-[8px]">
-                <Button
-                  className="bg-[#00588C] text-[#FAF6F0]"
-                  onClick={() => setSortBy("likes")}
-                >
-                  いいねが多い順
-                </Button>
-                <Button
-                  className="bg-[#00588C] text-[#FAF6F0]"
-                  onClick={() => setSortBy("newest")}
-                >
-                  新着順
-                </Button>
                 <div className="flex items-center">
                   <input
                     placeholder="検索欄"
