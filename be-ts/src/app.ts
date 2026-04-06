@@ -19,6 +19,10 @@ import { initAdmin } from "./modules/admin";
 import { createAdminRouter } from "./routes/admin";
 import { initContact } from "./modules/contact";
 import { createContactRouter } from "./routes/cotact";
+import { initCheckList } from "./modules/check_lists";
+import { createCheckListRouter } from "./routes/check_lists";
+import { initItems } from "./modules/items";
+import { createItemRouter } from "./routes/items";
 
 export function buildApp(): Application {
   const app: Application = express();
@@ -75,6 +79,12 @@ export function buildApp(): Application {
 
   const ContactController = initContact(db);
   app.use("/api", createContactRouter(ContactController));
+
+  const CheckListController = initCheckList(db);
+  app.use("/api", createCheckListRouter(CheckListController));
+
+  const ItemController = initItems(db);
+  app.use("/api", createItemRouter(ItemController));
 
   return app;
 }
