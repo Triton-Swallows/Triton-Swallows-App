@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import apiClient from "@/config/apiClient";
 import { ItemCard } from "../organisms/items/ItemCard";
 import { RiAddLargeLine } from "react-icons/ri";
+import { HeaderLayout } from "../templetes/HeaderLayout";
 
 export type Item = {
   id: string;
@@ -121,42 +122,48 @@ export const CheckListItems = () => {
     }
   };
 
+  const location = useLocation(); //location.stateで、表示しているリストのタイトルをリスト一覧ページから取得できる
+  const { title } = location.state as { title: string };
+  console.log("======", title);
+
   return (
     <>
-      <div>このページはチェックリストです。</div>
-      <p>マイリスト：{check_list_id}</p>
-      {isFetching ? (
-        <div>読み込み中...</div>
-      ) : fetchError ? (
-        <p className="text-center py-10 text-red-500">{fetchError}</p>
-      ) : (
-        <div>
-          {Items.map((item) => (
-            <ItemCard
-              key={item.id}
-              item={item}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-              isEditing={editingId === item.id} // 編集モード判定
-              onEditClick={() => setEditingId(item.id)} // 編集開始
-              onCancel={() => setEditingId(null)} // 編集キャンセル
-              handleToggleStatus={handleToggleStatus}
-            />
-          ))}
-          <div className="flex items-center border bg-[#99E8E2] my-1">
-            <RiAddLargeLine />
-            <input
-              className="flex items-center bg-[#99E8E2]"
-              placeholder="Type to add new item"
-              value={itemName}
-              onChange={(e) => setItemName(e.target.value)}
-              onKeyDown={handleCreateList}
-              onCompositionStart={() => setIsComposing(true)}
-              onCompositionEnd={() => setIsComposing(false)}
-            />
+      <HeaderLayout title={title} showBackButton path="/packing-checklist">
+        <div>このページはチェックリストです。</div>
+        <p>マイリスト：{check_list_id}</p>
+        {isFetching ? (
+          <div>読み込み中...</div>
+        ) : fetchError ? (
+          <p className="text-center py-10 text-red-500">{fetchError}</p>
+        ) : (
+          <div>
+            {Items.map((item) => (
+              <ItemCard
+                key={item.id}
+                item={item}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                isEditing={editingId === item.id} // 編集モード判定
+                onEditClick={() => setEditingId(item.id)} // 編集開始
+                onCancel={() => setEditingId(null)} // 編集キャンセル
+                handleToggleStatus={handleToggleStatus}
+              />
+            ))}
+            <div className="flex items-center border bg-[#99E8E2] my-1">
+              <RiAddLargeLine />
+              <input
+                className="flex items-center bg-[#99E8E2]"
+                placeholder="Type to add new item"
+                value={itemName}
+                onChange={(e) => setItemName(e.target.value)}
+                onKeyDown={handleCreateList}
+                onCompositionStart={() => setIsComposing(true)}
+                onCompositionEnd={() => setIsComposing(false)}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </HeaderLayout>
     </>
   );
 };

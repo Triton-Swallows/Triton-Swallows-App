@@ -18,7 +18,9 @@ export const ListCard: React.FC<Props> = ({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/packing-checklist/items/${checkList.id}`);
+    navigate(`/packing-checklist/items/${checkList.id}`, {
+      state: { title: checkList.title },
+    });
   };
 
   return (
