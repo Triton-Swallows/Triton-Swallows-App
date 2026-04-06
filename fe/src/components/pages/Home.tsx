@@ -5,9 +5,9 @@ import topPageImage from "../../assets/TopPageImage.jpg";
 
 export const Home = () => {
   return (
-    <HeaderLayout title="トップページ" transparent={false}>
-      <div className="relative h-[756px] bg-[#FAFAFA] overflow-hidden sm:h-[756px] h-[680px]">
-        <div className="absolute left-0 top-0 z-0 w-full h-[586px] overflow-hidden">
+    <HeaderLayout transparent>
+      <div className="relative h-[756px] bg-[#FAFAFA] overflow-visible sm:h-[756px] h-[680px]">
+        <div className="absolute left-0 -top-16 z-0 w-full h-[650px] overflow-hidden">
           <img
             src={topPageImage}
             alt="Top page background"
