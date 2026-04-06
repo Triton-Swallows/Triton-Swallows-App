@@ -2,6 +2,7 @@ import { BackIcon } from "@/components/atoms/BackIcon";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Link } from "react-router-dom";
 import userIcon from "../../../assets/UserIcon.png";
+import { RiUser3Line } from "react-icons/ri";
 
 type Props = {
   path?: string;
@@ -43,11 +44,15 @@ export const Header: React.FC<Props> = ({
 
       {/* 右側のユーザーアイコン */}
       <Link to={loginUser ? "/profile" : "/login"} className="flex justify-end">
-        <img
-          src={userInfo?.icon_url || userIcon}
-          alt="User Icon"
-          className="w-[50px] h-[50px] rounded-full border-2"
-        />
+        {!loginUser ? (
+          <RiUser3Line className="w-[50px] h-[50px] rounded-full border-2" />
+        ) : (
+          <img
+            src={userInfo?.icon_url || userIcon}
+            alt="User Icon"
+            className="w-[50px] h-[50px] rounded-full border-2"
+          />
+        )}
       </Link>
     </header>
   );

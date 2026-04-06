@@ -90,7 +90,7 @@ export const PackingCheckList = () => {
 
   return (
     <>
-      <HeaderLayout title="持ち物リスト" showBackButton>
+      <HeaderLayout title="持ち物リスト" showBackButton path={"/"}>
         <Tabs defaultValue="myList" className="flex-col">
           <TabsList variant="line">
             <TabsTrigger value="myList">マイリスト</TabsTrigger>
