@@ -31,7 +31,7 @@ export const createItemRepository = (db: Knex): ItemRepository => {
         check_list_id,
       })
       .select("*")
-      .orderBy("created_at", "desc");
+      .orderBy("id", "asc");
   };
 
   const editItem = async (id: string, item: string): Promise<Item> => {
