@@ -2,6 +2,7 @@ import { HeaderLayout } from "../templetes/HeaderLayout";
 import { TitleFrame } from "../atoms/TitleFrame";
 import { Link } from "react-router-dom";
 import USHeaderImage from "../../assets/US_Header_pic.jpg";
+import { NavTab } from "../atoms/NavTba";
 
 const packingItemImageModules = import.meta.glob(
   "../../assets/packingList/usa/*.png",
@@ -64,35 +65,10 @@ export const PackingList = () => {
       backgroundImage={USHeaderImage}
     >
       <div className="flex flex-col items-center justify-center pt-[10px]">
-        <div className="flex h-auto gap-[16px] bg-transparent p-0">
-          <Link
-            to="/usa/packing-list"
-            className="
-            /* 基本レイアウト */
-            flex w-[176px] h-[54px] min-h-[36px] items-center justify-center 
-            px-[16px] py-[8px] gap-[8px] 
-            rounded-l-xl rounded-r-none text-[14px] font-medium
-            
-            /* デフォルト（未選択）状態 */
-            bg-[#00588C] text-white border border-[#002B45]
-            "
-          >
-            持ち物
-          </Link>
-          <Link
-            to="/usa/reviews"
-            className="
-            /* 1.基本レイアウト */
-            flex w-[176px] h-[54px] min-h-[36px] items-center justify-center 
-            px-[16px] py-[8px] gap-[8px] 
-            rounded-r-xl rounded-l-none text-[14px] font-medium
-            
-            /* デフォルト（未選択）状態 */
-            bg-[#FAF6F0] text-[#002B45] border border-[#002B45]
-            "
-          >
-            口コミ
-          </Link>
+        {/* タブの表示部分 */}
+        <div className="flex bg-[#A8C9DE] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
+          <NavTab to="/usa/packing-list" label="概要" isActive={true} />
+          <NavTab to="/usa/reviews" label="口コミ" isActive={false} />
         </div>
         <div>
           <div className="px-2 py-1 left-0 top-0 inline-flex flex-col justify-start items-start overflow-hidden">
