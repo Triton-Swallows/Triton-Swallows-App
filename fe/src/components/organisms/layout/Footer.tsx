@@ -26,7 +26,7 @@ export const Footer = () => {
             <RiHome3Line className="w-[45px] h-[50px]" />
           </Link>
 
-          <Link to="TBD" className=" hover:text-blue-100">
+          <Link to="/packing-checklist" className=" hover:text-blue-100">
             <RiTodoLine className="w-[45px] h-[50px]" />
           </Link>
 

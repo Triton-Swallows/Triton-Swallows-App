@@ -1,0 +1,128 @@
+import { useEffect, useState } from "react";
+import { AuthContextConsumer } from "@/contexts/AuthContexts";
+import apiClient from "@/config/apiClient";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "../ui/button";
+import { ListCard } from "../organisms/packingCheckList/ListCard";
+
+export type CheckLists = {
+  id: string;
+  user_id: string;
+  title: string;
+  is_favorite: string;
+  created_at: string;
+  updated_st: string;
+};
+
+type CheckListsResponse = {
+  data: CheckLists[];
+};
+
+export const PackingCheckList = () => {
+  const { loginUser, loading } = AuthContextConsumer();
+  const [checkLists, setCheckLists] = useState<CheckLists[]>([]);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+
+  const fetchData = async () => {
+    if (loading) return;
+    setIsFetching(true);
+    setFetchError(null);
+    try {
+      const response = await apiClient.get<CheckListsResponse>("/check-lists");
+      setCheckLists(response.data.data);
+    } catch {
+      setFetchError("情報の取得に失敗しました");
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [loading, loginUser]);
+
+  const handleCreateList = async () => {
+    try {
+      const response = await apiClient.post("/check-lists", {
+        title: "新しいリスト",
+      });
+
+      const createdList = response.data.data;
+
+      setCheckLists((prev) => [createdList, ...prev]);
+    } catch (error) {
+      console.error("エラー", error);
+    }
+  };
+
+  const handleEdit = async (id: string, title: string) => {
+    setCheckLists((prev) =>
+      prev.map((list) =>
+        list.id === id
+          ? {
+              ...list,
+              title: title,
+            }
+          : list,
+      ),
+    );
+    try {
+      await apiClient.patch(`/check-lists/${id}`, {
+        title,
+      });
+    } catch (error) {
+      console.error("エラー", error);
+      fetchData();
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    setCheckLists((prev) => prev.filter((list) => list.id !== id));
+    try {
+      await apiClient.delete(`/check-lists/${id}`);
+    } catch (error) {
+      console.error("エラー", error);
+      fetchData();
+    }
+  };
+
+  return (
+    <>
+      <Tabs defaultValue="myList" className="flex-col">
+        <TabsList variant="line">
+          <TabsTrigger value="myList">マイリスト</TabsTrigger>
+          <TabsTrigger value="everyoneLine">みんなのリスト</TabsTrigger>
+        </TabsList>
+        <TabsContent value="myList">
+          <h2>ここはマイリスト</h2>
+          <Button
+            className="bg-[#2BA89D] text-[#FAF6F0]"
+            onClick={handleCreateList}
+          >
+            +新規リスト作成
+          </Button>
+          {isFetching ? (
+            <div>読み込み中...</div>
+          ) : fetchError ? (
+            <p className="text-center py-10 text-red-500">{fetchError}</p>
+          ) : (
+            <div>
+              {checkLists.map((checkList) => (
+                <ListCard
+                  key={checkList.id}
+                  checkList={checkList}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+              ))}
+            </div>
+          )}
+        </TabsContent>
+        <TabsContent value="everyoneLine">
+          <h2>ここはみんなのリスト</h2>
+        </TabsContent>
+      </Tabs>
+    </>
+  );
+};
