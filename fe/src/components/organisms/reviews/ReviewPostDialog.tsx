@@ -7,6 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import defautlIcon from "./../../../assets/UserIcon.png";
 
 type Props = {
@@ -59,7 +60,7 @@ export const ReviewPostDialog = ({
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <form onSubmit={onSubmit} className="flex flex-col gap-4 items-end">
-          <textarea
+          <Textarea
             className="w-full border border-[#D4D4D4] p-2 resize-none h-28 text-sm bg-white"
             placeholder="ここにコメントを書いてください"
             value={reviewComment}
