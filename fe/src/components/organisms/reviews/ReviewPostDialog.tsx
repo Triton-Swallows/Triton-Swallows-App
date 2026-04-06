@@ -7,6 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import defautlIcon from "./../../../assets/UserIcon.png";
 
 type Props = {
   open: boolean;
@@ -44,7 +45,7 @@ export const ReviewPostDialog = ({
           <DialogTitle>
             <div className="flex items-center gap-2">
               <img
-                src={user_icon}
+                src={user_icon || defautlIcon}
                 className="w-[40px] h-[40px] rounded-full border border-white "
               />
               <p className="text-[12px]">{user_name}</p>
