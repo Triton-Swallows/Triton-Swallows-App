@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { EditListTitleDialog } from "./EditListTitileDialog";
+import { CheckDeleteItemDialog } from "./CheckDeleteItemDialog";
 
 type Props = {
   open: boolean;
@@ -27,6 +28,7 @@ export const EditListDialog = ({
   handleDelete,
 }: Props) => {
   const [titleDialogOpen, setTitleDialogOpen] = useState<boolean>(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
 
   const onSubmit = (newTitle: string) => {
     handleEdit(checkList.id, newTitle);
@@ -56,12 +58,12 @@ export const EditListDialog = ({
           initialTitle={checkList.title}
           onSubmit={onSubmit}
         />
-        <Button
-          className="bg-red-500 text-[#FAF6F0]"
-          onClick={() => onDelete(checkList.id)}
-        >
-          削除
-        </Button>
+        <CheckDeleteItemDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          id={checkList.id}
+          onDelete={onDelete}
+        />
       </DialogContent>
     </Dialog>
   );
