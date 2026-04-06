@@ -124,7 +124,6 @@ export const CheckListItems = () => {
 
   const location = useLocation(); //location.stateで、表示しているリストのタイトルをリスト一覧ページから取得できる
   const { title } = location.state as { title: string };
-  console.log("======", title);
 
   return (
     <>

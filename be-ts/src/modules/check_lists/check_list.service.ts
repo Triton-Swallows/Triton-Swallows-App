@@ -16,6 +16,9 @@ export interface CheckListService {
     user_id: string,
     title: string,
   ) => Promise<CheckListsServiceResponse<CheckLists>>;
+  getAllCheckLists: (
+    user_id: string,
+  ) => Promise<CheckListsServiceResponse<CheckLists[]>>;
 }
 
 export const createCheckListService = (
@@ -75,5 +78,23 @@ export const createCheckListService = (
     }
   };
 
-  return { getCheckLists, editCheckList, deleteCheckList, createCheckList };
+  const getAllCheckLists = async (
+    user_id: string,
+  ): Promise<CheckListsServiceResponse<CheckLists[]>> => {
+    try {
+      const data = await repository.getAllChecklist(user_id);
+      return { ok: true, data };
+    } catch (error) {
+      const err = error as Error;
+      return { ok: false, status: 500, message: err.message };
+    }
+  };
+
+  return {
+    getCheckLists,
+    editCheckList,
+    deleteCheckList,
+    createCheckList,
+    getAllCheckLists,
+  };
 };

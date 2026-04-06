@@ -21,6 +21,12 @@ function createCheckListRouter(checklistController: CheckListController) {
 
   router.post("/check-lists", verifyToken, checklistController.createCheckList);
 
+  router.get(
+    "/check-lists/all",
+    verifyToken,
+    checklistController.getAllCheckList,
+  );
+
   return router;
 }
 
