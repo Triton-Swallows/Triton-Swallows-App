@@ -4,7 +4,7 @@ export async function seed(knex: Knex): Promise<void> {
   await knex("countries").del();
   await knex("countries").insert([
     {
-      name: "アメリカ（米国）",
+      name: "アメリカ",
       name_en: "usa",
       available: "true",
     },
