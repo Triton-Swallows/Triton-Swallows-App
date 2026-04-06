@@ -36,6 +36,11 @@ export const ReviewPostDialog = ({
         <DialogTrigger
           disabled={disabled}
           className="bg-white rounded-2xl text-[#002B45] text-[14px] py-[8px] px-[10px] flex items-center gap-1 shadow-lg"
+          onClick={() => {
+            if (!open) {
+              onOpenChange(true);
+            }
+          }}
         >
           ＋投稿する
         </DialogTrigger>
