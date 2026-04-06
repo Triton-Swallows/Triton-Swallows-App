@@ -7,7 +7,7 @@ import USHeaderImage from "../../assets/US_Header_pic.jpg";
 export const TaxPage = () => {
   return (
     <HeaderLayout
-      path={"/usa/packing-list"}
+      path={"/usa/overviews"}
       title="アメリカ"
       showBackButton
       backgroundImage={USHeaderImage}

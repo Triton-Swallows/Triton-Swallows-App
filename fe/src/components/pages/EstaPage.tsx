@@ -59,7 +59,7 @@ export const EstaPage = () => {
 
   return (
     <HeaderLayout
-      path={"/usa/packing-list"}
+      path={"/usa/overviews"}
       title="アメリカ"
       showBackButton
       backgroundImage={USHeaderImage}
