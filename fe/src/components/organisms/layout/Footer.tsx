@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { RiHome3Line, RiChatAiLine, RiTodoLine } from "react-icons/ri";
 import { useGeminiChat } from "@/hooks/useGeminiChat";
 import { GeminiChatDialog } from "../dialogs/GeminiChatDialog";
 import { ChatLimitDialog } from "../dialogs/ChatLimitDialog";
 import { RequireLoginDialog } from "../dialogs/requireLoginDialog";
+import { AuthContextConsumer } from "@/contexts/AuthContexts";
 
 export const Footer = () => {
   const {
@@ -18,6 +19,17 @@ export const Footer = () => {
     location,
   } = useGeminiChat();
 
+  const { loginUser } = AuthContextConsumer();
+  const navigate = useNavigate();
+
+  const handleCheckListOpen = () => {
+    if (!loginUser) {
+      setLoginDialogOpen(true);
+      return;
+    }
+    navigate("/packing-checklist");
+  };
+
   return (
     <>
       <footer className="fixed bottom-[4px] left-1/2 -translate-x-1/2 z-20 backdrop-blur-md bg-white/50 text-[#00588C] py-4 shadow-lg h-[63px] w-[262px] md:w-[1200px] md:h-[80px] bottom-0 rounded-3xl">
@@ -26,9 +38,12 @@ export const Footer = () => {
             <RiHome3Line className="w-[45px] h-[50px]" />
           </Link>
 
-          <Link to="/packing-checklist" className=" hover:text-blue-100">
+          <button
+            onClick={handleCheckListOpen}
+            className=" hover:text-blue-100"
+          >
             <RiTodoLine className="w-[45px] h-[50px]" />
-          </Link>
+          </button>
 
           <button onClick={handleChatOpen} className=" hover:text-blue-100">
             <RiChatAiLine className="w-[45px] h-[50px]" />
