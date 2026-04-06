@@ -14,6 +14,7 @@ export interface CheckListController {
   deleteCheckList: (req: Request, res: Response) => Promise<void>;
   createCheckList: (req: Request, res: Response) => Promise<void>;
   getAllCheckList: (req: AuthRequest, res: Response) => Promise<void>;
+  copyCheckList: (req: AuthRequest, res: Response) => Promise<void>;
 }
 
 export const createCheckListController = (
@@ -118,11 +119,33 @@ export const createCheckListController = (
     }
   };
 
+  const copyCheckList = async (
+    req: AuthRequest,
+    res: Response,
+  ): Promise<void> => {
+    try {
+      const id = String(req.params.id);
+      const user_id = req.user!.uid;
+
+      const result = await service.copyCheckList(id, user_id);
+
+      if (result.ok) {
+        res.status(201).json({ data: result.data });
+      } else {
+        res.status(500).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
   return {
     getCheckList,
     editCheckList,
     deleteCheckList,
     createCheckList,
     getAllCheckList,
+    copyCheckList,
   };
 };

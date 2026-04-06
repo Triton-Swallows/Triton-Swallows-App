@@ -1,5 +1,11 @@
 import { Knex } from "knex";
 import { CheckLists } from "../../types/check_list";
+import { Item } from "../../types/items";
+
+interface ItemInsert {
+  check_list_id: string;
+  item: string;
+}
 
 export interface CheckListRepository {
   checkUser: (user_id: string) => Promise<CheckLists>;
@@ -8,6 +14,9 @@ export interface CheckListRepository {
   editCheckList: (id: string, title: string) => Promise<CheckLists>;
   deleteCheckList: (id: string) => Promise<CheckLists>;
   getAllChecklist: (user_id: string) => Promise<CheckLists[]>;
+  getChecklistWithId: (user_id: string) => Promise<CheckLists>;
+  getItem: (user_id: string) => Promise<{ item: string }[]>;
+  createItem: (items: ItemInsert[]) => Promise<Item[]>;
 }
 
 export const createCheckListRepository = (db: Knex): CheckListRepository => {
@@ -62,6 +71,30 @@ export const createCheckListRepository = (db: Knex): CheckListRepository => {
       .orderBy("created_at", "desc");
   };
 
+  const getChecklistWithId = async (id: string): Promise<CheckLists> => {
+    return await db("check_lists")
+      .where({
+        id,
+      })
+      .first("*")
+      .orderBy("created_at", "desc");
+  };
+
+  const getItem = async (
+    check_list_id: string,
+  ): Promise<{ item: string }[]> => {
+    return await db("items")
+      .where({
+        check_list_id,
+      })
+      .select("item")
+      .orderBy("id", "asc");
+  };
+
+  const createItem = async (items: ItemInsert[]): Promise<Item[]> => {
+    return await db("items").insert(items).returning("*");
+  };
+
   return {
     checkUser,
     createCheckLists,
@@ -69,5 +102,8 @@ export const createCheckListRepository = (db: Knex): CheckListRepository => {
     editCheckList,
     deleteCheckList,
     getAllChecklist,
+    getChecklistWithId,
+    getItem,
+    createItem,
   };
 };
