@@ -1,12 +1,8 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { GoogleGenAI } from "@google/genai";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { RiSendPlane2Line } from "react-icons/ri";
+import GeminiChatIcon from "@/assets/GeminiChatIcon.png";
 
 type GeminiChatDialogProps = {
   open: boolean;
@@ -89,18 +85,23 @@ export const GeminiChatDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="bg-white sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-bold">専門家</DialogTitle>
-          <DialogDescription className="text-[14px]">
-            ここに説明文を入れられます
-          </DialogDescription>
-        </DialogHeader>
-        <div className="max-h-80 space-y-3 overflow-y-auto rounded-md border p-4">
-          {chatHistory.length === 0 ? (
-            <div className="text-sm text-slate-500">
-              ここにチャット履歴が表示されます
+      <DialogContent className="overflow-hidden rounded-3xl border border-[#E5E5E5] bg-[#FAF6F0]">
+        <DialogHeader className="items-center text-center">
+          <div className="flex w-full justify-center">
+            <div className="flex h-12 w-14 items-center justify-center overflow-hidden rounded-[20px] bg-gradient-to-b from-[#A8C9DE] to-white shadow-[0_2px_6px_rgba(0,43,69,0.12)]">
+              <img
+                className="h-12 w-14 object-contain"
+                src={GeminiChatIcon}
+                alt="Gemini chat icon"
+              />
             </div>
+          </div>
+          <div className="h-px w-[240px] self-center bg-[#D4D4D4]" />
+          <p className="text-[16px] text-[#002B45]">何をお手伝いしますか？</p>
+        </DialogHeader>
+        <div className="h-[28rem] space-y-3 overflow-y-auto rounded-xl p-4">
+          {chatHistory.length === 0 ? (
+            <div className="text-sm text-slate-500"></div>
           ) : (
             chatHistory.map((item, index) => (
               <div
@@ -121,21 +122,21 @@ export const GeminiChatDialog = ({
           )}
           {isLoading && <div className="text-sm">生成中...</div>}
         </div>
-        <div>
+        <div className="min-h-16 rounded-xl border border-[#E5E5E5] bg-[#F1F5F9] px-2 py-2">
           <form onSubmit={onSubmit} className="flex w-full gap-3">
             <input
               type="text"
               value={message}
-              placeholder="テキストを入力して送信"
+              placeholder="メッセージを入力..."
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full rounded-xl border p-2"
+              className="w-full px-4 py-3 outline-none"
             />
             <button
               type="submit"
               disabled={isLoading}
-              className="shrink-0 rounded-xl bg-[#00588C] px-4 py-2 text-white disabled:opacity-50"
+              className="flex h-12 w-12 shrink-0 items-center justify-center text-[#002B45] transition hover:bg-[#00466f] disabled:opacity-50"
             >
-              送信
+              <RiSendPlane2Line className="text-[24px]" />
             </button>
           </form>
         </div>
