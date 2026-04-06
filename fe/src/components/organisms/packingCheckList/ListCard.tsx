@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { CheckLists } from "@/components/pages/PackingCheckList";
+import type { CheckLists } from "@/components/pages/MyPackingList";
 import { EditListDialog } from "../dialogs/EditListDialog";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +18,7 @@ export const ListCard: React.FC<Props> = ({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/packing-checklist/items/${checkList.id}`, {
+    navigate(`/my-packing-list/${checkList.id}/items`, {
       state: { title: checkList.title },
     });
   };
