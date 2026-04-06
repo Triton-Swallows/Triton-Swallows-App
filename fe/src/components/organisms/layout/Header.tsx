@@ -31,7 +31,7 @@ export const Header: React.FC<Props> = ({
   return (
     <header
       style={headerStyle}
-      className={`fixed top-0 left-0 w-full h-[56px] flex items-center justify-between px-6 z-100
+      className={`fixed top-0 left-0 w-full h-[56px] flex items-center justify-between px-[15px] z-100
         ${transparent ? "bg-transparent text-white" : "bg-[#A8C9DE] text-white"}`}
     >
       {/* 左側の戻るボタン */}
@@ -46,7 +46,7 @@ export const Header: React.FC<Props> = ({
         <img
           src={userInfo?.icon_url || userIcon}
           alt="User Icon"
-          className="w-[50px] h-[50px] rounded-full"
+          className="w-[50px] h-[50px] rounded-full border-2"
         />
       </Link>
     </header>

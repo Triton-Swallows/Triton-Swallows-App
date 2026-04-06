@@ -6,11 +6,19 @@ import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
 import { ReviewCard } from "../organisms/reviews/ReviewCard";
 import apiClient from "@/config/apiClient";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
-import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
 import type { ChangeEvent } from "react";
 import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
 import USHeaderImage from "../../assets/US_Header_pic.jpg";
+import { TitleFrame } from "../atoms/TitleFrame";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { SelectField } from "../atoms/Select";
+import { SearchBox } from "../atoms/SearchBox";
+import { NavTab } from "../atoms/NavTba";
 
 type ReviewSummaryApiItem = {
   id: number;
@@ -47,11 +55,11 @@ type ReviewItem = {
   created_at: string;
   liked_by_me: boolean;
 };
-type SortType = "likes" | "newest";
+// type SortType = "likes" | "newest";
 
 export const Review = () => {
   const { country } = useParams<{ country: string }>();
-  const { loginUser, loading } = AuthContextConsumer();
+  const { loginUser, loading, userInfo } = AuthContextConsumer();
   const [reviewSummaryList, setReviewSummaryList] = useState<
     ReviewSummaryItem[]
   >([]);
@@ -61,11 +69,13 @@ export const Review = () => {
   const [postError, setPostError] = useState<string | null>(null);
   const [reviewComment, setReviewComment] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [sortBy, setSortBy] = useState<SortType>("newest");
+  const [sortBy, setSortBy] = useState<string>("newest");
   const [tmpSearchReviewText, setTmpSearchReviewText] = useState<string>("");
   const [searchReviewText, setSearchReviewText] = useState<string>("");
   const [requireLogindialogOpen, setRequireLoginDialogOpen] =
     useState<boolean>(false);
+
+  const [isSummaryOpen, setIsSummaryOpen] = useState(false); //要約コンテンツが開かれているかどうかの状態管理
 
   const fetchData = async () => {
     if (loading) return;
@@ -230,110 +240,104 @@ export const Review = () => {
       backgroundImage={USHeaderImage}
     >
       <div className="flex flex-col items-center justify-center pt-[10px]">
-        <div className="h-auto p-0 bg-transparent flex gap-[16px]">
-          <Link
-            to="/usa/packing-list"
-            className="
-            /* 基本レイアウト */
-            flex w-[176px] h-[54px] min-h-[36px] items-center justify-center 
-            px-[16px] py-[8px] gap-[8px] 
-            rounded-l-xl rounded-r-none text-[14px] font-medium
-            
-            /* デフォルト（未選択）状態 */
-            bg-[#FAF6F0] text-[#002B45] border border-[#002B45]
-            "
-          >
-            持ち物
-          </Link>
-          <Link
-            to="/usa/reviews"
-            className="
-            /* 1.基本レイアウト */
-            flex w-[176px] h-[54px] min-h-[36px] items-center justify-center 
-            px-[16px] py-[8px] gap-[8px] 
-            rounded-r-xl rounded-l-none text-[14px] font-medium
-            
-            /* デフォルト（未選択）状態 */
-            bg-[#00588C] text-white border border-[#002B45]
-            "
-          >
-            口コミ
-          </Link>
+        {/* タブの表示部分 */}
+        <div className="flex bg-[#A8C9DE] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
+          <NavTab to="/usa/packing-list" label="概要" isActive={false} />
+          <NavTab to="/usa/reviews" label="口コミ" isActive={true} />
         </div>
         <div className="pb-16">
+          {/* ページ読み込み中の表示 */}
           {isFetching && <p>読み込み中...</p>}
-          {fetchError && <p>{fetchError}</p>}
-          {!isFetching && !fetchError && (
-            <>
-              <h2>要約</h2>
-              {reviewSummaryList.map((reviewSummary) => (
-                <ReviewSummaryCard
-                  key={reviewSummary.id}
-                  summary_id={reviewSummary.id}
-                  summary={reviewSummary.summary}
-                  like_count={reviewSummary.like_count}
-                  created_at={reviewSummary.created_at}
-                  liked_by_me={reviewSummary.liked_by_me}
-                  onToggleLike={handleToggleSummaryLike}
-                />
-              ))}
-              <p>※この要約は会社によって審査した上で掲載しています。</p>
 
-              <div className="flex">
-                <Button
-                  className="bg-[#00588C] text-[#FAF6F0]"
-                  onClick={() => setSortBy("likes")}
-                >
-                  いいねが多い順
-                </Button>
-                <Button
-                  className="bg-[#00588C] text-[#FAF6F0]"
-                  onClick={() => setSortBy("newest")}
-                >
-                  新着順
-                </Button>
-                <div className="flex items-center">
-                  <input
-                    placeholder="検索欄"
-                    className="border w-32"
-                    onChange={onchangeSearchReviewText}
+          {/* ページ読み込み失敗の表示 */}
+          {fetchError && <p>{fetchError}</p>}
+
+          {/* ページ読み込み成功時の表示 */}
+          {!isFetching && !fetchError && (
+            <div className="pt-[6px]">
+              {/* タイトルセクション */}
+              <TitleFrame title="口コミ">
+                <div className="flex gap-[6px] px-[5px]">
+                  <SelectField
+                    options={[
+                      { label: "人気順", value: "likes" },
+                      { label: "新着順", value: "newest" },
+                    ]}
+                    value={sortBy}
+                    onChange={(val) => setSortBy(val)}
+                    className="bg-[#F1F5F9] text-[#00588C] h-[32px rounded-xl"
+                  />
+                  <SearchBox
+                    onChage={onchangeSearchReviewText}
+                    onSearch={onClickSearchReview}
+                    className="px-[5px] h-[32px] w-[142px] bg-[#F1F5F9] text-[#00588C]"
                   />
                 </div>
-                <Button
-                  className="bg-[#00588C] text-[#FAF6F0]"
-                  onClick={onClickSearchReview}
-                >
-                  検索
-                </Button>
-              </div>
+              </TitleFrame>
 
-              {sortedReviews.length === 0 ? (
-                <div>該当項目なし</div>
-              ) : (
-                sortedReviews.map((review) => (
-                  <ReviewCard
-                    key={review.id}
-                    user_name={review.user_name}
-                    icon_url={review.icon_url}
-                    review_id={review.id}
-                    review={review.review}
-                    like_count={review.like_count}
-                    created_at={review.created_at}
-                    liked_by_me={review.liked_by_me}
-                    onToggleLike={handleToggleLike}
-                  />
-                ))
-              )}
-              {postError && <div>{postError}</div>}
-              <ReviewPostDialog
-                open={dialogOpen}
-                onOpenChange={setDialogOpen}
-                disabled={!loginUser || loading}
-                reviewComment={reviewComment}
-                onCommentChange={setReviewComment}
-                onSubmit={handleSubmit}
-              />
-            </>
+              {/*要約の表示部分  */}
+              <Accordion type="single" collapsible className="py-[10px] w-full">
+                <AccordionItem value="summary">
+                  <AccordionTrigger
+                    className="bg-[#A8C9DE] py-[5px] px-[10px] text-[#002B45] text-[14px] font-medium h-[52px] items-center rounded-none"
+                    onClick={() => setIsSummaryOpen(!isSummaryOpen)}
+                  >
+                    {isSummaryOpen ? "要約を閉じる" : "要約を見る"}
+                  </AccordionTrigger>
+
+                  <AccordionContent>
+                    <div className="mx-[5px] my-[10px]">
+                      <div className="bg-[#EAFBFA] rounded-xl">
+                        {reviewSummaryList.map((reviewSummary) => (
+                          <ReviewSummaryCard
+                            key={reviewSummary.id}
+                            summary_id={reviewSummary.id}
+                            summary={reviewSummary.summary}
+                            like_count={reviewSummary.like_count}
+                            created_at={reviewSummary.created_at}
+                            liked_by_me={reviewSummary.liked_by_me}
+                            onToggleLike={handleToggleSummaryLike}
+                          />
+                        ))}
+                      </div>
+                      <p>※この要約は会社によって審査した上で掲載しています。</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
+              {/* 口コミの表示部分 */}
+              <div className="mx-[5px] my-[10px]">
+                {sortedReviews.length === 0 ? (
+                  <div>該当項目なし</div>
+                ) : (
+                  sortedReviews.map((review) => (
+                    <ReviewCard
+                      key={review.id}
+                      user_name={review.user_name}
+                      icon_url={review.icon_url}
+                      review_id={review.id}
+                      review={review.review}
+                      like_count={review.like_count}
+                      created_at={review.created_at}
+                      liked_by_me={review.liked_by_me}
+                      onToggleLike={handleToggleLike}
+                    />
+                  ))
+                )}
+                {postError && <div>{postError}</div>}
+                <ReviewPostDialog
+                  open={dialogOpen}
+                  onOpenChange={setDialogOpen}
+                  disabled={!loginUser || loading}
+                  reviewComment={reviewComment}
+                  onCommentChange={setReviewComment}
+                  onSubmit={handleSubmit}
+                  user_name={userInfo?.user_name}
+                  user_icon={userInfo?.icon_url}
+                />
+              </div>
+            </div>
           )}
         </div>
       </div>
