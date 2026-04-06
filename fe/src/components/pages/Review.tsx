@@ -159,6 +159,14 @@ export const Review = () => {
     }
   };
 
+  const handleTogglePostReviews = (open: boolean) => {
+    if (!loginUser && open) {
+      setRequireLoginDialogOpen(true);
+      return;
+    }
+    setDialogOpen(open);
+  };
+
   const handleToggleSummaryLike = async (
     summary_id: number,
     liked_by_me: boolean,
@@ -328,8 +336,8 @@ export const Review = () => {
                 {postError && <div>{postError}</div>}
                 <ReviewPostDialog
                   open={dialogOpen}
-                  onOpenChange={setDialogOpen}
-                  disabled={!loginUser || loading}
+                  onOpenChange={handleTogglePostReviews}
+                  disabled={loading}
                   reviewComment={reviewComment}
                   onCommentChange={setReviewComment}
                   onSubmit={handleSubmit}
