@@ -27,7 +27,7 @@ export const Footer = () => {
       setLoginDialogOpen(true);
       return;
     }
-    navigate("//packing-checklist");
+    navigate("/packing-checklist");
   };
 
   return (
