@@ -45,7 +45,7 @@ export const ContactDialog = ({
         <img
           src={FloatImage}
           alt="form-icon"
-          className="mx-auto w-[98px] h-[98px]"
+          className="mx-auto w-[98px] h-[98px] absolute top-[-70px] left-1/2 -translate-x-1/2"
         />
         <DialogHeader>
           <DialogTitle>
