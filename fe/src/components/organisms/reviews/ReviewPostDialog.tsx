@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { RiUser3Fill, RiAddBoxLine } from "react-icons/ri";
+import defautlIcon from "./../../../assets/UserIcon.png";
 
 type Props = {
   open: boolean;
@@ -16,6 +16,8 @@ type Props = {
   reviewComment: string;
   onCommentChange: (value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
+  user_name: string | undefined;
+  user_icon: string | undefined;
 };
 
 export const ReviewPostDialog = ({
@@ -25,24 +27,28 @@ export const ReviewPostDialog = ({
   reviewComment,
   onCommentChange,
   onSubmit,
+  user_name,
+  user_icon,
 }: Props) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <div className="flex justify-center fixed bottom-0 left-0 right-0 z-10 py-3 bg-white">
+      <div className="flex fixed bottom-[65px] justify-center left-0 right-0 z-10 py-3">
         <DialogTrigger
           disabled={disabled}
-          className="bg-[#00588C] rounded-xl text-[#FAF6F0] text-[14px] py-[8px] px-[48px] flex items-center gap-1"
+          className="bg-white rounded-2xl text-[#002B45] text-[14px] py-[8px] px-[10px] flex items-center gap-1 shadow-lg"
         >
-          投稿する
-          <RiAddBoxLine className="text-[24px]" />
+          ＋投稿する
         </DialogTrigger>
       </div>
       <DialogContent className="bg-[#F1F5F9] ring-0 rounded-none px-3">
         <DialogHeader>
           <DialogTitle>
             <div className="flex items-center gap-2">
-              <RiUser3Fill />
-              <span>User_Name</span>
+              <img
+                src={user_icon || defautlIcon}
+                className="w-[40px] h-[40px] rounded-full border border-white "
+              />
+              <p className="text-[12px]">{user_name}</p>
             </div>
           </DialogTitle>
           <DialogDescription></DialogDescription>
