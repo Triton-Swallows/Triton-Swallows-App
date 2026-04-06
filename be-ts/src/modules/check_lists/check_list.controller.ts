@@ -15,6 +15,7 @@ export interface CheckListController {
   createCheckList: (req: Request, res: Response) => Promise<void>;
   getAllCheckList: (req: AuthRequest, res: Response) => Promise<void>;
   copyCheckList: (req: AuthRequest, res: Response) => Promise<void>;
+  editHashtag: (req: Request, res: Response) => Promise<void>;
 }
 
 export const createCheckListController = (
@@ -140,6 +141,24 @@ export const createCheckListController = (
     }
   };
 
+  const editHashtag = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const id = String(req.params.id);
+      const { hashtag } = req.body;
+
+      const result = await service.editHashtag(id, hashtag);
+
+      if (result.ok) {
+        res.status(201).json({ data: result.data });
+      } else {
+        res.status(500).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
   return {
     getCheckList,
     editCheckList,
@@ -147,5 +166,6 @@ export const createCheckListController = (
     createCheckList,
     getAllCheckList,
     copyCheckList,
+    editHashtag,
   };
 };

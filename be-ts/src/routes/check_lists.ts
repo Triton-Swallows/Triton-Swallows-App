@@ -33,6 +33,12 @@ function createCheckListRouter(checklistController: CheckListController) {
     checklistController.copyCheckList,
   );
 
+  router.patch(
+    "/check-lists/:id/hashtag",
+    verifyToken,
+    checklistController.editHashtag,
+  );
+
   return router;
 }
 

@@ -17,6 +17,7 @@ export interface CheckListRepository {
   getChecklistWithId: (user_id: string) => Promise<CheckLists>;
   getItem: (user_id: string) => Promise<{ item: string }[]>;
   createItem: (items: ItemInsert[]) => Promise<Item[]>;
+  editHashtag: (id: string, hashtag: string) => Promise<CheckLists>;
 }
 
 export const createCheckListRepository = (db: Knex): CheckListRepository => {
@@ -95,6 +96,20 @@ export const createCheckListRepository = (db: Knex): CheckListRepository => {
     return await db("items").insert(items).returning("*");
   };
 
+  const editHashtag = async (
+    id: string,
+    hashtag: string,
+  ): Promise<CheckLists> => {
+    const result = await db("check_lists")
+      .where({ id })
+      .update({
+        hashtag,
+        updated_at: db.fn.now(),
+      })
+      .returning("*");
+    return result[0];
+  };
+
   return {
     checkUser,
     createCheckLists,
@@ -105,5 +120,6 @@ export const createCheckListRepository = (db: Knex): CheckListRepository => {
     getChecklistWithId,
     getItem,
     createItem,
+    editHashtag,
   };
 };
