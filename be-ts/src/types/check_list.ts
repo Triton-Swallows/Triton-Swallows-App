@@ -3,6 +3,7 @@ export interface CheckLists {
   user_id: string;
   title: string;
   is_favorite: string;
+  hashtag: string;
   created_at: string;
   updated_st: string;
 }
