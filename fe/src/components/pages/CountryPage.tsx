@@ -163,7 +163,7 @@ export const CountryPage = () => {
               {country.available && (
                 <>
                   <Link
-                    to={`/${country.name_en}/packing-list`}
+                    to={`/${country.name_en}/overviews`}
                     className="absolute inset-0 rounded-xl"
                     aria-label={`${country.name}の持ち物一覧へ`}
                   />

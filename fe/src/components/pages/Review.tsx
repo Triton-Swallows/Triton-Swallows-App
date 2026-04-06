@@ -250,7 +250,7 @@ export const Review = () => {
       <div className="flex flex-col items-center justify-center pt-[10px]">
         {/* タブの表示部分 */}
         <div className="flex bg-[#A8C9DE] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
-          <NavTab to="/usa/packing-list" label="概要" isActive={false} />
+          <NavTab to="/usa/overviews" label="概要" isActive={false} />
           <NavTab to="/usa/reviews" label="口コミ" isActive={true} />
         </div>
         <div className="pb-16">

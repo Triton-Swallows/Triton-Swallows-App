@@ -27,7 +27,7 @@ type PackingItem = {
   path: string;
 };
 
-export const PackingList = () => {
+export const OVerview = () => {
   const itemList: PackingItem[] = [
     {
       name: "ESTA",
