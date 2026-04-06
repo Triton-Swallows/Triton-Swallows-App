@@ -31,7 +31,7 @@ export const Profile = () => {
   }, []);
 
   return (
-    <HeaderLayout path={"/"} title="プロフィール" showBackButton>
+    <HeaderLayout title="プロフィール" showBackButton>
       <div className="mx-auto flex w-full max-w-[320px] flex-col items-center px-3 pb-10 pt-4 text-[#002B45]">
         <div className="flex flex-col items-center gap-3 text-center">
           <div>
