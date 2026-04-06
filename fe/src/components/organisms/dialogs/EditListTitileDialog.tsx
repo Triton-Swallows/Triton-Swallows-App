@@ -30,22 +30,32 @@ export const EditListTitleDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger className="flex items-center">name change</DialogTrigger>
-      <DialogContent className="bg-[#F1F5F9] ring-0 rounded-none px-3">
+      <DialogTrigger className="bg-[#00588C] text-white rounded py-[5px] px-[40px] w-3/4">
+        名前を変更
+      </DialogTrigger>
+      <DialogContent className="bg-[#F1F5F9] ring-0 rounded-xl flex flex-col items-center px-3">
         <DialogHeader>
-          <DialogTitle>title編集</DialogTitle>
-          <DialogDescription></DialogDescription>
+          <DialogTitle>名前を変更</DialogTitle>
+          <DialogDescription>新しい名前を入力してください。</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid py-[5px]">
           <input
             value={editTitle}
             onChange={(e) => setEditTitle(e.target.value)}
             placeholder="リスト名を入力"
+            className="border rounded"
           />
         </div>
         <div className="flex items-center gap-2">
-          <Button onClick={() => onOpenChange(false)}>キャンセル</Button>
-          <Button onClick={handleConfirm}>決定</Button>
+          <Button
+            onClick={() => onOpenChange(false)}
+            className="bg-gray-500 text-white"
+          >
+            キャンセル
+          </Button>
+          <Button onClick={handleConfirm} className="bg-green-500 text-white">
+            決定
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
