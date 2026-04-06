@@ -1,4 +1,4 @@
-import { Item, ItemServiceResponse } from "../../types/items";
+import { Item, ItemServiceResponse, ItemCopy } from "../../types/items";
 import { ItemRepository } from "./items.repository";
 
 export interface ItemService {
@@ -13,6 +13,10 @@ export interface ItemService {
     id: string,
     status: string,
   ) => Promise<ItemServiceResponse<Item>>;
+  copyItem: (
+    id: string,
+    check_list_id: string,
+  ) => Promise<ItemServiceResponse<ItemCopy>>;
 }
 
 export const createItemService = (repository: ItemRepository): ItemService => {
@@ -81,5 +85,27 @@ export const createItemService = (repository: ItemRepository): ItemService => {
     }
   };
 
-  return { getItem, editItem, deleteItem, createItem, editItemStatus };
+  const copyItem = async (
+    id: string,
+    check_list_id: string,
+  ): Promise<ItemServiceResponse<ItemCopy>> => {
+    try {
+      const item = await repository.getItemWithId(id);
+      const result = await repository.createItem(check_list_id, item.item);
+      const data = await repository.getItemCopy(result.id);
+      return { ok: true, data };
+    } catch (error) {
+      const err = error as Error;
+      return { ok: false, status: 500, message: err.message };
+    }
+  };
+
+  return {
+    getItem,
+    editItem,
+    deleteItem,
+    createItem,
+    editItemStatus,
+    copyItem,
+  };
 };

@@ -14,3 +14,7 @@ export interface ItemServiceResponse<T> {
   status?: number;
   message?: string;
 }
+
+export interface ItemCopy extends Item {
+  title: string;
+}
