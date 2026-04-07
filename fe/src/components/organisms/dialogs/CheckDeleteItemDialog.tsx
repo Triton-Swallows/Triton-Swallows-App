@@ -39,7 +39,7 @@ export const CheckDeleteItemDialog = ({
           <RiDeleteBinLine />
         </DialogTrigger>
       ) : (
-        <DialogTrigger className="bg-[#AF301F] text-[#FAF6F0] rounded py-[5px] px-[40px] w-3/4">
+        <DialogTrigger className="bg-[#D98364] text-[#FAF6F0] rounded py-[5px] px-[40px] w-3/4">
           削除
         </DialogTrigger>
       )}
