@@ -15,6 +15,8 @@ function createItemRouter(ItemController: ItemController) {
 
   router.patch("/items/:id/status", verifyToken, ItemController.editItemStatus);
 
+  router.post("/items/:id/copy", verifyToken, ItemController.copyItem);
+
   return router;
 }
 

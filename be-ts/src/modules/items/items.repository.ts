@@ -1,5 +1,5 @@
 import { Knex } from "knex";
-import { Item } from "../../types/items";
+import { Item, ItemCopy } from "../../types/items";
 
 export interface ItemRepository {
   checkItem: (check_list_id: string) => Promise<Item>;
@@ -8,6 +8,8 @@ export interface ItemRepository {
   editItem: (id: string, title: string) => Promise<Item>;
   deleteItem: (id: string) => Promise<Item>;
   editItemStatus: (id: string, title: string) => Promise<Item>;
+  getItemWithId: (id: string) => Promise<Item>;
+  getItemCopy: (id: string) => Promise<ItemCopy>;
 }
 
 export const createItemRepository = (db: Knex): ItemRepository => {
@@ -31,7 +33,7 @@ export const createItemRepository = (db: Knex): ItemRepository => {
         check_list_id,
       })
       .select("*")
-      .orderBy("created_at", "desc");
+      .orderBy("id", "asc");
   };
 
   const editItem = async (id: string, item: string): Promise<Item> => {
@@ -61,6 +63,18 @@ export const createItemRepository = (db: Knex): ItemRepository => {
     return result[0];
   };
 
+  const getItemWithId = async (id: string): Promise<Item> => {
+    return await db("items").where({ id }).first("*");
+  };
+
+  const getItemCopy = async (id: string): Promise<ItemCopy> => {
+    return await db("items")
+      .leftJoin("check_lists", "items.check_list_id", "check_lists.id")
+      .where("items.id", id)
+      .select("items.*", "check_lists.title")
+      .first();
+  };
+
   return {
     checkItem,
     createItem,
@@ -68,5 +82,7 @@ export const createItemRepository = (db: Knex): ItemRepository => {
     editItem,
     deleteItem,
     editItemStatus,
+    getItemWithId,
+    getItemCopy,
   };
 };

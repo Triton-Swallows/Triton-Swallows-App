@@ -44,7 +44,7 @@ export const ListCard: React.FC<Props> = ({
       </div>
       <div className="flex justify-between w-full pb-[8px]"></div>
       <div className="pb-[8px] font-medium">
-        更新日：{checkList.updated_st || checkList.created_at}
+        更新日：{checkList.updated_at || checkList.created_at}
       </div>
     </div>
   );
