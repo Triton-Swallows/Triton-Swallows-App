@@ -15,6 +15,8 @@ type Props = {
   id: string;
   onDelete: (title: string) => void;
   icon?: boolean;
+  item_name?: string;
+  list_name?: string;
 };
 
 export const CheckDeleteItemDialog = ({
@@ -23,6 +25,8 @@ export const CheckDeleteItemDialog = ({
   id,
   onDelete,
   icon,
+  item_name,
+  list_name,
 }: Props) => {
   const handleConfirm = () => {
     onDelete(id);
@@ -42,15 +46,17 @@ export const CheckDeleteItemDialog = ({
 
       <DialogContent className="bg-[#F1F5F9] ring-0 rounded-xl px-3 flex flex-col items-center">
         <DialogHeader>
-          <DialogTitle>このリストを削除してもよろしいですか？</DialogTitle>
+          <DialogTitle className="my-[20px] text-[14px]">
+            この「{item_name || list_name}」を削除してもよろしいですか？
+          </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="flex items-center gap-2">
           <Button
-            className="flex items-center bg-[#AF301F] text-[#FAF6F0]"
+            className="flex items-center bg-[#D98364] text-[#FAF6F0]"
             onClick={handleConfirm}
           >
-            削除する
+            はい
           </Button>
           <Button
             onClick={() => onOpenChange(false)}

@@ -39,7 +39,6 @@ export const EditListDialog = ({
       <DialogTrigger>︙</DialogTrigger>
 
       <DialogContent className="bg-[#F1F5F9] ring-0 rounded-xl px-3 flex flex-col items-center justify-cneter w-2/3">
-        <div></div>
         <EditListTitleDialog
           open={titleDialogOpen}
           onOpenChange={setTitleDialogOpen}
@@ -51,6 +50,7 @@ export const EditListDialog = ({
           onOpenChange={setDeleteDialogOpen}
           id={checkList.id}
           onDelete={onDelete}
+          list_name={checkList.title}
         />
       </DialogContent>
     </Dialog>

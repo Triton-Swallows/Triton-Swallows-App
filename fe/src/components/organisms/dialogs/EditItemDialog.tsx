@@ -39,6 +39,7 @@ export const EditItemDialog = ({
         id={item.id}
         onDelete={onDelete}
         icon
+        item_name={item.item}
       />
     </div>
   );
