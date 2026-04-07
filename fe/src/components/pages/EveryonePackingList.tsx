@@ -10,7 +10,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  // DialogTitle,
+  DialogTitle,
 } from "@/components/ui/dialog";
 
 type PackingList = {
@@ -93,66 +93,66 @@ export const EveryonePackingList = () => {
             isActive={true}
           />
         </div>
+      </div>
 
-        {loading || isFetching ? (
-          <div>読み込み中...</div>
-        ) : fetchError ? (
-          <div>{fetchError}</div>
-        ) : packingLists.length === 0 ? (
-          <div>みんなのリストはまだありません。</div>
-        ) : (
-          <div className="mx-2 my-3 flex flex-col gap-2 text-[#15544E]">
-            {packingLists.map((packingList) => (
-              <div
-                key={packingList.id}
-                className="relative rounded-lg bg-[#99E8E2] p-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-              >
-                <Link
-                  to={`/everyone-packing-list/${packingList.id}/items`}
-                  state={{ title: packingList.title }}
-                  className="absolute inset-0 z-10 rounded-xl"
-                  aria-label={`${packingList.title}の持ち物一覧へ`}
-                />
-                <div className="relative z-20 flex flex-col gap-2 pointer-events-none">
-                  <p className="text-[24px] font-bold">{packingList.title}</p>
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="font-medium">
-                      更新日: {parseDate(packingList.updated_at)}
-                    </p>
-                    <Button
-                      onClick={() =>
-                        handleClick(packingList.id, packingList.title)
-                      }
-                      disabled={isCopying}
-                      className="pointer-events-auto relative z-30 mr-[-4px] bg-[#EAFBFA]"
-                    >
-                      マイリストへコピー
-                    </Button>
-                  </div>
+      {loading || isFetching ? (
+        <div>読み込み中...</div>
+      ) : fetchError ? (
+        <div>{fetchError}</div>
+      ) : packingLists.length === 0 ? (
+        <div>みんなのリストはまだありません。</div>
+      ) : (
+        <div className="mx-2 my-3 flex flex-col gap-2 text-[#15544E]">
+          {packingLists.map((packingList) => (
+            <div
+              key={packingList.id}
+              className="relative rounded-lg bg-[#99E8E2] p-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+            >
+              <Link
+                to={`/everyone-packing-list/${packingList.id}/items`}
+                state={{ title: packingList.title }}
+                className="absolute inset-0 z-10 rounded-xl"
+                aria-label={`${packingList.title}の持ち物一覧へ`}
+              />
+              <div className="relative z-20 flex flex-col gap-2 pointer-events-none">
+                <p className="text-[24px] font-bold">{packingList.title}</p>
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-medium">
+                    更新日: {parseDate(packingList.updated_at)}
+                  </p>
+                  <Button
+                    onClick={() =>
+                      handleClick(packingList.id, packingList.title)
+                    }
+                    disabled={isCopying}
+                    className="pointer-events-auto relative z-30 mr-[-4px] bg-[#EAFBFA]"
+                  >
+                    マイリストへコピー
+                  </Button>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-        <Dialog open={copyDialogOpen} onOpenChange={setCopyDialogOpen}>
-          <DialogContent showCloseButton={false} className="bg-[#F1F5F9]">
-            <DialogHeader>
-              {/* <DialogTitle className="text-[#15544E]">コピー完了</DialogTitle> */}
-              <DialogDescription className="text-[#1D7A4D] bg-white">
-                {`このリスト「${copiedListTitle}」はマイリストにコピーされました`}
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex justify-center">
-              <Button
-                onClick={() => setCopyDialogOpen(false)}
-                className="bg-[#00588C] text-[#FAFAFA]"
-              >
-                OK
-              </Button>
             </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+          ))}
+        </div>
+      )}
+      <Dialog open={copyDialogOpen} onOpenChange={setCopyDialogOpen}>
+        <DialogContent showCloseButton={false} className="bg-[#F1F5F9]">
+          <DialogHeader>
+            <DialogTitle></DialogTitle>
+            <DialogDescription className="text-[#1D7A4D] bg-white">
+              {`このリスト「${copiedListTitle}」はマイリストにコピーされました`}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <Button
+              onClick={() => setCopyDialogOpen(false)}
+              className="bg-[#00588C] text-[#FAFAFA]"
+            >
+              OK
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </HeaderLayout>
   );
 };
