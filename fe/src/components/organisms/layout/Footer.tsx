@@ -62,7 +62,6 @@ export const Footer = () => {
       <RequireLoginDialog
         open={loginDialogOpen}
         onOpenChange={setLoginDialogOpen}
-        redirectPath={location.pathname}
       />
       <ChatLimitDialog
         open={chatLimitDialogOpen}
