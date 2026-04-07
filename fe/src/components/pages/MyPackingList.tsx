@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "../ui/button";
 import { ListCard } from "../organisms/packingCheckList/ListCard";
 import { HeaderLayout } from "../templetes/HeaderLayout";
+import { NavTab } from "../atoms/NavTba";
 
 export type CheckLists = {
   id: string;
@@ -20,7 +21,7 @@ type CheckListsResponse = {
   data: CheckLists[];
 };
 
-export const PackingCheckList = () => {
+export const MyPackingList = () => {
   const { loginUser, loading } = AuthContextConsumer();
   const [checkLists, setCheckLists] = useState<CheckLists[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -91,7 +92,17 @@ export const PackingCheckList = () => {
 
   return (
     <>
-      <HeaderLayout title="持ち物リスト" showBackButton>
+      <HeaderLayout title="持ち物リスト" showBackButton path={"/"}>
+        {/* タブの表示部分 */}
+        <div className="flex bg-[#99E8E2] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
+          <NavTab to="/my-packing-list" label="マイリスト" isActive={true} />
+          <NavTab
+            to="/everyone-packing-list"
+            label="みんなのリスト"
+            isActive={false}
+          />
+        </div>
+
         <Tabs defaultValue="myList" className="flex-col">
           <TabsList variant="line">
             <TabsTrigger value="myList">マイリスト</TabsTrigger>

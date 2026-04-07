@@ -20,7 +20,7 @@ type ItemResponse = {
   data: Item[];
 };
 
-export const CheckListItems = () => {
+export const MyPackingListItems = () => {
   const { id: check_list_id } = useParams<{ id: string }>();
   const { loginUser, loading } = AuthContextConsumer();
   const [Items, setItems] = useState<Item[]>([]);
@@ -127,7 +127,7 @@ export const CheckListItems = () => {
 
   return (
     <>
-      <HeaderLayout title={title} showBackButton path="/packing-checklist">
+      <HeaderLayout title={title} showBackButton path="/my-packing-list">
         <div>このページはチェックリストです。</div>
         <p>マイリスト：{check_list_id}</p>
         {isFetching ? (

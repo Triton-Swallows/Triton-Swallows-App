@@ -5,7 +5,6 @@ import { SignUpPage } from "@/components/pages/SignUpPage";
 import { Home } from "@/components/pages/Home";
 import { EstaPage } from "@/components/pages/EstaPage";
 import { CountryPage } from "@/components/pages/CountryPage";
-import { PackingList } from "@/components/pages/PackingList";
 import { Profile } from "@/components/pages/Profile";
 import { PrivateRoute } from "@/components/templetes/PrivateRoute";
 import { Review } from "@/components/pages/Review";
@@ -14,9 +13,12 @@ import { TicketPage } from "@/components/pages/TicketPage";
 import { TaxPage } from "@/components/pages/TaxPage";
 import { Admin } from "@/components/pages/Admin";
 import { AdminRoute } from "@/components/templetes/AdminRoute";
-import { PackingCheckList } from "@/components/pages/PackingCheckList";
-import { CheckListItems } from "@/components/pages/CheckListItems";
+import { MyPackingList } from "@/components/pages/MyPackingList";
+import { MyPackingListItems } from "@/components/pages/MyPackingListItems";
+import { EveryonePackingList } from "@/components/pages/EveryonePackingList";
+import { EveryonePackingListItems } from "@/components/pages/EveryonePackingListItems";
 import { useEffect } from "react";
+import { OVerview } from "@/components/pages/Overview";
 
 const AppStateInjector = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
@@ -60,7 +62,7 @@ export const Router = () => {
           />
           <Route path="/:country/packing-list/tax" element={<TaxPage />} />
           <Route path="/country-list" element={<CountryPage />} />
-          <Route path="/:country/packing-list" element={<PackingList />} />
+          <Route path="/:country/overviews" element={<OVerview />} />
           <Route
             path="/profile"
             element={
@@ -78,10 +80,23 @@ export const Router = () => {
               </AdminRoute>
             }
           />
-          <Route path="/packing-checklist" element={<PackingCheckList />} />
+
+          {/*  マイリスト*/}
+          <Route path="/my-packing-list" element={<MyPackingList />} />
+          {/* マイリストの中身 */}
           <Route
-            path="/packing-checklist/items/:id"
-            element={<CheckListItems />}
+            path="/my-packing-list/:id/items"
+            element={<MyPackingListItems />}
+          />
+          {/* みんなのリスト */}
+          <Route
+            path="/everyone-packing-list"
+            element={<EveryonePackingList />}
+          />
+          {/* みんなのリストの中身 */}
+          <Route
+            path="/everyone-packing-list/:id/items"
+            element={<EveryonePackingListItems />}
           />
         </Routes>
       </AppStateInjector>
