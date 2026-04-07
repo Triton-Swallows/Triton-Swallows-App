@@ -95,7 +95,11 @@ export const MyPackingList = () => {
         {/* タブの表示部分 */}
         <div className="flex bg-[#99E8E2] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
           <NavTab to="/my-packing-list" label="マイリスト" isActive={true} />
-          <NavTab to="TBD" label="みんなのリスト" isActive={false} />
+          <NavTab
+            to="/everyone-packing-list"
+            label="みんなのリスト"
+            isActive={false}
+          />
         </div>
 
         <Tabs defaultValue="myList" className="flex-col">
