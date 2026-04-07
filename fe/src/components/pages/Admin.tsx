@@ -13,6 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 type Info = {
   uid: string;
@@ -119,7 +120,9 @@ export const Admin = () => {
           notes=""
         />
         {isFetching ? (
-          <p className="text-center py-10">読み込み中...</p>
+          <div className="flex py-10 items-center justify-center">
+            <Spinner />
+          </div>
         ) : fetchError ? (
           <p className="text-center py-10 text-red-500">{fetchError}</p>
         ) : (
@@ -265,7 +268,9 @@ export const Admin = () => {
         <div className="mt-4"></div>
         <TitleFrame title="情報変更・追加申請情報" date="" superivisor="" />
         {isFetching ? (
-          <p className="text-center py-10">読み込み中...</p>
+          <div className="flex py-10 items-center justify-center">
+            <Spinner />
+          </div>
         ) : fetchError ? (
           <p className="text-center py-10 text-red-500">{fetchError}</p>
         ) : (

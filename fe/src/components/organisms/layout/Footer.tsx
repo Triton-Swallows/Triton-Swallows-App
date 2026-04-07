@@ -16,7 +16,6 @@ export const Footer = () => {
     chatLimitDialogOpen,
     setChatLimitDialogOpen,
     chatSessionKey,
-    location,
   } = useGeminiChat();
 
   const { loginUser } = AuthContextConsumer();

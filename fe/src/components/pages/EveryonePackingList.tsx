@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Spinner } from "@/components/ui/spinner";
 
 type PackingList = {
   id: string;
@@ -94,7 +95,9 @@ export const EveryonePackingList = () => {
       </div>
 
       {loading || isFetching ? (
-        <div>読み込み中...</div>
+        <div className="flex py-10 items-center justify-center">
+          <Spinner />
+        </div>
       ) : fetchError ? (
         <div>{fetchError}</div>
       ) : packingLists.length === 0 ? (
