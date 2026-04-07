@@ -6,6 +6,7 @@ import { ItemCard } from "../organisms/items/ItemCard";
 import { RiAddLargeLine } from "react-icons/ri";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { ActionBar } from "../atoms/ActionBar";
+import HeaderPic from "../../assets/checklistbg.jpg";
 
 export type Item = {
   id: string;
@@ -128,7 +129,12 @@ export const MyPackingListItems = () => {
 
   return (
     <>
-      <HeaderLayout title={title} showBackButton path="/my-packing-list">
+      <HeaderLayout
+        title={title}
+        showBackButton
+        path="/my-packing-list"
+        backgroundImage={HeaderPic}
+      >
         <div className="my-[10px]">
           <ActionBar />
         </div>
