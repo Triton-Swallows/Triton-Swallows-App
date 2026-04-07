@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Item } from "@/components/pages/CheckListItems";
+import type { Item } from "@/components/pages/MyPackingListItems";
 import { EditItemDialog } from "../dialogs/EditItemDialog";
 
 type Props = {

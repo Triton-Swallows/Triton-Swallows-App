@@ -13,7 +13,7 @@ export type Item = {
   status: string;
   category: string;
   created_at: string;
-  updated_st: string;
+  updated_at: string;
 };
 
 type ItemResponse = {

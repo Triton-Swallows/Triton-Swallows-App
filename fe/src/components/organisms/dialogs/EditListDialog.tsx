@@ -1,13 +1,6 @@
 import { useState } from "react";
-import type { CheckLists } from "@/components/pages/PackingCheckList";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import type { CheckLists } from "@/components/pages/MyPackingList";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { EditListTitleDialog } from "./EditListTitileDialog";
 import { CheckDeleteItemDialog } from "./CheckDeleteItemDialog";
 
@@ -43,14 +36,10 @@ export const EditListDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger className="flex items-center">編集</DialogTrigger>
-      <DialogContent className="bg-[#F1F5F9] ring-0 rounded-none px-3">
-        <DialogHeader>
-          <DialogTitle>
-            <div className="flex items-center gap-2">編集ダイアログ</div>
-          </DialogTitle>
-          <DialogDescription></DialogDescription>
-        </DialogHeader>
+      <DialogTrigger>︙</DialogTrigger>
+
+      <DialogContent className="bg-[#F1F5F9] ring-0 rounded-xl px-3 flex flex-col items-center justify-cneter w-2/3">
+        <div></div>
         <EditListTitleDialog
           open={titleDialogOpen}
           onOpenChange={setTitleDialogOpen}
