@@ -22,6 +22,7 @@ const apiClient = axios.create({
 
 // interceptors: 全てのリクエストに自動でJWTを付与
 apiClient.interceptors.request.use(async (config) => {
+  // Androidでfirebaseの認証復元が遅いことがあるため、auth.currentUser参照前に待機する
   await authPersistenceReady;
   await auth.authStateReady();
 
