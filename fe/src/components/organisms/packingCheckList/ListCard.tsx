@@ -7,6 +7,7 @@ type Props = {
   checkList: CheckLists;
   handleEdit: (id: string, title: string) => void;
   handleDelete: (id: string) => void;
+  handleCopy: (id: string) => void;
 };
 
 const parseDate = (timestamp: string) => {
@@ -21,6 +22,7 @@ export const ListCard: React.FC<Props> = ({
   checkList,
   handleEdit,
   handleDelete,
+  handleCopy,
 }) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -47,6 +49,7 @@ export const ListCard: React.FC<Props> = ({
             checkList={checkList}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
+            handleCopy={handleCopy}
           />
         </div>
       </div>

@@ -91,6 +91,17 @@ export const MyPackingList = () => {
     }
   };
 
+  const handleCopy = async (id: string) => {
+    try {
+      const result = await apiClient.post(`/check-lists/${id}/copy`);
+      const copyList = result.data.data;
+      setCheckLists((prev) => [copyList, ...prev]);
+    } catch (error) {
+      console.error("エラー", error);
+      fetchData();
+    }
+  };
+
   return (
     <>
       <HeaderLayout
@@ -131,6 +142,7 @@ export const MyPackingList = () => {
                   checkList={checkList}
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}
+                  handleCopy={handleCopy}
                 />
               ))}
             </div>
