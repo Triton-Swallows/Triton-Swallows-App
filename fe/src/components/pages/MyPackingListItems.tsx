@@ -63,7 +63,7 @@ export const MyPackingListItems = () => {
 
         const createdList = response.data.data;
 
-        setItems((prev) => [createdList, ...prev]);
+        setItems((prev) => [...prev, createdList]);
         setItemName("");
       } catch (error) {
         console.error("エラー", error);

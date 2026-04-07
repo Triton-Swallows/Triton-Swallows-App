@@ -3,6 +3,7 @@ import type { CheckLists } from "@/components/pages/MyPackingList";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { EditListTitleDialog } from "./EditListTitileDialog";
 import { CheckDeleteItemDialog } from "./CheckDeleteItemDialog";
+import { CopyListDialog } from "./CopyListDialog";
 
 type Props = {
   open: boolean;
@@ -10,6 +11,7 @@ type Props = {
   checkList: CheckLists;
   handleEdit: (id: string, title: string) => void;
   handleDelete: (id: string) => void;
+  handleCopy: (id: string) => void;
 };
 
 export const EditListDialog = ({
@@ -18,8 +20,10 @@ export const EditListDialog = ({
   checkList,
   handleEdit,
   handleDelete,
+  handleCopy,
 }: Props) => {
   const [titleDialogOpen, setTitleDialogOpen] = useState<boolean>(false);
+  const [copyDialogOpen, setCopyDialogOpen] = useState<boolean>(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
 
   const onSubmit = (newTitle: string) => {
@@ -34,6 +38,12 @@ export const EditListDialog = ({
     onOpenChange(false); // 親のダイアログも閉じる
   };
 
+  const onCopy = (id: string) => {
+    handleCopy(id);
+    setTitleDialogOpen(false); // 自身のダイアログを閉じる
+    onOpenChange(false); // 親のダイアログも閉じる
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger>︙</DialogTrigger>
@@ -44,6 +54,13 @@ export const EditListDialog = ({
           onOpenChange={setTitleDialogOpen}
           initialTitle={checkList.title}
           onSubmit={onSubmit}
+        />
+        <CopyListDialog
+          open={copyDialogOpen}
+          onOpenChange={setCopyDialogOpen}
+          id={checkList.id}
+          onCopy={onCopy}
+          list_name={checkList.title}
         />
         <CheckDeleteItemDialog
           open={deleteDialogOpen}
