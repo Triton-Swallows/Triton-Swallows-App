@@ -9,6 +9,14 @@ type Props = {
   handleDelete: (id: string) => void;
 };
 
+const parseDate = (timestamp: string) => {
+  const date = new Date(timestamp);
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}/${m}/${d}`;
+};
+
 export const ListCard: React.FC<Props> = ({
   checkList,
   handleEdit,
@@ -44,7 +52,8 @@ export const ListCard: React.FC<Props> = ({
       </div>
       <div className="flex justify-between w-full pb-[8px]"></div>
       <div className="pb-[8px] font-medium">
-        更新日：{checkList.updated_at || checkList.created_at}
+        更新日：
+        {parseDate(checkList.updated_at) || parseDate(checkList.created_at)}
       </div>
     </div>
   );
