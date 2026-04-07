@@ -4,7 +4,7 @@ type Action = {
 };
 
 type Props = {
-  actions: Action[];
+  actions?: Action[];
 };
 
 export const ActionBar: React.FC<Props> = ({ actions }) => {
