@@ -65,7 +65,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       check_list_id: 2,
-      item: "【夏】虫よけスプレー・かゆみ止め",
+      item: "【夏】虫よけスプレー・ムヒ",
     },
     {
       check_list_id: 2,
