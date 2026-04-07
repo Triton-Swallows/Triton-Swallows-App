@@ -158,10 +158,12 @@ export const EveryonePackingList = () => {
                     </div>
 
                     <div className="flex items-end justify-between">
-                      <div className="flex flex-col pb-[8px]">
-                        <p className="text-[14px] h-[20px]">{arr![0]}</p>
-                        <p className="text-[14px] h-[20px]">{arr![1]}</p>
-                      </div>
+                      {arr && (
+                        <div className="flex flex-col pb-[8px]">
+                          <p className="text-[14px] h-[20px]">{arr![0]}</p>
+                          <p className="text-[14px] h-[20px]">{arr![1]}</p>
+                        </div>
+                      )}
 
                       <div className="ml-auto pb-[8px] font-medium items-end">
                         更新日：
