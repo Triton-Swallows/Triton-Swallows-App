@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -36,24 +35,26 @@ export const EditListTitleDialog = ({
       <DialogContent className="bg-[#F1F5F9] ring-0 rounded-xl flex flex-col items-center px-3">
         <DialogHeader>
           <DialogTitle>名前を変更</DialogTitle>
-          <DialogDescription>新しい名前を入力してください。</DialogDescription>
         </DialogHeader>
         <div className="grid py-[5px]">
           <input
             value={editTitle}
             onChange={(e) => setEditTitle(e.target.value)}
             placeholder="リスト名を入力"
-            className="border rounded"
+            className="border rounded h-[30px]"
           />
         </div>
         <div className="flex items-center gap-2">
           <Button
             onClick={() => onOpenChange(false)}
-            className="bg-gray-500 text-white"
+            className="bg-[#00588C] text-white"
           >
             キャンセル
           </Button>
-          <Button onClick={handleConfirm} className="bg-green-500 text-white">
+          <Button
+            onClick={handleConfirm}
+            className="bg-[#2BA89D] text-white px-[30px]"
+          >
             決定
           </Button>
         </div>
