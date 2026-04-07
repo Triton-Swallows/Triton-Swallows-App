@@ -11,8 +11,9 @@ export type CheckLists = {
   user_id: string;
   title: string;
   is_favorite: string;
+  hashtag: string;
   created_at: string;
-  updated_st: string;
+  updated_at: string;
 };
 
 type CheckListsResponse = {
@@ -93,10 +94,15 @@ export const MyPackingList = () => {
       <HeaderLayout title="持ち物リスト" showBackButton path={"/"}>
         <div className="flex flex-col justify-center pt-[10px]">
           {/* タブの表示部分 */}
-          <div className="flex bg-[#99E8E2] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]  w-5/6 mx-auto my-[6px]">
+          <div className="flex bg-[#99E8E2] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
             <NavTab to="/my-packing-list" label="マイリスト" isActive={true} />
-            <NavTab to="TBD" label="みんなのリスト" isActive={false} />
+            <NavTab
+              to="/everyone-packing-list"
+              label="みんなのリスト"
+              isActive={false}
+            />
           </div>
+
           <div className="pt-[6px] w-full">
             <ActionBar
               actions={[

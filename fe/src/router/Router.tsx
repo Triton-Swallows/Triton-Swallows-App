@@ -15,6 +15,8 @@ import { Admin } from "@/components/pages/Admin";
 import { AdminRoute } from "@/components/templetes/AdminRoute";
 import { MyPackingList } from "@/components/pages/MyPackingList";
 import { MyPackingListItems } from "@/components/pages/MyPackingListItems";
+import { EveryonePackingList } from "@/components/pages/EveryonePackingList";
+import { EveryonePackingListItems } from "@/components/pages/EveryonePackingListItems";
 import { useEffect } from "react";
 import { OVerview } from "@/components/pages/Overview";
 
@@ -87,15 +89,15 @@ export const Router = () => {
             element={<MyPackingListItems />}
           />
           {/* みんなのリスト */}
-          {/* <Route
+          <Route
             path="/everyone-packing-list"
             element={<EveryonePackingList />}
-          /> */}
+          />
           {/* みんなのリストの中身 */}
-          {/* <Route
+          <Route
             path="/everyone-packing-list/:id/items"
             element={<EveryonePackingListItems />}
-          /> */}
+          />
         </Routes>
       </AppStateInjector>
     </AuthContextProvider>

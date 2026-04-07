@@ -5,7 +5,7 @@ export interface Item {
   status: string;
   category: string;
   created_at: string;
-  updated_st: string;
+  updated_at: string;
 }
 
 export interface ItemServiceResponse<T> {
@@ -13,4 +13,8 @@ export interface ItemServiceResponse<T> {
   data?: T;
   status?: number;
   message?: string;
+}
+
+export interface ItemCopy extends Item {
+  title: string;
 }

@@ -50,7 +50,7 @@ export const ContactDialog = ({
         <DialogHeader>
           <DialogTitle>
             <div className="flex items-center gap-2 justify-center text-[#002B45] text-[16px] font-bold pb-[10px]">
-              <span>トリトリ - 詳細情報の変更申請</span>
+              <span>トリトリ - 詳細情報の変更・追加申請</span>
             </div>
           </DialogTitle>
           <DialogDescription className="flex justify-center text-[#002B45] text-[12px]">
@@ -74,20 +74,14 @@ export const ContactDialog = ({
           <FieldGroup className="border border-[#A5A5A5] px-[10px] py-[15px] rounded">
             {/* 申請対象ページ */}
             <FieldGroup>
-              <FieldLabel className="text-[12px]">
-                どのページに対する申請ですか？
-              </FieldLabel>
-              <Input
-                placeholder={location}
-                readOnly
-                className="bg-white border-none text-[15px]"
-              />
+              <FieldLabel className="text-[12px]">申請対象のページ:</FieldLabel>
+              <p className="border-none text-[15px]">{location}</p>
             </FieldGroup>
 
             {/* 変更内容 */}
             <FieldGroup>
               <FieldLabel className="text-[12px]">
-                変更すべき内容を教えてください。
+                変更・追加すべき内容を教えてください。
               </FieldLabel>
               <Textarea
                 id="contact-description"

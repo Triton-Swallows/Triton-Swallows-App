@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import type { Item } from "@/components/pages/CheckListItems";
+import type { Item } from "@/components/pages/MyPackingListItems";
 import { CheckDeleteItemDialog } from "./CheckDeleteItemDialog";
 
 type Props = {

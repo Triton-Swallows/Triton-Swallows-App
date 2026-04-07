@@ -19,6 +19,14 @@ export interface CheckListService {
   getAllCheckLists: (
     user_id: string,
   ) => Promise<CheckListsServiceResponse<CheckLists[]>>;
+  copyCheckList: (
+    check_list_id: string,
+    user_id: string,
+  ) => Promise<CheckListsServiceResponse<CheckLists>>;
+  editHashtag: (
+    id: string,
+    hashtag: string,
+  ) => Promise<CheckListsServiceResponse<CheckLists>>;
 }
 
 export const createCheckListService = (
@@ -90,11 +98,46 @@ export const createCheckListService = (
     }
   };
 
+  const copyCheckList = async (
+    id: string,
+    user_id: string,
+  ): Promise<CheckListsServiceResponse<CheckLists>> => {
+    try {
+      const data = await repository.getChecklistWithId(id);
+      const checklist = await repository.createCheckLists(user_id, data.title);
+      const itemNameLists = await repository.getItem(id);
+      const items = itemNameLists.map((itemNameList) => ({
+        check_list_id: checklist.id,
+        item: itemNameList.item,
+      }));
+      await repository.createItem(items);
+      return { ok: true, data: checklist };
+    } catch (error) {
+      const err = error as Error;
+      return { ok: false, status: 500, message: err.message };
+    }
+  };
+
+  const editHashtag = async (
+    id: string,
+    hashtag: string,
+  ): Promise<CheckListsServiceResponse<CheckLists>> => {
+    try {
+      const data = await repository.editHashtag(id, hashtag);
+      return { ok: true, data };
+    } catch (error) {
+      const err = error as Error;
+      return { ok: false, status: 500, message: err.message };
+    }
+  };
+
   return {
     getCheckLists,
     editCheckList,
     deleteCheckList,
     createCheckList,
     getAllCheckLists,
+    copyCheckList,
+    editHashtag,
   };
 };
