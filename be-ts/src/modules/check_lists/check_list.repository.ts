@@ -9,7 +9,11 @@ interface ItemInsert {
 
 export interface CheckListRepository {
   checkUser: (user_id: string) => Promise<CheckLists>;
-  createCheckLists: (user_id: string, title: string) => Promise<CheckLists>;
+  createCheckLists: (
+    user_id: string,
+    title: string,
+    hashtag: string,
+  ) => Promise<CheckLists>;
   getChecklist: (user_id: string) => Promise<CheckLists[]>;
   editCheckList: (id: string, title: string) => Promise<CheckLists>;
   deleteCheckList: (id: string) => Promise<CheckLists>;
@@ -28,9 +32,10 @@ export const createCheckListRepository = (db: Knex): CheckListRepository => {
   const createCheckLists = async (
     user_id: string,
     title: string,
+    hashtag: string,
   ): Promise<CheckLists> => {
     const result = await db("check_lists")
-      .insert({ user_id, title })
+      .insert({ user_id, title, hashtag })
       .returning("*");
     return result[0];
   };
