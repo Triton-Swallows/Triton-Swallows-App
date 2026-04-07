@@ -75,7 +75,7 @@ export const ReviewSummaryCard: React.FC<Props> = ({
                 />
               )}
               <button
-                className={`flex items-center text-[#AF301F] ${loginUser ? "cursor-pointer" : "cursor-not-allowed"}`}
+                className={`flex items-center text-[#FF4055] ${loginUser ? "cursor-pointer" : "cursor-not-allowed"}`}
                 onClick={handleToggleLike}
                 disabled={!loginUser}
               >
