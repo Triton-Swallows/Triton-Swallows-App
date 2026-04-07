@@ -18,6 +18,12 @@ const parseDate = (timestamp: string) => {
   return `${y}/${m}/${d}`;
 };
 
+const parseHashtag = (hashtag: string) => {
+  if (!hashtag) return;
+  const hashtagArr = hashtag.split(" ");
+  return hashtagArr;
+};
+
 export const ListCard: React.FC<Props> = ({
   checkList,
   handleEdit,
@@ -32,6 +38,8 @@ export const ListCard: React.FC<Props> = ({
       state: { title: checkList.title },
     });
   };
+
+  const arr = parseHashtag(checkList.hashtag);
 
   return (
     <div
@@ -53,10 +61,19 @@ export const ListCard: React.FC<Props> = ({
           />
         </div>
       </div>
-      <div className="flex justify-between w-full pb-[8px]"></div>
-      <div className="pb-[8px] font-medium">
-        更新日：
-        {parseDate(checkList.updated_at) || parseDate(checkList.created_at)}
+      <div className="flex justify-between w-full pb-[1px]"></div>
+      <div className="flex items-end justify-between">
+        {arr && (
+          <div className="flex flex-col pb-[8px]">
+            <p className="text-[14px] h-[20px]">{arr![0]}</p>
+            <p className="text-[14px] h-[20px]">{arr![1]}</p>
+          </div>
+        )}
+
+        <div className="ml-auto pb-[8px] font-medium items-end">
+          更新日：
+          {parseDate(checkList.updated_at) || parseDate(checkList.created_at)}
+        </div>
       </div>
     </div>
   );
