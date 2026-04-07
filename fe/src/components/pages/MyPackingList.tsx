@@ -5,6 +5,7 @@ import { ListCard } from "../organisms/packingCheckList/ListCard";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { NavTab } from "../atoms/NavTba";
 import { ActionBar } from "../atoms/ActionBar";
+import { Spinner } from "@/components/ui/spinner";
 
 export type CheckLists = {
   id: string;
@@ -111,7 +112,9 @@ export const MyPackingList = () => {
             />
           </div>
           {isFetching ? (
-            <div>読み込み中...</div>
+            <div className="flex py-10 items-center justify-center">
+              <Spinner />
+            </div>
           ) : fetchError ? (
             <p className="text-center py-10 text-red-500">{fetchError}</p>
           ) : (

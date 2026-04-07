@@ -19,6 +19,7 @@ import {
 import { SelectField } from "../atoms/Select";
 import { SearchBox } from "../atoms/SearchBox";
 import { NavTab } from "../atoms/NavTba";
+import { Spinner } from "@/components/ui/spinner";
 
 type ReviewSummaryApiItem = {
   id: number;
@@ -255,7 +256,11 @@ export const Review = () => {
         </div>
         <div className="pb-16">
           {/* ページ読み込み中の表示 */}
-          {isFetching && <p>読み込み中...</p>}
+          {isFetching && (
+            <div className="flex py-10 items-center justify-center">
+              <Spinner />
+            </div>
+          )}
 
           {/* ページ読み込み失敗の表示 */}
           {fetchError && <p>{fetchError}</p>}
