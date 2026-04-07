@@ -5,6 +5,7 @@ import { ListCard } from "../organisms/packingCheckList/ListCard";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { NavTab } from "../atoms/NavTba";
 import { ActionBar } from "../atoms/ActionBar";
+import HeaderPic from "../../assets/checklistbg.jpg";
 import { Spinner } from "@/components/ui/spinner";
 
 export type CheckLists = {
@@ -92,10 +93,15 @@ export const MyPackingList = () => {
 
   return (
     <>
-      <HeaderLayout title="持ち物リスト" showBackButton path={"/"}>
+      <HeaderLayout
+        title="持ち物リスト"
+        showBackButton
+        path={"/"}
+        backgroundImage={HeaderPic}
+      >
         <div className="flex flex-col justify-center pt-[10px]">
           {/* タブの表示部分 */}
-          <div className="flex bg-[#99E8E2] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
+          <div className="flex bg-[#99E8E2] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px] w-9/10 mx-auto">
             <NavTab to="/my-packing-list" label="マイリスト" isActive={true} />
             <NavTab
               to="/everyone-packing-list"

@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { useLocation, useParams } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { ActionBar } from "../atoms/ActionBar";
+import HeaderPic from "../../assets/checklistbg.jpg";
 import {
   Dialog,
   DialogContent,
@@ -146,7 +147,12 @@ export const EveryonePackingListItems = () => {
 
   return (
     <>
-      <HeaderLayout title={title} showBackButton path="/everyone-packing-list">
+      <HeaderLayout
+        title={title}
+        showBackButton
+        path="/everyone-packing-list"
+        backgroundImage={HeaderPic}
+      >
         <div className="pt-[6px] w-full">
           <ActionBar actions={[{ label: "" }]} />
         </div>

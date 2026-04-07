@@ -5,6 +5,8 @@ import apiClient from "@/config/apiClient";
 import { ItemCard } from "../organisms/items/ItemCard";
 import { RiAddLargeLine } from "react-icons/ri";
 import { HeaderLayout } from "../templetes/HeaderLayout";
+import { ActionBar } from "../atoms/ActionBar";
+import HeaderPic from "../../assets/checklistbg.jpg";
 import { Spinner } from "@/components/ui/spinner";
 
 export type Item = {
@@ -128,9 +130,16 @@ export const MyPackingListItems = () => {
 
   return (
     <>
-      <HeaderLayout title={title} showBackButton path="/my-packing-list">
-        <div>このページはチェックリストです。</div>
-        <p>マイリスト：{check_list_id}</p>
+      <HeaderLayout
+        title={title}
+        showBackButton
+        path="/my-packing-list"
+        backgroundImage={HeaderPic}
+      >
+        <div className="my-[10px]">
+          <ActionBar />
+        </div>
+
         {isFetching ? (
           <div className="flex py-10 items-center justify-center">
             <Spinner />
@@ -151,11 +160,13 @@ export const MyPackingListItems = () => {
                 handleToggleStatus={handleToggleStatus}
               />
             ))}
-            <div className="flex items-center border bg-[#99E8E2] my-1">
-              <RiAddLargeLine />
+
+            {/* 持ち物アイテム追加部分 */}
+            <div className="flex items-center gap-[5px] w-9/10 m-auto">
+              <RiAddLargeLine className="w-[33px] h-[33px]" color="#002B45" />
               <input
-                className="flex items-center bg-[#99E8E2]"
-                placeholder="Type to add new item"
+                className="flex items-center bg-[#EAFBFA] rounded-xl px-[5px] py-[5px] h-[40px]"
+                placeholder="持ち物を追加…"
                 value={itemName}
                 onChange={(e) => setItemName(e.target.value)}
                 onKeyDown={handleCreateList}
