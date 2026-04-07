@@ -23,6 +23,7 @@ type PackingList = {
   is_favorite: boolean;
   created_at: string;
   updated_at: string;
+  hashtag: string;
 };
 
 type PackingListResponse = {
@@ -85,6 +86,12 @@ export const EveryonePackingList = () => {
     }
   };
 
+  const parseHashtag = (hashtag: string) => {
+    if (!hashtag) return;
+    const hashtagArr = hashtag.split(" ");
+    return hashtagArr;
+  };
+
   return (
     <HeaderLayout
       title="持ち物リスト"
@@ -117,36 +124,56 @@ export const EveryonePackingList = () => {
         <div>みんなのリストはまだありません。</div>
       ) : (
         <div className="mx-2 my-3 flex flex-col gap-2 text-[#15544E]">
-          {packingLists.map((packingList) => (
-            <div
-              key={packingList.id}
-              className="relative rounded-lg bg-[#99E8E2] p-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-            >
-              <Link
-                to={`/everyone-packing-list/${packingList.id}/items`}
-                state={{ title: packingList.title }}
-                className="absolute inset-0 z-10 rounded-xl"
-                aria-label={`${packingList.title}の持ち物一覧へ`}
-              />
-              <div className="relative z-20 flex flex-col gap-2 pointer-events-none">
-                <p className="text-[24px] font-bold">{packingList.title}</p>
-                <div className="flex items-center justify-between gap-3">
-                  <p className="font-medium">
-                    更新日: {parseDate(packingList.updated_at)}
-                  </p>
-                  <Button
-                    onClick={() =>
-                      handleClick(packingList.id, packingList.title)
-                    }
-                    disabled={isCopying}
-                    className="pointer-events-auto relative z-30 mr-[-4px] bg-[#EAFBFA]"
-                  >
-                    マイリストへコピー
-                  </Button>
+          {packingLists.map((packingList) => {
+            const arr = parseHashtag(packingList.hashtag);
+
+            return (
+              <div
+                key={packingList.id}
+                className="relative h-[90px] rounded-lg bg-[#99E8E2] p-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              >
+                <Link
+                  to={`/everyone-packing-list/${packingList.id}/items`}
+                  state={{ title: packingList.title }}
+                  className="absolute inset-0 z-10 rounded-xl"
+                  aria-label={`${packingList.title}の持ち物一覧へ`}
+                />
+                <div className="relative z-20 flex flex-col gap-2 pointer-events-none">
+                  <div className="flex flex-col justify-between">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-[24px] font-bold">
+                        {packingList.title}
+                      </p>
+                      <Button
+                        onClick={() =>
+                          handleClick(packingList.id, packingList.title)
+                        }
+                        disabled={isCopying}
+                        className="pointer-events-auto relative z-30 mr-[-4px] bg-[#EAFBFA] text-[12px] py-[20px]"
+                      >
+                        マイリストへ
+                        <br />
+                        コピー
+                      </Button>
+                    </div>
+
+                    <div className="flex items-end justify-between">
+                      <div className="flex flex-col pb-[8px]">
+                        <p className="text-[14px] h-[20px]">{arr![0]}</p>
+                        <p className="text-[14px] h-[20px]">{arr![1]}</p>
+                      </div>
+
+                      <div className="ml-auto pb-[8px] font-medium items-end">
+                        更新日：
+                        {parseDate(packingList.updated_at) ||
+                          parseDate(packingList.created_at)}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
       <Dialog open={copyDialogOpen} onOpenChange={setCopyDialogOpen}>
