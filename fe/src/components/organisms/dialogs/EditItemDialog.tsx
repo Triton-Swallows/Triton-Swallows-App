@@ -1,15 +1,8 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import type { Item } from "@/components/pages/MyPackingListItems";
 import { CheckDeleteItemDialog } from "./CheckDeleteItemDialog";
+import { RiPencilLine } from "react-icons/ri";
 
 type Props = {
   open: boolean;
@@ -20,8 +13,6 @@ type Props = {
 };
 
 export const EditItemDialog = ({
-  open,
-  onOpenChange,
   item,
   handleDelete,
   onStartNameEdit,
@@ -31,39 +22,24 @@ export const EditItemDialog = ({
   const onDelete = (id: string) => {
     handleDelete(id);
     setTitleDialogOpen(false); // 自身のダイアログを閉じる
-    onOpenChange(false); // 親のダイアログも閉じる
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger className="flex items-center">編集</DialogTrigger>
-      <DialogContent className="bg-[#F1F5F9] ring-0 rounded-none px-3">
-        <DialogHeader>
-          <DialogTitle>
-            <div className="flex items-center gap-2">編集ダイアログ</div>
-          </DialogTitle>
-          <DialogDescription></DialogDescription>
-        </DialogHeader>
-        <Button
-          onClick={() => {
-            onStartNameEdit(); // 親に通知してダイアログを閉じる
-          }}
-        >
-          名前を変更する
-        </Button>
-        <CheckDeleteItemDialog
-          open={titleDialogOpen}
-          onOpenChange={setTitleDialogOpen}
-          id={item.id}
-          onDelete={onDelete}
-        />
-        {/* <Button
-          className="bg-red-500 text-[#FAF6F0]"
-          onClick={() => onDelete(item.id)}
-        >
-          削除
-        </Button> */}
-      </DialogContent>
-    </Dialog>
+    <div className="flex items-center">
+      <Button
+        onClick={() => {
+          onStartNameEdit(); // 親に通知してダイアログを閉じる
+        }}
+      >
+        <RiPencilLine />
+      </Button>
+      <CheckDeleteItemDialog
+        open={titleDialogOpen}
+        onOpenChange={setTitleDialogOpen}
+        id={item.id}
+        onDelete={onDelete}
+        icon
+      />
+    </div>
   );
 };
