@@ -10,7 +10,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  // DialogTitle,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
 
@@ -139,7 +139,7 @@ export const EveryonePackingList = () => {
       <Dialog open={copyDialogOpen} onOpenChange={setCopyDialogOpen}>
         <DialogContent showCloseButton={false} className="bg-[#F1F5F9]">
           <DialogHeader>
-            {/* <DialogTitle className="text-[#15544E]">コピー完了</DialogTitle> */}
+            <DialogTitle></DialogTitle>
             <DialogDescription className="text-[#1D7A4D] bg-white">
               {`このリスト「${copiedListTitle}」はマイリストにコピーされました`}
             </DialogDescription>

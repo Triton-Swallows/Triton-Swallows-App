@@ -4,12 +4,16 @@ export async function seed(knex: Knex): Promise<void> {
   await knex("check_lists").del();
   await knex("check_lists").insert([
     {
-      user_id: "a3JtsldqPnY55rPrUBRsu3zHHwm1",
-      title: "hagiのリスト",
+      user_id: "6SpgBAFdthRoHCYeacUhjV11Idz2",
+      title: "必須用品",
     },
     {
-      user_id: "UlSHDnuDG4hEFPi6DJznEcdHw8q1",
-      title: "masaのリスト",
+      user_id: "qulZYxjU5wfSjZXRc4gir5rxTV23",
+      title: "キャンプ用",
+    },
+    {
+      user_id: "64wVqL7j7BgOKT4RvgtNMTokHwQ2",
+      title: "アメリカ旅行用おススメ",
     },
   ]);
 }

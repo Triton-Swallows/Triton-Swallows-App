@@ -4,6 +4,7 @@ import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Button } from "../ui/button";
 import { useLocation, useParams } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
+import { ActionBar } from "../atoms/ActionBar";
 import {
   Dialog,
   DialogContent,
@@ -50,6 +51,7 @@ export const EveryonePackingListItems = () => {
   const [copyDialogOpen, setCopyDialogOpen] = useState<boolean>(false);
   const [copyTargetItem, setCopyTargetItem] = useState<Item | null>(null);
   const [copySuccess, setCopySuccess] = useState<string | null>(null);
+  const [successDialogOpen, setSuccessDialogOpen] = useState<boolean>(false);
   const [copyError, setCopyError] = useState<string | null>(null);
   const [isCopying, setIsCopying] = useState<boolean>(false);
 
@@ -117,8 +119,9 @@ export const EveryonePackingListItems = () => {
         check_list_id: selectedCheckListId,
       });
 
-      setCopySuccess(`${selectedCheckListTitle}へのコピー成功`);
+      setCopySuccess(selectedCheckListTitle);
       setCopyDialogOpen(false);
+      setSuccessDialogOpen(true);
       setCopyTargetItem(null);
     } catch (error) {
       console.error("コピー失敗", error);
@@ -144,9 +147,9 @@ export const EveryonePackingListItems = () => {
   return (
     <>
       <HeaderLayout title={title} showBackButton path="/everyone-packing-list">
-        {copySuccess && (
-          <p className="mx-2 mb-2 text-sm text-[#2BA89D]">{copySuccess}</p>
-        )}
+        <div className="pt-[6px] w-full">
+          <ActionBar actions={[{ label: "" }]} />
+        </div>
 
         {loading || isFetching ? (
           <div className="flex py-10 items-center justify-center">
@@ -225,9 +228,6 @@ export const EveryonePackingListItems = () => {
           )}
 
           {copyError && <p className="text-sm text-red-500">{copyError}</p>}
-          {copySuccess && (
-            <p className="text-sm text-green-500">{copySuccess}</p>
-          )}
 
           <div className="flex justify-end gap-2">
             <Button
@@ -238,6 +238,30 @@ export const EveryonePackingListItems = () => {
               className="bg-[#99E8E2] text-[#15544E] hover:bg-[#87ddd6]"
             >
               {isCopying ? "コピー中..." : "このリストにコピー"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={successDialogOpen} onOpenChange={setSuccessDialogOpen}>
+        <DialogContent showCloseButton={false} className="bg-[#F1F5F9]">
+          <DialogHeader>
+            <DialogDescription className="bg-white text-center text-[14px] font-medium text-[#1D7A4D]">
+              {copySuccess && (
+                <>
+                  このアイテムは「{copySuccess}」
+                  <br />
+                  リストにコピーされました
+                </>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <Button
+              onClick={() => setSuccessDialogOpen(false)}
+              className="bg-[#00588C] text-[#FAFAFA]"
+            >
+              OK
             </Button>
           </div>
         </DialogContent>
