@@ -5,6 +5,7 @@ import apiClient from "@/config/apiClient";
 import { ItemCard } from "../organisms/items/ItemCard";
 import { RiAddLargeLine } from "react-icons/ri";
 import { HeaderLayout } from "../templetes/HeaderLayout";
+import { ActionBar } from "../atoms/ActionBar";
 
 export type Item = {
   id: string;
@@ -13,7 +14,7 @@ export type Item = {
   status: string;
   category: string;
   created_at: string;
-  updated_st: string;
+  updated_at: string;
 };
 
 type ItemResponse = {
@@ -128,7 +129,9 @@ export const MyPackingListItems = () => {
   return (
     <>
       <HeaderLayout title={title} showBackButton path="/my-packing-list">
-        <div>このページはチェックリストです。</div>
+        <div className="my-[10px]">
+          <ActionBar />
+        </div>
         <p>マイリスト：{check_list_id}</p>
         {isFetching ? (
           <div>読み込み中...</div>
@@ -148,11 +151,11 @@ export const MyPackingListItems = () => {
                 handleToggleStatus={handleToggleStatus}
               />
             ))}
-            <div className="flex items-center border bg-[#99E8E2] my-1">
-              <RiAddLargeLine />
+            <div className="flex items-center  my-1 gap-[10px]">
+              <RiAddLargeLine className="w-[40px] h-[40px]" color="#002B45" />
               <input
-                className="flex items-center bg-[#99E8E2]"
-                placeholder="Type to add new item"
+                className="flex items-center bg-[#EAFBFA] rounded-xl px-[10px] py-[5px]"
+                placeholder="持ち物を追加…"
                 value={itemName}
                 onChange={(e) => setItemName(e.target.value)}
                 onKeyDown={handleCreateList}

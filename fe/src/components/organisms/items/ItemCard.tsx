@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Item } from "@/components/pages/CheckListItems";
+import type { Item } from "@/components/pages/MyPackingListItems";
 import { EditItemDialog } from "../dialogs/EditItemDialog";
 
 type Props = {
@@ -46,7 +46,7 @@ export const ItemCard: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex items-center justify-between border bg-[#99E8E2] my-1">
+    <div className="flex items-center justify-between bg-[#EAFBFA] text-[#15544E] my-1 w-9/10 m-auto h-[32px]">
       <button
         className="bg-pink-500"
         onClick={() => handleToggleStatus(item.id, Number(item.status))}
@@ -63,6 +63,7 @@ export const ItemCard: React.FC<Props> = ({
           onBlur={onCancel}
           onCompositionStart={() => setIsComposing(true)}
           onCompositionEnd={() => setIsComposing(false)}
+          className="text-[16px]"
         />
       ) : (
         // 通常モード
