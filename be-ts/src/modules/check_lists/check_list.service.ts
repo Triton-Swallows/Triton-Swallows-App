@@ -38,7 +38,7 @@ export const createCheckListService = (
     try {
       const checkUser = await repository.checkUser(user_id);
       if (!checkUser) {
-        await repository.createCheckLists(user_id, "新しいリスト");
+        await repository.createCheckLists(user_id, "新しいリスト", "");
       }
       const data = await repository.getChecklist(user_id);
       return { ok: true, data };
@@ -78,7 +78,7 @@ export const createCheckListService = (
     title: string,
   ): Promise<CheckListsServiceResponse<CheckLists>> => {
     try {
-      const data = await repository.createCheckLists(user_id, title);
+      const data = await repository.createCheckLists(user_id, title, "");
       return { ok: true, data };
     } catch (error) {
       const err = error as Error;
@@ -104,7 +104,11 @@ export const createCheckListService = (
   ): Promise<CheckListsServiceResponse<CheckLists>> => {
     try {
       const data = await repository.getChecklistWithId(id);
-      const checklist = await repository.createCheckLists(user_id, data.title);
+      const checklist = await repository.createCheckLists(
+        user_id,
+        data.title,
+        data.hashtag,
+      );
       const itemNameLists = await repository.getItem(id);
       const items = itemNameLists.map((itemNameList) => ({
         check_list_id: checklist.id,
