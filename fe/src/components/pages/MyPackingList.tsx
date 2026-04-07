@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import apiClient from "@/config/apiClient";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "../ui/button";
 import { ListCard } from "../organisms/packingCheckList/ListCard";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { NavTab } from "../atoms/NavTba";
+import { ActionBar } from "../atoms/ActionBar";
 
 export type CheckLists = {
   id: string;
@@ -93,50 +92,41 @@ export const MyPackingList = () => {
   return (
     <>
       <HeaderLayout title="持ち物リスト" showBackButton path={"/"}>
-        {/* タブの表示部分 */}
-        <div className="flex bg-[#99E8E2] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
-          <NavTab to="/my-packing-list" label="マイリスト" isActive={true} />
-          <NavTab
-            to="/everyone-packing-list"
-            label="みんなのリスト"
-            isActive={false}
-          />
-        </div>
+        <div className="flex flex-col justify-center pt-[10px]">
+          {/* タブの表示部分 */}
+          <div className="flex bg-[#99E8E2] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
+            <NavTab to="/my-packing-list" label="マイリスト" isActive={true} />
+            <NavTab
+              to="/everyone-packing-list"
+              label="みんなのリスト"
+              isActive={false}
+            />
+          </div>
 
-        <Tabs defaultValue="myList" className="flex-col">
-          <TabsList variant="line">
-            <TabsTrigger value="myList">マイリスト</TabsTrigger>
-            <TabsTrigger value="everyoneLine">みんなのリスト</TabsTrigger>
-          </TabsList>
-          <TabsContent value="myList">
-            <h2>ここはマイリスト</h2>
-            <Button
-              className="bg-[#2BA89D] text-[#FAF6F0]"
-              onClick={handleCreateList}
-            >
-              +新規リスト作成
-            </Button>
-            {isFetching ? (
-              <div>読み込み中...</div>
-            ) : fetchError ? (
-              <p className="text-center py-10 text-red-500">{fetchError}</p>
-            ) : (
-              <div>
-                {checkLists.map((checkList) => (
-                  <ListCard
-                    key={checkList.id}
-                    checkList={checkList}
-                    handleEdit={handleEdit}
-                    handleDelete={handleDelete}
-                  />
-                ))}
-              </div>
-            )}
-          </TabsContent>
-          <TabsContent value="everyoneLine">
-            <h2>ここはみんなのリスト</h2>
-          </TabsContent>
-        </Tabs>
+          <div className="pt-[6px] w-full">
+            <ActionBar
+              actions={[
+                { label: "＋新規リストを作成", onClick: handleCreateList },
+              ]}
+            />
+          </div>
+          {isFetching ? (
+            <div>読み込み中...</div>
+          ) : fetchError ? (
+            <p className="text-center py-10 text-red-500">{fetchError}</p>
+          ) : (
+            <div className="px-[10px] w-full">
+              {checkLists.map((checkList) => (
+                <ListCard
+                  key={checkList.id}
+                  checkList={checkList}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </HeaderLayout>
     </>
   );

@@ -25,21 +25,26 @@ export const ListCard: React.FC<Props> = ({
 
   return (
     <div
-      className="flex items-center justify-between border bg-[#99E8E2] my-1"
+      className="flex flex-col justify-between rounded-xl bg-[#99E8E2] my-[8px] px-[10px] w-full h-[90px] shadow text-[#15544E]"
       onClick={handleCardClick}
     >
-      <p>{checkList.title}</p>
-      <div
-        className="flex items-center gap-6"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <EditListDialog
-          open={dialogOpen}
-          onOpenChange={setDialogOpen}
-          checkList={checkList}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-        />
+      <div className="flex justify-between items-center w-ful pt-[8px] font-bold text-[24px]">
+        <div className="flex items-center gap-[8px]">
+          <p>{checkList.title}</p>
+        </div>
+        <div onClick={(e) => e.stopPropagation()}>
+          <EditListDialog
+            open={dialogOpen}
+            onOpenChange={setDialogOpen}
+            checkList={checkList}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
+        </div>
+      </div>
+      <div className="flex justify-between w-full pb-[8px]"></div>
+      <div className="pb-[8px] font-medium">
+        更新日：{checkList.updated_st || checkList.created_at}
       </div>
     </div>
   );

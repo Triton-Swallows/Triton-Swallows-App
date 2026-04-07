@@ -68,7 +68,8 @@ export const EstaPage = () => {
         <TitleFrame
           title="ESTAとは:"
           date="2026年3月24日"
-          superivisor="監修：Robert&Enrique"
+          superivisor="トリトン確認済"
+          badge
         />
         <SummaryFrameDetail
           contents="ESTA（エスタ）は、アメリカへ短期旅行するための電子渡航認証システムです

@@ -80,6 +80,7 @@ export const OVerview = () => {
             title="必要書類"
             date="更新日時　2026/3/24"
             superivisor="トリトン確認済"
+            badge
           />
           <div className="grid grid-cols-2 gap-4 px-4 pb-6 pt-[10px]">
             {itemsWithImage.map((item) => (
