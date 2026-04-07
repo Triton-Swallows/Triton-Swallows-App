@@ -7,12 +7,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   id: string;
   onDelete: (title: string) => void;
+  icon?: boolean;
 };
 
 export const CheckDeleteItemDialog = ({
@@ -20,6 +22,7 @@ export const CheckDeleteItemDialog = ({
   onOpenChange,
   id,
   onDelete,
+  icon,
 }: Props) => {
   const handleConfirm = () => {
     onDelete(id);
@@ -27,9 +30,16 @@ export const CheckDeleteItemDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger className="bg-[#AF301F] text-[#FAF6F0] rounded py-[5px] px-[40px] w-3/4">
-        削除
-      </DialogTrigger>
+      {icon ? (
+        <DialogTrigger>
+          <RiDeleteBinLine />
+        </DialogTrigger>
+      ) : (
+        <DialogTrigger className="bg-[#AF301F] text-[#FAF6F0] rounded py-[5px] px-[40px] w-3/4">
+          削除
+        </DialogTrigger>
+      )}
+
       <DialogContent className="bg-[#F1F5F9] ring-0 rounded-xl px-3 flex flex-col items-center">
         <DialogHeader>
           <DialogTitle>このリストを削除してもよろしいですか？</DialogTitle>
