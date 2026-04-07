@@ -4,6 +4,7 @@ import { AuthContextConsumer } from "@/contexts/AuthContexts";
 import { Button } from "../ui/button";
 import { useLocation, useParams } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
+import { ActionBar } from "../atoms/ActionBar";
 import {
   Dialog,
   DialogContent,
@@ -143,6 +144,10 @@ export const EveryonePackingListItems = () => {
   return (
     <>
       <HeaderLayout title={title} showBackButton path="/everyone-packing-list">
+        <div className="pt-[6px] w-full">
+          <ActionBar actions={[{ label: "" }]} />
+        </div>
+
         {copySuccess && (
           <p className="mx-2 mb-2 text-sm text-[#2BA89D]">{copySuccess}</p>
         )}
