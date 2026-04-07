@@ -1,5 +1,5 @@
 import axios from "axios";
-import { auth } from "./firebase";
+import { auth, authPersistenceReady } from "./firebase";
 
 /**
  * Firebase JWT認証トークンを自動的に付与するaxiosインスタンス
@@ -22,6 +22,9 @@ const apiClient = axios.create({
 
 // interceptors: 全てのリクエストに自動でJWTを付与
 apiClient.interceptors.request.use(async (config) => {
+  await authPersistenceReady;
+  await auth.authStateReady();
+
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
