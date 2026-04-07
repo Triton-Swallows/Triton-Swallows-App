@@ -132,7 +132,7 @@ export const MyPackingListItems = () => {
         <div className="my-[10px]">
           <ActionBar />
         </div>
-        <p>マイリスト：{check_list_id}</p>
+
         {isFetching ? (
           <div>読み込み中...</div>
         ) : fetchError ? (
@@ -151,10 +151,12 @@ export const MyPackingListItems = () => {
                 handleToggleStatus={handleToggleStatus}
               />
             ))}
-            <div className="flex items-center  my-1 gap-[10px]">
-              <RiAddLargeLine className="w-[40px] h-[40px]" color="#002B45" />
+
+            {/* 持ち物アイテム追加部分 */}
+            <div className="flex items-center gap-[5px] w-9/10 m-auto">
+              <RiAddLargeLine className="w-[33px] h-[33px]" color="#002B45" />
               <input
-                className="flex items-center bg-[#EAFBFA] rounded-xl px-[10px] py-[5px]"
+                className="flex items-center bg-[#EAFBFA] rounded-xl px-[5px] py-[5px] h-[40px]"
                 placeholder="持ち物を追加…"
                 value={itemName}
                 onChange={(e) => setItemName(e.target.value)}

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import type { Item } from "@/components/pages/MyPackingListItems";
 import { EditItemDialog } from "../dialogs/EditItemDialog";
+import { RiCheckboxBlankCircleLine } from "react-icons/ri";
+import { RiCheckboxBlankCircleFill } from "react-icons/ri";
+import RiCheckboxBlankCircleHalf from "../../../assets/checkbox-half-circle-line.svg";
 
 type Props = {
   item: Item;
@@ -40,35 +43,54 @@ export const ItemCard: React.FC<Props> = ({
 
   const getStatusLabel = (status: number) => {
     const s = Number(status);
-    if (s === 100) return "パッキング済";
-    if (s === 50) return "準備済";
-    return "未準備";
+    if (s === 100)
+      return (
+        <RiCheckboxBlankCircleFill
+          className="w-[30px] h-[30px]"
+          color="#002B45"
+        />
+      );
+    if (s === 50)
+      return (
+        <img
+          src={RiCheckboxBlankCircleHalf}
+          alt="half checked"
+          className="w-[30px] h-[30px] text-[#002B45]" // アイコンサイズに合わせる
+        />
+      );
+    return (
+      <RiCheckboxBlankCircleLine
+        className="w-[30px] h-[30px]"
+        color="#002B45"
+      />
+    );
   };
 
   return (
-    <div className="flex items-center justify-between bg-[#EAFBFA] text-[#15544E] my-1 w-9/10 m-auto h-[32px]">
-      <button
-        className="bg-pink-500"
-        onClick={() => handleToggleStatus(item.id, Number(item.status))}
-      >
-        {getStatusLabel(Number(item.status))}
-      </button>
-      {isEditing ? (
-        // 編集モード
-        <input
-          autoFocus
-          value={tempName}
-          onChange={(e) => setTempName(e.target.value)}
-          onKeyDown={handleKeyDown}
-          onBlur={onCancel}
-          onCompositionStart={() => setIsComposing(true)}
-          onCompositionEnd={() => setIsComposing(false)}
-          className="text-[16px]"
-        />
-      ) : (
-        // 通常モード
-        <p className="flex-1">{item.item}</p>
-      )}
+    <div className="flex items-center justify-between bg-[#EAFBFA] text-[#002B45] my-1 w-9/10 m-auto h-[32px]">
+      <div className="flex  gap-[10px]">
+        <button
+          onClick={() => handleToggleStatus(item.id, Number(item.status))}
+        >
+          {getStatusLabel(Number(item.status))}
+        </button>
+        {isEditing ? (
+          // 編集モード
+          <input
+            autoFocus
+            value={tempName}
+            onChange={(e) => setTempName(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onBlur={onCancel}
+            onCompositionStart={() => setIsComposing(true)}
+            onCompositionEnd={() => setIsComposing(false)}
+            className="text-[16px] font-medium"
+          />
+        ) : (
+          // 通常モード
+          <p className="flex-1">{item.item}</p>
+        )}
+      </div>
       <EditItemDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
