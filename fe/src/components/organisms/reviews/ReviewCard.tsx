@@ -93,7 +93,7 @@ export const ReviewCard: React.FC<Props> = ({
             )}
 
             <button
-              className="flex items-center cursor-pointer text-[#AF301F] "
+              className="flex items-center cursor-pointer text-[#FF4055] "
               onClick={handleToggleLike}
             >
               {liked_by_me ? <RiHeartFill /> : <RiHeartLine />}
