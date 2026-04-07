@@ -1,6 +1,6 @@
 type Action = {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 type Props = {
