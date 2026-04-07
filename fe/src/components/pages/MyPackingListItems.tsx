@@ -7,6 +7,7 @@ import { RiAddLargeLine } from "react-icons/ri";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { ActionBar } from "../atoms/ActionBar";
 import HeaderPic from "../../assets/checklistbg.jpg";
+import { Spinner } from "@/components/ui/spinner";
 
 export type Item = {
   id: string;
@@ -140,7 +141,9 @@ export const MyPackingListItems = () => {
         </div>
 
         {isFetching ? (
-          <div>読み込み中...</div>
+          <div className="flex py-10 items-center justify-center">
+            <Spinner />
+          </div>
         ) : fetchError ? (
           <p className="text-center py-10 text-red-500">{fetchError}</p>
         ) : (

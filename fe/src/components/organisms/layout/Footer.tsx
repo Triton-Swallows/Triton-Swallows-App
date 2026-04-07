@@ -16,7 +16,6 @@ export const Footer = () => {
     chatLimitDialogOpen,
     setChatLimitDialogOpen,
     chatSessionKey,
-    location,
   } = useGeminiChat();
 
   const { loginUser } = AuthContextConsumer();
@@ -62,7 +61,6 @@ export const Footer = () => {
       <RequireLoginDialog
         open={loginDialogOpen}
         onOpenChange={setLoginDialogOpen}
-        redirectPath={location.pathname}
       />
       <ChatLimitDialog
         open={chatLimitDialogOpen}

@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { AuthContextConsumer } from "@/contexts/AuthContexts";
+import { Spinner } from "@/components/ui/spinner";
 
 type Props = {
   children: React.ReactNode;
@@ -11,7 +12,11 @@ export const PrivateRoute: React.FC<Props> = ({
   const { loginUser, loading } = AuthContextConsumer();
 
   if (loading) {
-    return <div>読み込み中...</div>;
+    return (
+      <div className="flex py-10 items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
   if (!loginUser) {

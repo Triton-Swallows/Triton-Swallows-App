@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Spinner } from "@/components/ui/spinner";
 
 type Item = {
   id: string;
@@ -157,7 +158,9 @@ export const EveryonePackingListItems = () => {
         </div>
 
         {loading || isFetching ? (
-          <div>読み込み中...</div>
+          <div className="flex py-10 items-center justify-center">
+            <Spinner />
+          </div>
         ) : fetchError ? (
           <div>{fetchError}</div>
         ) : items.length === 0 ? (
@@ -196,7 +199,9 @@ export const EveryonePackingListItems = () => {
           </DialogHeader>
 
           {isFetchingCheckLists ? (
-            <div>リストを読み込み中...</div>
+            <div className="flex py-10 items-center justify-center">
+              <Spinner />
+            </div>
           ) : myCheckLists.length === 0 ? (
             <div>コピー先のマイリストがありません。</div>
           ) : (
