@@ -5,7 +5,7 @@ export interface CheckLists {
   is_favorite: string;
   hashtag: string;
   created_at: string;
-  updated_st: string;
+  updated_at: string;
 }
 
 export interface CheckListsServiceResponse<T> {
