@@ -1,0 +1,49 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    // File Layout
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    // Environment Settings
+    // See also https://aka.ms/tsconfig/module
+    "module": "node16",
+    "target": "es2024",
+    "moduleResolution": "node16",
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    // "declaration": true,
+    "allowJs": true,
+    "checkJs": false
+    // "types": [],
+    // For nodejs:
+    // "lib": ["esnext"],
+    // "types": ["node"],
+    // and npm install -D @types/node
+
+    // // Other Outputs
+    // "sourceMap": true,
+
+    // "declarationMap": true,
+
+    // Stricter Typechecking Options
+
+    // Style Options
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    // Recommended Options
+    // "verbatimModuleSyntax": true,
+    // "isolatedModules": true,
+    // "moduleDetection": "force",
+  },
+  "include": ["src/**/*.ts"], //コンパイル対象ファイル
+  "exclude": ["node_modules"] // コンパイル対象外のファイル
+}

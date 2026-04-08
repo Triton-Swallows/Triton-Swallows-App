@@ -1,0 +1,182 @@
+import { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { AuthContextConsumer } from "@/contexts/AuthContexts";
+import apiClient from "@/config/apiClient";
+import { ItemCard } from "../organisms/items/ItemCard";
+import { RiAddLargeLine } from "react-icons/ri";
+import { HeaderLayout } from "../templetes/HeaderLayout";
+import { ActionBar } from "../atoms/ActionBar";
+import HeaderPic from "../../assets/checklistbg.jpg";
+import { Spinner } from "@/components/ui/spinner";
+
+export type Item = {
+  id: string;
+  check_list_id: string;
+  item: string;
+  status: string;
+  category: string;
+  created_at: string;
+  updated_at: string;
+};
+
+type ItemResponse = {
+  data: Item[];
+};
+
+export const MyPackingListItems = () => {
+  const { id: check_list_id } = useParams<{ id: string }>();
+  const { loginUser, loading } = AuthContextConsumer();
+  const [Items, setItems] = useState<Item[]>([]);
+  const [isFetching, setIsFetching] = useState<boolean>(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [itemName, setItemName] = useState<string>("");
+  const [isComposing, setIsComposing] = useState(false); // （日本語）変換中かを判定する
+  const [editingId, setEditingId] = useState<string | null>(null);
+
+  const fetchData = async () => {
+    if (loading || !check_list_id) return;
+    setIsFetching(true);
+    setFetchError(null);
+    try {
+      const response = await apiClient.get<ItemResponse>(
+        `/items/${check_list_id}`,
+      );
+      setItems(response.data.data);
+    } catch {
+      setFetchError("情報の取得に失敗しました");
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [loginUser, loading, check_list_id]);
+
+  const handleCreateList = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !isComposing) {
+      const targetName = itemName.trim() === "" ? "新しい持ち物" : itemName;
+      try {
+        const response = await apiClient.post(`/items/${check_list_id}`, {
+          title: targetName,
+        });
+
+        const createdList = response.data.data;
+
+        setItems((prev) => [...prev, createdList]);
+        setItemName("");
+      } catch (error) {
+        console.error("エラー", error);
+        fetchData();
+      }
+    }
+  };
+
+  const handleEdit = async (id: string, item: string) => {
+    setItems((prev) =>
+      prev.map((i) =>
+        i.id === id
+          ? {
+              ...i,
+              item: item,
+            }
+          : i,
+      ),
+    );
+    setEditingId(null);
+    try {
+      await apiClient.patch(`/items/${id}`, {
+        item,
+      });
+    } catch (error) {
+      console.error("エラー", error);
+      fetchData();
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    setItems((prev) => prev.filter((list) => list.id !== id));
+    try {
+      await apiClient.delete(`/items/${id}`);
+    } catch (error) {
+      console.error("エラー", error);
+      fetchData();
+    }
+  };
+
+  const getNextStatus = (currentStatus: number): number => {
+    if (currentStatus === 0) return 50;
+    if (currentStatus === 50) return 100;
+    return 0;
+  };
+
+  const handleToggleStatus = async (id: string, currentStatus: number) => {
+    const nextStatus = getNextStatus(currentStatus);
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, status: String(nextStatus) } : item,
+      ),
+    );
+    try {
+      await apiClient.patch(`/items/${id}/status`, { status: nextStatus });
+    } catch (error) {
+      console.error("エラー", error);
+      fetchData();
+    }
+  };
+
+  const location = useLocation(); //location.stateで、表示しているリストのタイトルをリスト一覧ページから取得できる
+  const { title } = location.state as { title: string };
+
+  return (
+    <>
+      <HeaderLayout
+        title={title}
+        showBackButton
+        path="/my-packing-list"
+        backgroundImage={HeaderPic}
+      >
+        <div className="my-[10px]">
+          <ActionBar />
+        </div>
+
+        {isFetching ? (
+          <div className="flex py-10 items-center justify-center">
+            <Spinner />
+          </div>
+        ) : fetchError ? (
+          <p className="text-center py-10 text-red-500">{fetchError}</p>
+        ) : (
+          <div>
+            {Items.map((item) => (
+              <ItemCard
+                key={item.id}
+                item={item}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                isEditing={editingId === item.id} // 編集モード判定
+                onEditClick={() => setEditingId(item.id)} // 編集開始
+                onCancel={() => setEditingId(null)} // 編集キャンセル
+                handleToggleStatus={handleToggleStatus}
+              />
+            ))}
+
+            {/* 持ち物アイテム追加部分 */}
+            <div className="flex items-center gap-[5px] w-9/10 m-auto">
+              <RiAddLargeLine className="w-[33px] h-[33px]" color="#002B45" />
+              <input
+                className="flex items-center bg-[#EAFBFA] rounded-xl px-[5px] py-[5px] h-[40px]"
+                placeholder="持ち物を追加…"
+                value={itemName}
+                onChange={(e) => setItemName(e.target.value)}
+                onKeyDown={handleCreateList}
+                onCompositionStart={() => setIsComposing(true)}
+                onCompositionEnd={() => setIsComposing(false)}
+              />
+            </div>
+          </div>
+        )}
+      </HeaderLayout>
+    </>
+  );
+};

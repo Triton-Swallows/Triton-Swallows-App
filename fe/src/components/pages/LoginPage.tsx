@@ -58,8 +58,8 @@ export function LoginPage() {
 
   return (
     <HeaderLayout>
-      <div className="mt-10 w-full max-w-md rounded-xl border bg-white p-8 shadow-sm mx-auto">
-        <h2 className="mb-6 text-center text-2xl font-bold text-slate-800">
+      <div className="w-full max-w-md mx-auto mt-2">
+        <h2 className="mb-10 text-center text-xl text-[#002B45] font-bold">
           ログイン
         </h2>
         {error && (
@@ -111,20 +111,26 @@ export function LoginPage() {
           </button>
         </form> */}
 
-        <div>
+        <div className="flex justify-center">
           {/* <hr className="mx-5" /> */}
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
             type="button"
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white py-2.5 font-medium text-slate-700 transition-all hover:bg-slate-50 active:scale-[0.98] disabled:opacity-50"
+            className="flex items-center justify-center rounded-xl text-[14px] border border-[#00588C] px-5 py-1 font-medium text-[#00588C] transition-all hover:bg-slate-50 active:scale-[0.98] disabled:opacity-50"
           >
-            <FcGoogle style={{ marginRight: "8px", verticalAlign: "middle" }} />
+            <FcGoogle
+              style={{
+                marginRight: "8px",
+                verticalAlign: "middle",
+                fontSize: "30px",
+              }}
+            />
             Googleでログイン
           </button>
         </div>
 
-        <div className="mt-8 text-center text-sm text-slate-600">
+        <div className="font-semibold mt-6 text-center text-sm text-slate-600">
           <p>
             アカウントをお持ちでないですか？{" "}
             <Link

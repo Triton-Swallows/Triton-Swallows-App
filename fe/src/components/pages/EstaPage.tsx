@@ -1,13 +1,16 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { HeaderLayout } from "../templetes/HeaderLayout";
-import { BackIcon } from "../atoms/BackIcon";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { TitleFrame } from "../atoms/TitleFrame";
+import { SummaryFrameDetail } from "../atoms/SummaryFrameDetail";
 import apiClient from "@/config/apiClient";
+import { ContactRequestButton } from "@/components/organisms/dialogs/ContactRequestButton";
+import USHeaderImage from "../../assets/US_Header_pic.jpg";
 
 export const EstaPage = () => {
   const urlList = [
@@ -55,66 +58,163 @@ export const EstaPage = () => {
   }, []);
 
   return (
-    <HeaderLayout>
-      <BackIcon path={"/usa/packing-list"} label="TBD" />
-      <h2>アメリカ（米国）：ESTA（エスタ）</h2>
-      <div>概要</div>
-      <section>
-        ESTAとは： <br />
-        更新日時 2026/03/24
-        <p>
-          ESTA（エスタ）は、アメリカへ短期旅行するための電子渡航認証システムです。
-          <br />
-          <br />
-          対象：ビザ免除プログラム対象国の旅行者
-          <br />
-          有効期間：2年間
-          <br />
-          滞在期間：90日以内
-        </p>
+    <HeaderLayout
+      path={"/usa/overviews"}
+      title="アメリカ"
+      showBackButton
+      backgroundImage={USHeaderImage}
+    >
+      <section className="pt-[10px]">
+        <TitleFrame
+          title="ESTAとは:"
+          date="2026年3月24日"
+          superivisor="トリトン確認済"
+          badge
+        />
+        <SummaryFrameDetail
+          contents="ESTA（エスタ）は、アメリカへ短期旅行するための電子渡航認証システムです
+
+対象：ビザ免除プログラム対象国の旅行者
+有効期間：2年間
+滞在期間：90日以内
+"
+          notes="※ESTAが却下された場合、ビザ申請が必要になります。"
+        />
       </section>
       <section>
-        申請方法：
-        <Accordion type="single" collapsible>
+        <TitleFrame title="申請方法:" date="" superivisor="" />
+        <Accordion
+          type="multiple"
+          className="my-3 w-[calc(100%-1.5rem)] max-w-3xl space-y-0.5 overflow-hidden rounded-2xl has-[[data-state=open]]:rounded-b-none mx-auto"
+        >
           <AccordionItem value="item-1">
-            <AccordionTrigger>1. 公式サイトにアクセス</AccordionTrigger>
-            <AccordionContent>TBD</AccordionContent>
+            <AccordionTrigger className="rounded-none bg-[#A8C9DE] data-[state=open]:bg-[#2D8AB7] text-[14px] leading-[22px] px-4 py-4 hover:no-underline">
+              1. 公式サイトにアクセス
+            </AccordionTrigger>
+            <AccordionContent className="bg-[#FAF6F0] text-[14px] leading-[22px] px-4 py-4">
+              ESTAの申請は 公式サイトからのみ 行えます。
+              <br />
+              模倣サイトに注意してください。 <br />
+              <br />
+              公式サイト
+              <br />
+              https://esta.cbp.dhs.gov/
+            </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger>2. 新しい申請を開始</AccordionTrigger>
-            <AccordionContent>TBD</AccordionContent>
+            <AccordionTrigger className="rounded-none bg-[#A8C9DE] data-[state=open]:bg-[#2D8AB7] text-[14px] leading-[22px] px-4 py-4 hover:no-underline">
+              2. 新しい申請を開始
+            </AccordionTrigger>
+            <AccordionContent className="bg-[#FAF6F0] text-[14px] leading-[22px] px-4 py-4">
+              トップページで
+              <br />
+              「New Application」を選択します。
+              <br />
+              <br />
+              そのあと次のどちらかを選びます： <br />
+              Individual Application（個人申請）
+              <br /> Group Application（グループ申請）
+            </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
-            <AccordionTrigger>3. パスポート情報を入力</AccordionTrigger>
-            <AccordionContent>TBD</AccordionContent>
+            <AccordionTrigger className="rounded-none bg-[#A8C9DE] data-[state=open]:bg-[#2D8AB7] text-[14px] leading-[22px] px-4 py-4 hover:no-underline">
+              3. パスポート情報を入力
+            </AccordionTrigger>
+            <AccordionContent className="bg-[#FAF6F0] text-[14px] leading-[22px] px-4 py-4">
+              以下の情報を入力します：
+              <br /> ・パスポート番号
+              <br /> ・発行国 <br />
+              ・有効期限
+              <br />
+            </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
-            <AccordionTrigger>4. 個人情報を入力</AccordionTrigger>
-            <AccordionContent>TBD</AccordionContent>
+            <AccordionTrigger className="rounded-none bg-[#A8C9DE] data-[state=open]:bg-[#2D8AB7] text-[14px] leading-[22px] px-4 py-4 hover:no-underline">
+              4. 個人情報を入力
+            </AccordionTrigger>
+            <AccordionContent className="bg-[#FAF6F0] text-[14px] leading-[22px] px-4 py-4">
+              以下の情報を入力します：
+              <br /> ・名前 <br />
+              ・生年月日 <br />
+              ・国籍 <br />
+              ・住所
+            </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-5">
-            <AccordionTrigger>5. 旅行情報を入力</AccordionTrigger>
-            <AccordionContent>TBD</AccordionContent>
+            <AccordionTrigger className="rounded-none bg-[#A8C9DE] data-[state=open]:bg-[#2D8AB7] text-[14px] leading-[22px] px-4 py-4 hover:no-underline">
+              5. 旅行情報を入力
+            </AccordionTrigger>
+            <AccordionContent className="bg-[#FAF6F0] text-[14px] leading-[22px] px-4 py-4">
+              以下の情報を入力します：
+              <br /> ・アメリカでの滞在先
+              <br /> ・アメリカでの連絡先
+              <br />
+              <br /> ※ 未定の場合でも申請できる場合があります。
+            </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-6">
-            <AccordionTrigger>6. 質問に回答</AccordionTrigger>
-            <AccordionContent>TBD</AccordionContent>
+            <AccordionTrigger className="rounded-none bg-[#A8C9DE] data-[state=open]:bg-[#2D8AB7] text-[14px] leading-[22px] px-4 py-4 hover:no-underline">
+              6. 質問に回答
+            </AccordionTrigger>
+            <AccordionContent className="bg-[#FAF6F0] text-[14px] leading-[22px] px-4 py-4">
+              以下のような質問に回答します：
+              <br /> ・健康に関する質問 <br />
+              ・犯罪歴
+              <br /> ・過去の入国履歴
+              <br />
+              <br /> すべて 正確に回答 してください。
+            </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-7">
-            <AccordionTrigger>7. 申請料金を支払う</AccordionTrigger>
-            <AccordionContent>TBD</AccordionContent>
+            <AccordionTrigger className="rounded-none bg-[#A8C9DE] data-[state=open]:bg-[#2D8AB7] text-[14px] leading-[22px] px-4 py-4 hover:no-underline">
+              7. 申請料金を支払う
+            </AccordionTrigger>
+            <AccordionContent className="bg-[#FAF6F0] text-[14px] leading-[22px] px-4 py-4">
+              申請料金：40ドル <br />
+              <br />
+              クレジットカードなどで支払いを行います。
+            </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-8">
-            <AccordionTrigger>8. 申請を送信</AccordionTrigger>
-            <AccordionContent>TBD</AccordionContent>
+            <AccordionTrigger className="rounded-none bg-[#A8C9DE] data-[state=open]:bg-[#2D8AB7] text-[14px] leading-[22px] px-4 py-4 hover:no-underline">
+              8. 申請を送信
+            </AccordionTrigger>
+            <AccordionContent className="bg-[#FAF6F0] text-[14px] leading-[22px] px-4 py-4">
+              入力内容を確認し、
+              <br /> 申請を送信します。 <br />
+              <br />
+              平均所要時間：約20分
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-9">
+            <AccordionTrigger className="rounded-none bg-[#A8C9DE] data-[state=open]:bg-[#2D8AB7] text-[14px] leading-[22px] px-4 py-4 hover:no-underline">
+              9. ステータスを確認
+            </AccordionTrigger>
+            <AccordionContent className="bg-[#FAF6F0] text-[14px] leading-[22px] px-4 py-4">
+              申請後、結果は次の3つです： <br />
+              <br />
+              ・承認 (Approved)
+              <br /> ・審査中 (Pending)
+              <br /> ・却下 (Denied)
+              <br />
+              <br /> ESTAが却下された場合、
+              <br />
+              <br /> ビザ申請が必要になります。
+            </AccordionContent>
           </AccordionItem>
         </Accordion>
       </section>
+
+      <ContactRequestButton buttonLabel="＋ 修正を依頼する" />
+
       <section>
-        参考サイト:
+        <TitleFrame
+          title="参考サイト"
+          date="更新日時 2026/03/20"
+          superivisor=""
+        />
         <br />
-        更新日時 2026/03/20
-        <div className="grid grid-cols-2 gap-3 mt-3">
+        <div className="grid grid-cols-2 gap-10 mt-3 mb-3 mx-4">
           {urlList.map(({ title, url }, index) => (
             <a
               key={index}

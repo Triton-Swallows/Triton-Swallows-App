@@ -20,6 +20,9 @@ function createReviewRouter(reviewsController) {
     reviewsController.getByCountryGuest,
   );
 
+  // 口コミを投稿
+  router.post("/reviews/:countryName", verifyToken, reviewsController.post);
+
   return router;
 }
 

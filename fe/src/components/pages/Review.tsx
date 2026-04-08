@@ -1,0 +1,364 @@
+import { useEffect, useState, useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { HeaderLayout } from "../templetes/HeaderLayout";
+import { ReviewPostDialog } from "../organisms/reviews/ReviewPostDialog";
+import { ReviewSummaryCard } from "../organisms/reviews/ReviewSummaryCard";
+import { ReviewCard } from "../organisms/reviews/ReviewCard";
+import apiClient from "@/config/apiClient";
+import { AuthContextConsumer } from "@/contexts/AuthContexts";
+import type { ChangeEvent } from "react";
+import { RequireLoginDialog } from "../organisms/dialogs/requireLoginDialog";
+import USHeaderImage from "../../assets/US_Header_pic.jpg";
+import { TitleFrame } from "../atoms/TitleFrame";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { SelectField } from "../atoms/Select";
+import { SearchBox } from "../atoms/SearchBox";
+import { NavTab } from "../atoms/NavTba";
+import { Spinner } from "@/components/ui/spinner";
+
+type ReviewSummaryApiItem = {
+  id: number;
+  summary: string;
+  like_count: string;
+  created_at: string;
+  liked_by_me: boolean;
+};
+
+type ReviewSummaryItem = {
+  id: number;
+  summary: string;
+  like_count: number;
+  created_at: string;
+  liked_by_me: boolean;
+};
+
+type ReviewApiItem = {
+  user_name: string;
+  icon_url: string;
+  id: number;
+  review: string;
+  like_count: string;
+  created_at: string;
+  liked_by_me: boolean;
+};
+
+type ReviewItem = {
+  user_name: string;
+  icon_url: string;
+  id: number;
+  review: string;
+  like_count: number;
+  created_at: string;
+  liked_by_me: boolean;
+};
+// type SortType = "likes" | "newest";
+
+export const Review = () => {
+  const { country } = useParams<{ country: string }>();
+  const { loginUser, loading, userInfo } = AuthContextConsumer();
+  const [reviewSummaryList, setReviewSummaryList] = useState<
+    ReviewSummaryItem[]
+  >([]);
+  const [reviewList, setReviewList] = useState<ReviewItem[]>([]);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [postError, setPostError] = useState<string | null>(null);
+  const [reviewComment, setReviewComment] = useState<string>("");
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [sortBy, setSortBy] = useState<string>("newest");
+  const [tmpSearchReviewText, setTmpSearchReviewText] = useState<string>("");
+  const [searchReviewText, setSearchReviewText] = useState<string>("");
+  const [requireLogindialogOpen, setRequireLoginDialogOpen] =
+    useState<boolean>(false);
+
+  const [isSummaryOpen, setIsSummaryOpen] = useState(false); //要約コンテンツが開かれているかどうかの状態管理
+
+  const fetchData = async () => {
+    if (loading) return;
+    setIsFetching(true);
+    setFetchError(null);
+    // ログイン状態に応じてパスのプレフィックスを決定
+    const pathPrefix = loginUser ? "" : "/guest";
+    try {
+      const [reviewsRes, summariesRes] = await Promise.all([
+        apiClient.get<{ data: ReviewApiItem[] }>(
+          `${pathPrefix}/reviews/${country}`,
+        ),
+        apiClient.get<{ data: ReviewSummaryApiItem[] }>(
+          `${pathPrefix}/summaries/${country}`,
+        ),
+      ]);
+      setReviewList(
+        reviewsRes.data.data.map((r) => ({
+          ...r,
+          like_count: Number(r.like_count),
+        })),
+      );
+      setReviewSummaryList(
+        summariesRes.data.data.map((r) => ({
+          ...r,
+          like_count: Number(r.like_count),
+        })),
+      );
+    } catch {
+      setFetchError("情報の取得に失敗しました");
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [loading, loginUser]);
+
+  const handleToggleLike = async (review_id: number, liked_by_me: boolean) => {
+    if (!loginUser) {
+      setRequireLoginDialogOpen(true);
+      return;
+    }
+
+    // 一旦UI上ではすぐにいいねが押せた/取り消せた表示にする
+    // その後APIをたたいて、失敗したら元の表示に戻す
+    // ReviewCard.tsxにてliked_by_meのtrue/falseでハート色を反転させている
+    setReviewList((prev) =>
+      prev.map((r) =>
+        r.id === review_id
+          ? {
+              ...r,
+              liked_by_me: !liked_by_me,
+              like_count: liked_by_me ? r.like_count - 1 : r.like_count + 1,
+            }
+          : r,
+      ),
+    );
+
+    try {
+      // すでにいいね済みの場合、取り消し操作のため、deleteでいいねリスト(likesテーブル)から削除
+      if (liked_by_me) {
+        await apiClient.delete(`/likes/${review_id}`);
+      } else {
+        await apiClient.post("/likes", { review_id });
+      }
+    } catch {
+      // 失敗時は表示をロールバック
+      setReviewList((prev) =>
+        prev.map((r) =>
+          r.id === review_id
+            ? {
+                ...r,
+                liked_by_me,
+                like_count: liked_by_me ? r.like_count + 1 : r.like_count - 1,
+              }
+            : r,
+        ),
+      );
+    }
+  };
+
+  const handleTogglePostReviews = (open: boolean) => {
+    if (!loginUser && open) {
+      setRequireLoginDialogOpen(true);
+      return;
+    }
+    setDialogOpen(open);
+  };
+
+  const handleToggleSummaryLike = async (
+    summary_id: number,
+    liked_by_me: boolean,
+  ) => {
+    setReviewSummaryList((prev) =>
+      prev.map((r) =>
+        r.id === summary_id
+          ? {
+              ...r,
+              liked_by_me: !liked_by_me,
+              like_count: liked_by_me ? r.like_count - 1 : r.like_count + 1,
+            }
+          : r,
+      ),
+    );
+
+    try {
+      if (liked_by_me) {
+        await apiClient.delete(`/summary_likes/${summary_id}`);
+      } else {
+        await apiClient.post("/summary_likes", { summary_id });
+      }
+    } catch {
+      setReviewSummaryList((prev) =>
+        prev.map((r) =>
+          r.id === summary_id
+            ? {
+                ...r,
+                liked_by_me,
+                like_count: liked_by_me ? r.like_count + 1 : r.like_count - 1,
+              }
+            : r,
+        ),
+      );
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await apiClient.post(`/reviews/${country}`, { review: reviewComment });
+      setReviewComment("");
+      setDialogOpen(false);
+      await fetchData();
+    } catch {
+      setPostError("口コミの投稿に失敗しました");
+    }
+  };
+
+  const sortedReviews = useMemo(() => {
+    // 検索
+    const filteredList = reviewList.filter(
+      (item) =>
+        item.review?.toLowerCase().includes(searchReviewText.toLowerCase()) ||
+        item.user_name?.toLowerCase().includes(searchReviewText.toLowerCase()),
+    );
+    // 新着順
+    if (sortBy === "newest") {
+      return filteredList;
+    }
+    // いいね順
+    return [...filteredList].sort((a, b) => b.like_count - a.like_count);
+  }, [reviewList, sortBy, searchReviewText]);
+
+  const onchangeSearchReviewText = (e: ChangeEvent<HTMLInputElement>) => {
+    setTmpSearchReviewText(e.target.value);
+  };
+
+  const onClickSearchReview = () => {
+    setSearchReviewText(tmpSearchReviewText);
+  };
+
+  return (
+    <HeaderLayout
+      path={"/country-list"}
+      title="アメリカ"
+      showBackButton
+      backgroundImage={USHeaderImage}
+    >
+      <div className="flex flex-col items-center justify-center pt-[10px]">
+        {/* タブの表示部分 */}
+        <div className="flex bg-[#A8C9DE] h-[56px] gap-[16px] rounded-xl items-center justify-center px-[10px]">
+          <NavTab to="/usa/overviews" label="概要" isActive={false} />
+          <NavTab to="/usa/reviews" label="口コミ" isActive={true} />
+        </div>
+        <div className="pb-16">
+          {/* ページ読み込み中の表示 */}
+          {isFetching && (
+            <div className="flex py-10 items-center justify-center">
+              <Spinner />
+            </div>
+          )}
+
+          {/* ページ読み込み失敗の表示 */}
+          {fetchError && <p>{fetchError}</p>}
+
+          {/* ページ読み込み成功時の表示 */}
+          {!isFetching && !fetchError && (
+            <div className="pt-[6px]">
+              {/* タイトルセクション */}
+              <TitleFrame title="口コミ">
+                <div className="flex gap-[6px] px-[5px]">
+                  <SelectField
+                    options={[
+                      { label: "人気順", value: "likes" },
+                      { label: "新着順", value: "newest" },
+                    ]}
+                    value={sortBy}
+                    onChange={(val) => setSortBy(val)}
+                    className="bg-[#F1F5F9] text-[#00588C] h-[32px rounded-xl"
+                  />
+                  <SearchBox
+                    onChage={onchangeSearchReviewText}
+                    onSearch={onClickSearchReview}
+                    className="px-[5px] h-[32px] w-[142px] bg-[#F1F5F9] text-[#00588C]"
+                  />
+                </div>
+              </TitleFrame>
+
+              {/*要約の表示部分  */}
+              <Accordion type="single" collapsible className="py-[10px] w-full">
+                <AccordionItem value="summary">
+                  <AccordionTrigger
+                    className="bg-[#A8C9DE] py-[5px] px-[10px] text-[#002B45] text-[14px] font-medium h-[52px] items-center rounded-none"
+                    onClick={() => setIsSummaryOpen(!isSummaryOpen)}
+                  >
+                    {isSummaryOpen ? "要約を閉じる" : "要約を見る"}
+                  </AccordionTrigger>
+
+                  <AccordionContent>
+                    <div className="mx-[5px] my-[10px]">
+                      <div className="bg-[#EAFBFA] rounded-xl">
+                        {reviewSummaryList.map((reviewSummary) => (
+                          <ReviewSummaryCard
+                            key={reviewSummary.id}
+                            summary_id={reviewSummary.id}
+                            summary={reviewSummary.summary}
+                            like_count={reviewSummary.like_count}
+                            created_at={reviewSummary.created_at}
+                            liked_by_me={reviewSummary.liked_by_me}
+                            onToggleLike={handleToggleSummaryLike}
+                          />
+                        ))}
+                      </div>
+                      <p>※この要約は会社によって審査した上で掲載しています。</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
+              {/* 口コミの表示部分 */}
+              <div className="mx-[5px] my-[10px]">
+                {sortedReviews.length === 0 ? (
+                  <div>該当項目なし</div>
+                ) : (
+                  sortedReviews.map((review) => (
+                    <ReviewCard
+                      key={review.id}
+                      user_name={review.user_name}
+                      icon_url={review.icon_url}
+                      review_id={review.id}
+                      review={review.review}
+                      like_count={review.like_count}
+                      created_at={review.created_at}
+                      liked_by_me={review.liked_by_me}
+                      onToggleLike={handleToggleLike}
+                    />
+                  ))
+                )}
+                {postError && <div>{postError}</div>}
+                <ReviewPostDialog
+                  open={dialogOpen}
+                  onOpenChange={handleTogglePostReviews}
+                  disabled={loading}
+                  reviewComment={reviewComment}
+                  onCommentChange={setReviewComment}
+                  onSubmit={handleSubmit}
+                  user_name={userInfo?.user_name}
+                  user_icon={userInfo?.icon_url}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <RequireLoginDialog
+        open={requireLogindialogOpen}
+        onOpenChange={setRequireLoginDialogOpen}
+        redirectPath={location.pathname}
+      />
+    </HeaderLayout>
+  );
+};

@@ -1,0 +1,94 @@
+import { Request, Response } from "express";
+import { UserService } from "./user.service";
+
+export interface AuthRequest extends Request {
+  user?: {
+    uid: string;
+    email: string;
+  };
+}
+
+export interface UserController {
+  getMe: (req: AuthRequest, res: Response) => Promise<void>;
+  upsert: (req: AuthRequest, res: Response) => Promise<void>;
+  getMyInfo: (req: AuthRequest, res: Response) => Promise<void>;
+  editMyInfo: (req: AuthRequest, res: Response) => Promise<void>;
+}
+
+export const createUserController = (service: UserService): UserController => {
+  // 認証ユーザーの情報取得
+  const getMe = async (req: AuthRequest, res: Response): Promise<void> => {
+    try {
+      const uid = req.user!.uid;
+      const user = await service.findByUid(uid);
+
+      if (!user) {
+        res.status(404).json({ error: "ユーザが見つかりませんでした" });
+        return;
+      }
+
+      res.status(200).json({ data: user });
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  // ユーザー登録/更新
+  const upsert = async (req: AuthRequest, res: Response): Promise<void> => {
+    try {
+      const uid = req.user!.uid;
+      const email = req.user!.email;
+
+      const result = await service.upsert(uid, email);
+
+      if (result.ok) {
+        res.status(201).json({ data: result.data });
+      } else {
+        res.status(500).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  // マイページに表示する情報を取得（ポイント数、いいね数、採用数も含む）
+  const getMyInfo = async (req: AuthRequest, res: Response): Promise<void> => {
+    const uid = req.user!.uid;
+
+    try {
+      const result = await service.getMyInfo(uid);
+      if (result.ok) {
+        res.status(200).json({ data: result.data });
+      } else {
+        res.status(500).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  // プロフィールの編集（アイコン画像とアカウント名が対象）
+  const editMyInfo = async (req: AuthRequest, res: Response): Promise<void> => {
+    try {
+      const user_id = req.user!.uid;
+      const user_name = req.body.user_name;
+      const icon_url = req.body.icon_url;
+
+      const result = await service.editMyInfo(user_id, user_name, icon_url);
+
+      if (result.ok) {
+        res.status(201).json({ myInfo: result.data });
+      } else {
+        res.status(500).json({ error: result.message });
+      }
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  return { getMe, upsert, getMyInfo, editMyInfo };
+};

@@ -11,14 +11,29 @@ import { auth, googleProvider } from "../config/firebase";
 import apiClient from "../config/apiClient";
 import type { User, UserCredential } from "firebase/auth";
 
+type UserInfo = {
+  ud: string;
+  user_name: string;
+  email: string;
+  icon_url: string;
+  is_admin: boolean;
+  review_count: number; //累計投稿数
+  total_like_count: number; //累計いいね
+  total_point: number; //累計ポイント数
+  consume_point: number; //消費ポイント
+  my_point: number; //残高
+};
+
 // 独自の型を定義
 interface AuthContextType {
-  loginUser: User | null;
+  loginUser: User | null; //Firebaseの認証情報
+  userInfo: UserInfo | null; //BE(database)から取得したユーザー情報
   loading: boolean;
   loginWithGoogle: () => Promise<User>;
   loginWithEmail: (email: string, password: string) => Promise<User>;
   signUpWithGoogle: () => Promise<User>;
   signUpWithEmail: (email: string, password: string) => Promise<User>;
+  refreshUserInfo: () => Promise<void>; //MyInfoを再取得する関数
   logout: () => Promise<void>;
 }
 
@@ -32,14 +47,22 @@ type Props = {
 export const AuthContextProvider: React.FC<Props> = ({ children }) => {
   // ログインユーザ
   const [loginUser, setLoginUser] = useState<User | null>(null);
+  // BEから取得したユーザー情報
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   // 認証状態の初期化中フラグ
   const [loading, setLoading] = useState<boolean>(true);
 
   // 起動時ログイン処理(既にログインしてる場合, ユーザ設定)
   useEffect(() => {
     // auth初期化時にログインユーザ設定
-    const unsubscribe = auth.onAuthStateChanged((user: User | null) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user: User | null) => {
+      setLoading(true);
       setLoginUser(user);
+      if (user) {
+        await refreshUserInfo();
+      } else {
+        setUserInfo(null);
+      }
       setLoading(false);
     });
     return () => unsubscribe();
@@ -122,16 +145,29 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
     setLoginUser(null);
   };
 
+  // 最新のMyInfoを取得する関数
+  const refreshUserInfo = async (): Promise<void> => {
+    try {
+      const response = await apiClient.get("/users/me");
+      setUserInfo(response.data.data);
+    } catch (error) {
+      console.error("DBユーザー情報の取得失敗", error);
+      setUserInfo(null);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
         loginUser,
+        userInfo,
         loading,
         loginWithGoogle,
         loginWithEmail,
         signUpWithGoogle,
         signUpWithEmail,
         logout,
+        refreshUserInfo,
       }}
     >
       {children}
