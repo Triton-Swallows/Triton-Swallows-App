@@ -51,7 +51,7 @@ export const ReviewCard: React.FC<Props> = ({
         <div className="flex items-center py-1">
           <img
             src={profileIconSrc}
-            className="h-10 rounded-full border border-[#FAFAFA] mr-1"
+            className="h-10 w-10 rounded-full border border-[#FAFAFA] mr-1"
             onError={(e) => {
               e.currentTarget.src = defaultProfileIcon;
             }}
