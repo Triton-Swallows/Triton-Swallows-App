@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { HeaderLayout } from "../templetes/HeaderLayout";
 import { Button } from "../ui/button";
-import topPageImage from "../../assets/TopPageImage.jpg";
+// import topPageImage from "../../assets/TopPageImage.jpg";
+import topPageImage from "@/assets/newTopPage.png";
 
 export const Home = () => {
   return (
@@ -13,7 +14,7 @@ export const Home = () => {
             alt="Top page background"
             className="absolute inset-0 z-0 w-full h-full object-cover [mask-image:linear-gradient(to_bottom,#000_0%,#000_99%,transparent_100%)]"
           />
-          <div className="absolute left-0 right-0 inset-0 z-10 pointer-events-none bg-gradient-to-b from-transparent via-transparent via-65% to-[#FAFAFA]" />
+          <div className="absolute left-0 right-0 inset-0 z-10 pointer-events-none bg-gradient-to-b from-transparent via-transparent via-85% to-[#FAFAFA]" />
         </div>
 
         <div className="absolute inset-x-0 bottom-[4dvh] z-20">

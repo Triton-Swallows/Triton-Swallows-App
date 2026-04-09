@@ -32,7 +32,7 @@ export const Header: React.FC<Props> = ({
   return (
     <header
       style={headerStyle}
-      className={`fixed top-0 left-0 w-full h-[56px] flex items-center justify-between px-[15px] z-100
+      className={`fixed top-0 left-0 w-full h-[56px] flex items-center justify-between px-[15px] z-20
         ${transparent ? "bg-transparent text-white" : "bg-[#A8C9DE] text-white"}`}
     >
       {/* 左側の戻るボタン */}
