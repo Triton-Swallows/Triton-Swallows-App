@@ -138,7 +138,7 @@ export const EveryonePackingList = () => {
                   className="absolute inset-0 z-10 rounded-xl"
                   aria-label={`${packingList.title}の持ち物一覧へ`}
                 />
-                <div className="relative z-20 flex flex-col gap-2 pointer-events-none">
+                <div className="relative z-11 flex flex-col gap-2 pointer-events-none">
                   <div className="flex flex-col justify-between">
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-[24px] font-bold">
@@ -149,7 +149,7 @@ export const EveryonePackingList = () => {
                           handleClick(packingList.id, packingList.title)
                         }
                         disabled={isCopying}
-                        className="pointer-events-auto relative z-30 mr-[-4px] bg-[#EAFBFA] text-[12px] py-[20px]"
+                        className="pointer-events-auto relative z-11 mr-[-4px] bg-[#EAFBFA] text-[12px] py-[20px]"
                       >
                         マイリストへ
                         <br />
